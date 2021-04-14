@@ -46,24 +46,23 @@ typedef struct  s_ui
 void	ui_critical_check(UI_BOOL val, const char *msg);
 void    *ui_secure_malloc(size_t  len);
 
+//calculus
+void win_percent_rect_to_sdl_rect(t_ui *ui, t_percent_rect *p_rect,
+                                  SDL_Rect *sdl_rect);
+
 //core functions
-t_ui    *ui_init(
-		uint32_t ui_flags,
-		int img_flags,
-		const char *title,
-		int win_x,
-		int win_y,
-		int win_w,
-        int win_h,
-        uint32_t win_flags);
-void	ui_update_window_size();
+t_ui    *ui_init(uint32_t ui_flags, int img_flags);
 void    ui_close(t_ui *to_destroy);
-void 	ui_refresh(void);
-void 	ui_colorize_window(SDL_Color *color);
+void 	ui_refresh(t_ui *ui);
+void 	ui_colorize_window(t_ui *ui, SDL_Color *color);
+
+//windows
+void    ui_create_window(t_ui *ui, const char *title, int x, int y, int w,
+						 int h, uint32_t flags, uint32_t render_flags);
+void	ui_update_window_size(t_ui *ui, SDL_Window *win);
 
 //Interface elements
-void 	ui_create_button(
-		t_percent_rect *button_space,
-		void(*callback)(SDL_Event *e));
+void 	ui_create_button(t_ui *ui, t_percent_rect *button_space, void(*callback)
+		(SDL_Event *e));
 
 #endif //UI
