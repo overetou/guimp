@@ -25,6 +25,8 @@ VPATH=$(SRC_DIR)
 
 .phony: $(TARGET) clean re
 
+all: $(TARGET)
+
 $(TARGET): $(OBJS) inc/guimp.h
 	@make -j -C $(LIBUI_DIR)
 	@$(CC) $(CFLAGS) $(OBJS) -o $(TARGET) $(LIBIDR_FLAGS) $(LIBS_FLAGS)

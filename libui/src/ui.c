@@ -3,19 +3,35 @@
 //
 #include "ui.h"
 
-t_ui_master ui_m;
+//TODO: It may be good to separate that function in separate calls. 1 for sdl,
+// img and ttf init, 2 for adding windows to the ui.
+t_ui    *ui_init(
+		uint32_t ui_flags,
+		int img_flags,
+		const char *title,
+		int win_x,
+		int win_y,
+		int win_w,
+        int win_h,
+        uint32_t win_flags)
+{
+	t_ui    *new = ui_secure_malloc(sizeof(t_ui));
+	SDL_Init(win_flags);
+	IMG_Init(img_flags);
+	new->win = SDL_CreateWindow(title,
+	                       SDL_WINDOWPOS_UNDEFINED,
+	                       SDL_WINDOWPOS_UNDEFINED,
+	                       500,
+	                       500,
+	                       SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+	new->renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
+	new->win = win;
+	ui_update_window_size();
+	new->renderer = renderer;
+	return new;
+}
 
 void percent_rect_to_sdl_rect(t_percent_rect *rect, SDL_Rect *rect_1);
-
-//You should call SDL_init, SDL_Create_Window and IMG_Init with the parameters
-// you want before calling this. For now only one window is supported by the
-// library.
-void	ui_init(SDL_Window *win, SDL_Renderer *renderer)
-{
-	ui_m.win = win;
-	ui_update_window_size();
-	ui_m.renderer = renderer;
-}
 
 void	ui_update_window_size(void)
 {
@@ -27,11 +43,10 @@ void 	ui_refresh(void)
 	SDL_RenderPresent(ui_m.renderer);
 }
 
-//This will free everything that ui lib used by for itself but you still need
-// to call IMG_Quit() and SDL_Quit()
-void ui_quit(void)
+//Destroys everything the given ui knows of.
+void ui_close(t_ui *to_destroy)
 {
-
+	free(to_destroy);
 }
 
 void 	ui_colorize_window(SDL_Color *color)

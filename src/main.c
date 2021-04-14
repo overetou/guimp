@@ -7,16 +7,7 @@ int	main(void)
 	SDL_Window		*win;
 	SDL_Renderer	*renderer;
 
-	SDL_Init(SDL_INIT_VIDEO);
-	IMG_Init(IMG_INIT_PNG);
-	win = SDL_CreateWindow("Demo",
-	                       SDL_WINDOWPOS_UNDEFINED,
-	                       SDL_WINDOWPOS_UNDEFINED,
-	                       500,
-	                       500,
-	                       SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-	renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
-	play_around(win, renderer);
+
 	ui_quit();
 	IMG_Quit();
 	SDL_Quit();
