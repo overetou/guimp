@@ -13,7 +13,7 @@ t_ui    *ui_init(uint32_t ui_flags, int img_flags)
 	return new;
 }
 
-t_ui_win * ui_add_window(t_ui *ui, const char *title, int x, int y, int w,
+t_ui_win *ui_add_window(t_ui *ui, const char *title, int x, int y, int w,
                          int h, uint32_t flags, uint32_t render_flags)
 {
 	t_ui_win    *win = ui->wins + ui->total_wins_nb;
@@ -32,9 +32,9 @@ void ui_update_window_size(t_ui_win *win)
 	SDL_GetWindowSize(win->sdl_ptr, &(win->width), &(win->height));
 }
 
-void 	ui_refresh(t_ui *ui)
+void 	ui_refresh_win(t_ui_win *win)
 {
-	SDL_RenderPresent(ui->renderer);
+	SDL_RenderPresent(win->rend);
 }
 
 //Destroys everything the given ui knows of. This includes every interface

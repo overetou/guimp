@@ -36,6 +36,11 @@ typedef struct	s_percent_rect
 	t_percentage h;
 }				t_percent_rect;
 
+typedef struct	s_ui_elem
+{
+
+}				t_ui_elem;
+
 typedef struct	s_ui_win
 {
 	SDL_Window      *sdl_ptr;
@@ -62,7 +67,7 @@ void win_percent_rect_to_sdl_rect(t_ui *ui, t_percent_rect *p_rect,
 //core functions
 t_ui    *ui_init(uint32_t ui_flags, int img_flags);
 void    ui_close(t_ui *to_destroy);
-void 	ui_refresh(t_ui *ui);
+void 	ui_refresh_win(t_ui_win *win);
 void 	ui_colorize_window(t_ui *ui, SDL_Color *color);
 
 //windows
