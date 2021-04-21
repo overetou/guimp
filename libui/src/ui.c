@@ -13,8 +13,8 @@ t_ui    *ui_init(uint32_t ui_flags, int img_flags)
 	return new;
 }
 
-void    ui_add_window(t_ui *ui, const char *title, int x, int y, int w,
-                      int h, uint32_t flags, uint32_t render_flags)
+t_ui_win * ui_add_window(t_ui *ui, const char *title, int x, int y, int w,
+                         int h, uint32_t flags, uint32_t render_flags)
 {
 	t_ui_win    *win = ui->wins + ui->total_wins_nb;
 
@@ -22,6 +22,7 @@ void    ui_add_window(t_ui *ui, const char *title, int x, int y, int w,
 	win->rend = SDL_CreateRenderer(win->sdl_ptr, -1, render_flags);
 	ui_update_window_size(NULL);
 	(ui->total_wins_nb)++;
+	return win;
 }
 
 //Rework that func so that it takes a t_ui_window* as parameter (and no ui

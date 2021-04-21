@@ -66,7 +66,7 @@ void 	ui_refresh(t_ui *ui);
 void 	ui_colorize_window(t_ui *ui, SDL_Color *color);
 
 //windows
-void    ui_add_window(t_ui *ui, const char *title, int x, int y, int w,
+t_ui_win * ui_add_window(t_ui *ui, const char *title, int x, int y, int w,
                       int h, uint32_t flags, uint32_t render_flags);
 void ui_update_window_size(t_ui_win *win);
 
