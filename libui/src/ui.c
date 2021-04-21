@@ -13,22 +13,22 @@ t_ui    *ui_init(uint32_t ui_flags, int img_flags)
 	return new;
 }
 
-void    ui_create_window(t_ui *ui, const char *title, int x, int y, int w,
-						 int h, uint32_t flags, uint32_t render_flags)
+void    ui_add_window(t_ui *ui, const char *title, int x, int y, int w,
+                      int h, uint32_t flags, uint32_t render_flags)
 {
-	SDL_Window      *new_win;
-	SDL_Renderer    *new_rend;
+	t_ui_win    *win = ui->wins + ui->total_wins_nb;
 
-	new_win = SDL_CreateWindow(title, x, y, w, h, flags);
-	new_rend = SDL_CreateRenderer(new_win, -1, render_flags);
-	ui_update_window_size(ui, new_win);
+	win->sdl_ptr = SDL_CreateWindow(title, x, y, w, h, flags);
+	win->rend = SDL_CreateRenderer(win->sdl_ptr, -1, render_flags);
+	ui_update_window_size(NULL);
+	(ui->total_wins_nb)++;
 }
 
 //Rework that func so that it takes a t_ui_window* as parameter (and no ui
 // parameter)
-void	ui_update_window_size(t_ui *ui, SDL_Window *win)
+void ui_update_window_size(t_ui_win *win)
 {
-	SDL_GetWindowSize(win, &(ui->win_width), &(ui->win_height));
+	SDL_GetWindowSize(win->sdl_ptr, &(win->width), &(win->height));
 }
 
 void 	ui_refresh(t_ui *ui)

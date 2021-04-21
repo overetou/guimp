@@ -66,9 +66,9 @@ void 	ui_refresh(t_ui *ui);
 void 	ui_colorize_window(t_ui *ui, SDL_Color *color);
 
 //windows
-void    ui_create_window(t_ui *ui, const char *title, int x, int y, int w,
-						 int h, uint32_t flags, uint32_t render_flags);
-void	ui_update_window_size(t_ui *ui, SDL_Window *win);
+void    ui_add_window(t_ui *ui, const char *title, int x, int y, int w,
+                      int h, uint32_t flags, uint32_t render_flags);
+void ui_update_window_size(t_ui_win *win);
 
 //Interface elements
 void 	ui_create_button(t_ui *ui, t_percent_rect *button_space, void(*callback)
