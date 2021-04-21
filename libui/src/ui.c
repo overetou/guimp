@@ -37,9 +37,21 @@ void 	ui_refresh(t_ui *ui)
 	SDL_RenderPresent(ui->renderer);
 }
 
-//Destroys everything the given ui knows of.
+//Destroys everything the given ui knows of. This includes every interface
+// elements attached to the ui but not those that were only generated and not
+// given to the ui.
 void ui_close(t_ui *to_destroy)
 {
+	short       i = 0;
+	t_ui_win    *win;
+
+	while (i != to_destroy->total_wins_nb)
+	{
+		win = to_destroy->wins + to_destroy->total_wins_nb;
+		SDL_DestroyWindow(win->sdl_ptr);
+		SDL_DestroyRenderer(win->rend);
+		i++;
+	}
 	free(to_destroy);
 	IMG_Quit();
 	SDL_Quit();
