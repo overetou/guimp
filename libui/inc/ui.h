@@ -11,6 +11,8 @@
 #define UI_TRUE 1
 #define UI_FALSE 0
 
+#define WIN_MAX_NB 8
+
 #define UI_INIT_VIDEO           SDL_INIT_VIDEO
 #define UI_INIT_TIMER           SDL_INIT_TIMER
 #define UI_INIT_AUDIO           SDL_INIT_AUDIO
@@ -34,15 +36,22 @@ typedef struct	s_percent_rect
 	t_percentage h;
 }				t_percent_rect;
 
+typedef struct	s_ui_win
+{
+	SDL_Window      *sdl_ptr;
+	SDL_Renderer    *rend;
+	int             width;
+	int             height;
+}				t_ui_win;
+
 typedef struct  s_ui
 {
-	int             win_width;
-	int             win_height;
-	SDL_Window 		*win;
-	SDL_Renderer    *renderer;
+	t_ui_win    wins[WIN_MAX_NB];
+	short       total_wins_nb;
 }               t_ui;
 
 //security
+void    ui_sdl_critical_check(int val);
 void	ui_critical_check(UI_BOOL val, const char *msg);
 void    *ui_secure_malloc(size_t  len);
 

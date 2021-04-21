@@ -3,6 +3,15 @@
 //
 #include "ui.h"
 
+void    ui_sdl_critical_check(int val)
+{
+	if (val)
+	{
+		printf("Critical SDL operation failure: %s\n", SDL_GetError());
+		exit(0);
+	}
+}
+
 //If the given value == UI_FALSE, print the given message, a report of the sys
 //-tem and exit the application.
 void	ui_critical_check(UI_BOOL val, const char *msg)

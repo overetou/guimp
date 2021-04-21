@@ -24,7 +24,7 @@ VPATH=$(SRC_DIR)
 
 .phony: $(TARGET) clean re
 
-all: $(TARGET)
+all: tests
 
 $(TARGET): $(OBJS) $(INC_DIRS)/ui.h
 	@ar rcs $@ $(OBJS)
@@ -37,5 +37,11 @@ $(OBJ_DIR):
 
 clean:
 	rm -rf $(OBJS) $(TARGET)
+
+tests: $(TARGET)
+	$(CC) $(INC_FLAGS) tests/windows_demo.c -o windows_demo -lui
+
+clean_tests:
+	rm windows_demo
 
 re: clean $(TARGET)
