@@ -7,7 +7,7 @@ int main(void)
 {
 	t_ui    *ui;
 
-	ui = ui_init(SDL_WINDOW_RESIZABLE, IMG_INIT_JPG | IMG_INIT_PNG);
+	ui = ui_init(UI_WINDOW_RESIZABLE, IMG_INIT_JPG | IMG_INIT_PNG);
 	ui_close(ui);
 	return 0;
 }

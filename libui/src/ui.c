@@ -10,6 +10,7 @@ t_ui    *ui_init(uint32_t ui_flags, int img_flags)
 	ui_sdl_critical_check(SDL_Init(ui_flags));
 	ui_sdl_critical_check(IMG_Init(img_flags));
 	new->total_wins_nb = 0;
+	new->focused = NULL;
 	return new;
 }
 
@@ -57,9 +58,9 @@ void ui_close(t_ui *to_destroy)
 	SDL_Quit();
 }
 
-void 	ui_colorize_window(t_ui *ui, SDL_Color *color)
+void 	ui_colorize_window(t_ui_win *win, SDL_Color *color)
 {
-	SDL_SetRenderDrawColor(ui->renderer, color->r, color->g, color->b,
+	SDL_SetRenderDrawColor(win->rend, color->r, color->g, color->b,
 	                       color->a);
-	SDL_RenderClear(ui->renderer);
+	SDL_RenderClear(win->rend);
 }
