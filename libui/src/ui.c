@@ -14,15 +14,19 @@ t_ui    *ui_init(uint32_t ui_flags, int img_flags)
 	return new;
 }
 
+//Adds a window to the ui with the given parameters.
+// To display things inside the created window, operate upon the 'content'
+// member inside the window structure.
 t_ui_win *ui_add_window(t_ui *ui, const char *title, int x, int y, int w,
                          int h, uint32_t flags, uint32_t render_flags)
 {
 	t_ui_win    *win = malloc(sizeof(t_ui_win));
 
+	add_link_to_list(&(ui->wins), win);
 	win->sdl_ptr = SDL_CreateWindow(title, x, y, w, h, flags);
 	win->rend = SDL_CreateRenderer(win->sdl_ptr, -1, render_flags);
 	ui_update_window_size(win);
-	add_link_to_list(&(ui->wins), win);
+	win->content = ui_create_elem(100, 100, 100, 100, 1);
 	return win;
 }
 

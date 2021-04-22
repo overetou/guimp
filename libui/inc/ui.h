@@ -58,33 +58,36 @@ typedef struct	s_link
 
 typedef struct	s_ui_elem
 {
+	//Other elements in the same containing element. NULL if none.
+	struct s_ui_elem *next;
+	struct s_ui_elem *prev;
 	//Display info
 	t_percent_rect  surface;
 	char            display_priority;
 	SDL_Surface     *img;
-	//sensibility
+	//Sensibility
 	UI_BOOL         sensible;
 	t_percent_rect  *sensible_zones;//tab
 	short           nb_sensible_zones;
-	//hover
+	//Hover
 	UI_BOOL         has_sub_hovers;
 	void            (*hover_func)(void*);
-	//clicks
+	//Clicks
 	UI_BOOL         has_sub_clicks;
 	void            (*click_func)(void*);
 	//sub_elems
-
+	struct s_ui_elem *sub_elems;
 }				t_ui_elem;
 
 typedef struct	s_ui_win
 {
+	struct s_ui_win *next;
+	struct s_ui_win *prev;
 	SDL_Window      *sdl_ptr;
 	SDL_Renderer    *rend;
 	int             width;
 	int             height;
 	t_ui_elem       *content;
-	struct s_ui_win *next;
-	struct s_ui_win *prev;
 }				t_ui_win;
 
 typedef struct  s_ui
@@ -123,4 +126,7 @@ void ui_update_window_size(t_ui_win *win);
 void 	ui_create_button(t_ui *ui, t_percent_rect *button_space, void(*callback)
 		(SDL_Event *e));
 
+//interface elems
+t_ui_elem *ui_create_virgin_elem(t_percentage x, t_percentage y, t_percentage w,
+                                 t_percentage h, char display_priority);
 #endif //UI
