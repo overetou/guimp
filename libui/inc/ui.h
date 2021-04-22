@@ -38,7 +38,12 @@ typedef struct	s_percent_rect
 
 typedef struct	s_ui_elem
 {
-
+	t_percent_rect  surface;
+	UI_BOOL         sensible;
+	char            display_priority;
+	SDL_Surface     *img;
+	t_percent_rect  *sensible_zones;//tab
+	short           nb_sensible_zones;
 }				t_ui_elem;
 
 typedef struct	s_ui_win
