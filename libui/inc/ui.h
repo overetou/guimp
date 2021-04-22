@@ -11,8 +11,6 @@
 #define UI_TRUE 1
 #define UI_FALSE 0
 
-#define UI_WIN_MAX_NB 8
-
 #define UI_INIT_VIDEO           SDL_INIT_VIDEO
 #define UI_INIT_TIMER           SDL_INIT_TIMER
 #define UI_INIT_AUDIO           SDL_INIT_AUDIO
@@ -30,6 +28,7 @@
 #define UI_WINDOW_VULKAN                SDL_WINDOW_VULKAN
 #define UI_WINDOW_METAL                 SDL_WINDOW_METAL
 #define UI_WINDOW_HIDDEN                SDL_WINDOW_HIDDEN
+#define UI_WINDOW_SHOWN                 SDL_WINDOW_SHOWN
 #define UI_WINDOW_BORDERLESS            SDL_WINDOW_BORDERLESS
 #define UI_WINDOW_RESIZABLE             SDL_WINDOW_RESIZABLE
 #define UI_WINDOW_MINIMIZED             SDL_WINDOW_MINIMIZED
@@ -49,6 +48,14 @@ typedef struct	s_percent_rect
 	t_percentage h;
 }				t_percent_rect;
 
+//A structure that will only be used as a mean to make some
+// generic code.
+typedef struct	s_link
+{
+	struct s_link   *next;
+	struct s_link   *prev;
+}				t_link;
+
 typedef struct	s_ui_elem
 {
 	//Display info
@@ -65,6 +72,8 @@ typedef struct	s_ui_elem
 	//clicks
 	UI_BOOL         has_sub_clicks;
 	void            (*click_func)(void*);
+	//sub_elems
+
 }				t_ui_elem;
 
 typedef struct	s_ui_win
@@ -74,14 +83,21 @@ typedef struct	s_ui_win
 	int             width;
 	int             height;
 	t_ui_elem       *content;
+	struct s_ui_win *next;
+	struct s_ui_win *prev;
 }				t_ui_win;
 
 typedef struct  s_ui
 {
-	t_ui_win    wins[UI_WIN_MAX_NB];
-	short       total_wins_nb;
+	t_ui_win    *wins; //A linked list.
 	t_ui_elem   *focused;
 }               t_ui;
+
+//basic stuff
+void    mem_copy(char *dest, const char *src, int len);
+void    add_link_to_list(t_link **list, t_link *new_link);
+void    remove_link_from_list(t_link **list, t_link *to_remove);
+void    free_list(t_link *list, void(*free_func)(void*));
 
 //security
 void    ui_sdl_critical_check(int val);
@@ -89,8 +105,8 @@ void	ui_critical_check(UI_BOOL val, const char *msg);
 void    *ui_secure_malloc(size_t  len);
 
 //calculus
-void win_percent_rect_to_sdl_rect(t_ui *ui, t_percent_rect *p_rect,
-                                  SDL_Rect *sdl_rect);
+void    win_percent_rect_to_sdl_rect(t_ui *ui, t_percent_rect *p_rect,
+                                    SDL_Rect *sdl_rect);
 
 //core functions
 t_ui    *ui_init(uint32_t ui_flags, int img_flags);

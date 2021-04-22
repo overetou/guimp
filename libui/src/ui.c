@@ -9,7 +9,7 @@ t_ui    *ui_init(uint32_t ui_flags, int img_flags)
 
 	ui_sdl_critical_check(SDL_Init(ui_flags));
 	ui_sdl_critical_check(IMG_Init(img_flags));
-	new->total_wins_nb = 0;
+	new->wins = NULL;
 	new->focused = NULL;
 	return new;
 }
@@ -17,13 +17,32 @@ t_ui    *ui_init(uint32_t ui_flags, int img_flags)
 t_ui_win *ui_add_window(t_ui *ui, const char *title, int x, int y, int w,
                          int h, uint32_t flags, uint32_t render_flags)
 {
-	t_ui_win    *win = ui->wins + ui->total_wins_nb;
+	t_ui_win    *win = malloc(sizeof(t_ui_win));
 
 	win->sdl_ptr = SDL_CreateWindow(title, x, y, w, h, flags);
 	win->rend = SDL_CreateRenderer(win->sdl_ptr, -1, render_flags);
-	ui_update_window_size(NULL);
-	(ui->total_wins_nb)++;
+	ui_update_window_size(win);
+	add_link_to_list(&(ui->wins), win);
 	return win;
+}
+
+static void destroy_elem(t_ui_elem *elem)
+{
+	free(elem);
+}
+
+static void free_window(t_ui_win *win)
+{
+	SDL_DestroyWindow(win->sdl_ptr);
+	SDL_DestroyRenderer(win->rend);
+	destroy_elem(win->content);
+	free(win);
+}
+
+void    ui_remove_win(t_ui *ui, t_ui_win *win)
+{
+	remove_link_from_list(&(ui->wins), win);
+	free_window(win);
 }
 
 //Rework that func so that it takes a t_ui_window* as parameter (and no ui
@@ -43,16 +62,7 @@ void 	ui_refresh_win(t_ui_win *win)
 // given to the ui.
 void ui_close(t_ui *to_destroy)
 {
-	short       i = 0;
-	t_ui_win    *win;
-
-	while (i != to_destroy->total_wins_nb)
-	{
-		win = to_destroy->wins + to_destroy->total_wins_nb;
-		SDL_DestroyWindow(win->sdl_ptr);
-		SDL_DestroyRenderer(win->rend);
-		i++;
-	}
+	free_list(to_destroy->wins, free_window);
 	free(to_destroy);
 	IMG_Quit();
 	SDL_Quit();
