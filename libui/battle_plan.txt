@@ -124,3 +124,9 @@ button
 Notes:
 -Tous les éléments (bouttons, menus, fenêtre, ect...) auront dans leur structure une structure link qui servira à les manipuler au niveau de l'application et contiendra tous les éléments de
 logiques partagés par les éléments.
+
+Réalisation:
+-fonction ui_add_elem qui prend en paramêtre tous les paramêtre assignables pour l'utilisateur.
+-fonction ui_resolve_and_refresh_win qui opère sur tous les éléments affichables avant de faire un render
+-tester de créer une fenêtre, la peindre, placer un élément et le peindre aussi. Puis résoudre et afficher.
+-eventuellement fonction refresh_win qui rafraichit intelligement la fenêtre aux seuls endroits qui seront modifiés.

@@ -30,11 +30,6 @@ t_ui_win *ui_add_window(t_ui *ui, const char *title, int x, int y, int w,
 	return win;
 }
 
-static void destroy_elem(t_ui_elem *elem)
-{
-	free(elem);
-}
-
 static void free_window(t_ui_win *win)
 {
 	SDL_DestroyWindow(win->sdl_ptr);
