@@ -128,7 +128,6 @@ void    ui_win_percent_rect_to_sdl_rect(t_ui_win *win, t_percent_rect *percent_r
 t_ui    *ui_init(uint32_t ui_flags, int img_flags);
 void    ui_close(t_ui *to_destroy);
 void 	ui_refresh_win(t_ui_win *win);
-void 	ui_colorize_window(t_ui_win *win, SDL_Color *color);
 
 //windows
 t_ui_win * ui_add_window(t_ui *ui, const char *title, int x, int y, int w,

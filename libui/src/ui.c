@@ -67,9 +67,9 @@ void ui_close(t_ui *to_destroy)
 	SDL_Quit();
 }
 
-void 	ui_colorize_window(t_ui_win *win, SDL_Color *color)
+void ui_resolve_and_refresh_win(t_ui_win *win)
 {
-	SDL_SetRenderDrawColor(win->rend, color->r, color->g, color->b,
-	                       color->a);
-	SDL_RenderClear(win->rend);
+	//TODO: Resolve all actual_sizes from proportions and ..
+	//TODO: ..print all things that are visible in order.
+	//Easy!
 }
