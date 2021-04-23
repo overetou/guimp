@@ -140,8 +140,14 @@ void 	ui_create_button(t_ui *ui, t_percent_rect *button_space, void(*callback)
 		(SDL_Event *e));
 
 //interface elems
-t_ui_img *ui_load_img_for_win(t_ui_win *win, const char *img_path);
-t_ui_elem *ui_create_virgin_elem(t_percentage x, t_percentage y, t_percentage w,
+t_ui_img    *ui_load_img_for_win(t_ui_win *win, const char *img_path);
+t_ui_elem   *ui_create_virgin_elem(t_percentage x, t_percentage y, t_percentage w,
                                  t_percentage h, char display_priority);
-
+void        ui_remove_elem(t_ui_elem *e);
+void        ui_transfer_elem(t_ui_elem *new_parent, t_ui_elem *e,
+							 char new_disp_priority);
+t_ui_elem   *ui_add_elem(t_ui_elem *parent, t_percentage x, t_percentage y,
+						   t_percentage w, t_percentage h,
+						   char disp_priority, t_ui_img *img, UI_BOOL sensible,
+						   void(*hover_func)(void*), void(*click_func)(void*));
 #endif //UI

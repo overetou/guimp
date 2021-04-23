@@ -12,9 +12,8 @@ t_ui_img *ui_load_img_for_win(t_ui_win *win, const char *img_path)
 
 t_ui_img *ui_paint_elem(t_ui_elem *e, int r, int g, int b, int a)
 {
-	t_ui_img *new = SDL_CreateTexture(e->win, EL_RENDERER(e),
-								   SDL_TEXTUREACCESS_STATIC,
-								   e->actual_sizes.w, e->actual_sizes.h);
+	e->img = SDL_CreateTexture(e->win, EL_RENDERER(e),SDL_TEXTUREACCESS_STATIC,
+								e->actual_sizes.w, e->actual_sizes.h);
 }
 
 //Creates an elem with given parameters. All other settings will be negative
@@ -88,5 +87,7 @@ void ui_remove_elem(t_ui_elem *e)
 void ui_transfer_elem(t_ui_elem *new_parent, t_ui_elem *e,
 					  char new_disp_priority)
 {
-
+	remove_link_from_list(&(e->parent->sub_elems), e);
+	add_link_to_list(&(new_parent->sub_elems), e);
+	e->parent = new_parent;
 }
