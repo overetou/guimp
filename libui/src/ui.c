@@ -26,7 +26,7 @@ t_ui_win *ui_add_window(t_ui *ui, const char *title, int x, int y, int w,
 	win->sdl_ptr = SDL_CreateWindow(title, x, y, w, h, flags);
 	win->rend = SDL_CreateRenderer(win->sdl_ptr, -1, render_flags);
 	ui_update_window_size(win);
-	win->content = ui_create_elem(100, 100, 100, 100, 1);
+	win->content = ui_create_virgin_elem(0, 0, 100, 100, 1);
 	return win;
 }
 

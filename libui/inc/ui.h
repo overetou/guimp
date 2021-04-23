@@ -36,6 +36,9 @@
 #define UI_WINDOW_INPUT_GRABBED         SDL_WINDOW_INPUT_GRABBED
 #define UI_WINDOW_ALLOW_HIGHDPI         SDL_WINDOW_ALLOW_HIGHDPI
 
+//An image usable by the ui framework.
+typedef SDL_Texture t_ui_img;
+
 //A discrete value between 0 and 100
 typedef char t_percentage;
 
@@ -62,9 +65,10 @@ typedef struct	s_ui_elem
 	struct s_ui_elem *next;
 	struct s_ui_elem *prev;
 	//Display info
-	t_percent_rect  surface;
+	t_percent_rect  proportions;
+	SDL_Rect        actual_sizes;
 	char            display_priority;
-	SDL_Surface     *img;
+	SDL_Texture     *img;
 	//Sensibility
 	UI_BOOL         sensible;
 	t_percent_rect  *sensible_zones;//tab
@@ -77,6 +81,10 @@ typedef struct	s_ui_elem
 	void            (*click_func)(void*);
 	//sub_elems
 	struct s_ui_elem *sub_elems;
+	//win ref
+	void            *win;
+	//parent
+	struct s_ui_elem *parent;
 }				t_ui_elem;
 
 typedef struct	s_ui_win
@@ -108,8 +116,8 @@ void	ui_critical_check(UI_BOOL val, const char *msg);
 void    *ui_secure_malloc(size_t  len);
 
 //calculus
-void    win_percent_rect_to_sdl_rect(t_ui *ui, t_percent_rect *p_rect,
-                                    SDL_Rect *sdl_rect);
+void    ui_win_percent_rect_to_sdl_rect(t_ui_win *win, t_percent_rect *percent_rect,
+                                        SDL_Rect *sdl_rect);
 
 //core functions
 t_ui    *ui_init(uint32_t ui_flags, int img_flags);
@@ -127,6 +135,8 @@ void 	ui_create_button(t_ui *ui, t_percent_rect *button_space, void(*callback)
 		(SDL_Event *e));
 
 //interface elems
+t_ui_img *ui_load_img_for_win(t_ui_win *win, const char *img_path);
 t_ui_elem *ui_create_virgin_elem(t_percentage x, t_percentage y, t_percentage w,
                                  t_percentage h, char display_priority);
+
 #endif //UI
