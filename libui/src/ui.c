@@ -69,7 +69,16 @@ void ui_close(t_ui *to_destroy)
 
 void ui_resolve_and_refresh_win(t_ui_win *win)
 {
+	t_ui_elem *sub_e;
 	//TODO: Resolve all actual_sizes from proportions and ..
 	//TODO: ..print all things that are visible in order.
 	//Easy!
+	ui_calculate_win_content_actual_size(win);
+	ui_display_elem(win->content);
+	sub_e = win->content->sub_elems;
+	while (sub_e)
+	{
+		resolve_and_display_elem(sub_e);
+		sub_e = sub_e->next;
+	}
 }

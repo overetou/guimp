@@ -121,8 +121,8 @@ void	ui_critical_check(UI_BOOL val, const char *msg);
 void    *ui_secure_malloc(size_t  len);
 
 //calculus
-void    ui_win_percent_rect_to_sdl_rect(t_ui_win *win, t_percent_rect *percent_rect,
-                                        SDL_Rect *sdl_rect);
+void    ui_calculate_win_content_actual_size(t_ui_win *win);
+void    ui_infer_elem_actual_size(t_ui_elem *e);
 
 //core functions
 t_ui    *ui_init(uint32_t ui_flags, int img_flags);
@@ -149,4 +149,6 @@ t_ui_elem   *ui_add_elem(t_ui_elem *parent, t_percentage x, t_percentage y,
 						   t_percentage w, t_percentage h,
 						   char disp_priority, t_ui_img *img, UI_BOOL sensible,
 						   void(*hover_func)(void*), void(*click_func)(void*));
+void        ui_display_elem(t_ui_elem *e);
+
 #endif //UI

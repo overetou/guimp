@@ -17,6 +17,7 @@ void mem_copy(char *dest, const char *src, int len)
 void add_link_to_list(t_link **list, t_link *new_link)
 {
 	new_link->next = *list;
+	new_link->next->prev = new_link;
 	new_link->prev = NULL;
 	*list = new_link;
 }

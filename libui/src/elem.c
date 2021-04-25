@@ -91,3 +91,21 @@ void ui_transfer_elem(t_ui_elem *new_parent, t_ui_elem *e,
 	add_link_to_list(&(new_parent->sub_elems), e);
 	e->parent = new_parent;
 }
+
+void ui_display_elem(t_ui_elem *e)
+{
+	SDL_RenderCopy(EL_RENDERER(e), e->img, &(e->actual_sizes),
+					&(e->actual_sizes));
+}
+
+void resolve_and_display_elem(t_ui_elem *e)
+{
+	ui_infer_elem_actual_size(e);
+	ui_display_elem(e);
+	e = e->sub_elems;
+	while (e)
+	{
+		resolve_and_display_elem(e);
+		e = e->next;
+	}
+}

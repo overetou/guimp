@@ -130,3 +130,12 @@ Réalisation:
 -fonction ui_resolve_and_refresh_win qui opère sur tous les éléments affichables avant de faire un render
 -tester de créer une fenêtre, la peindre, placer un élément et le peindre aussi. Puis résoudre et afficher.
 -eventuellement fonction refresh_win qui rafraichit intelligement la fenêtre aux seuls endroits qui seront modifiés.
+
+raffraichissement de l'affichage:
+On veut passer sur chaque élément, et afficher tous ceux qui doivent l'être dans l'ordre:
+du plus haut au plus bas, du plus à gauche au plus à droite, en allant taper au fond à chaque fois.
+
+1. On affiche tout jusqu'à taper au fond. On sait donc qu'a chaque fois que l'on fera un retour en arrière, on atterira sur
+quelque chose de déjà affiché. Comment savoir à quel enfant on en était?
+Solution 1: récursivité. Ca me parait adapté.
+Solution 2: dévier la voie à chaque fois et faire prev jusqu'à trouver l'original quand on se heurte à null. (plus opti)

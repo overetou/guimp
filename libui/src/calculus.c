@@ -3,13 +3,12 @@
 //
 #include "ui.h"
 
-void ui_win_percent_rect_to_sdl_rect(t_ui_win *win, t_percent_rect *percent_rect,
-                                     SDL_Rect *sdl_rect)
+void ui_calculate_win_content_actual_size(t_ui_win *win)
 {
-	sdl_rect->x = 0;
-	sdl_rect->y = 0;
-	sdl_rect->w = win->width * percent_rect->w / 100;
-	sdl_rect->h = win->height * percent_rect->h / 100;
+	win->content->actual_sizes.x = 0;
+	win->content->actual_sizes.y = 0;
+	win->content->actual_sizes.w = win->width;
+	win->content->actual_sizes.h = win->height;
 }
 
 void ui_infer_elem_actual_size(t_ui_elem *e)
