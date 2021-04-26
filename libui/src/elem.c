@@ -105,7 +105,7 @@ void resolve_and_display_elem(t_ui_elem *e)
 	if (e->display_priority)
 	{
 		//ui_infer_elem_actual_size(e);
-		ui_display_elem(e);
+		e->display_func(e);
 		e = e->sub_elems;
 		while (e)
 		{

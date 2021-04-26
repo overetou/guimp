@@ -151,3 +151,6 @@ Procédure pour peindre une texture:
 
 On pourrait faire un système de pointeur sur fonction qui serait appelé lorsque l'élément doit être résolu (ce pointeur serait
 aussi responsable de l'affichage).
+
+-Mettre tous les mallocs en secured malloc
+-Sécuriser toutes les fonctions SDL, IMG et TTF.

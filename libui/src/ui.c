@@ -57,11 +57,6 @@ void ui_update_window_size(t_ui_win *win)
 	SDL_GetWindowSize(win->sdl_ptr, &(win->width), &(win->height));
 }
 
-void 	ui_refresh_win(t_ui_win *win)
-{
-	SDL_RenderPresent(win->rend);
-}
-
 //Destroys everything the given ui knows of. This includes every interface
 // elements attached to the ui but not those that were only generated and not
 // given to the ui.
@@ -79,8 +74,7 @@ void ui_resolve_and_refresh_win(t_ui_win *win)
 	//TODO: Resolve all actual_sizes from proportions and ..
 	//TODO: ..print all things that are visible in order.
 	//Easy!
-	ui_calculate_win_content_actual_size(win);
-	ui_display_elem(win->content);
+	win->content->display_func(win->content);
 	sub_e = win->content->sub_elems;
 	while (sub_e)
 	{
