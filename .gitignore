@@ -2,4 +2,5 @@
 obj
 libui/obj
 libui/libui.a
+libui/windows_demo
 guimp

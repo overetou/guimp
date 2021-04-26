@@ -127,7 +127,8 @@ logiques partagés par les éléments.
 
 Réalisation:
 -fonction ui_add_elem qui prend en paramêtre tous les paramêtre assignables pour l'utilisateur.
--fonction ui_resolve_and_refresh_win qui opère sur tous les éléments affichables avant de faire un render
+-fonction ui_resolve_and_refresh_win qui opère sur tous les éléments affichables avant de faire un render.
+-Fonction de peinture d'élément.
 -tester de créer une fenêtre, la peindre, placer un élément et le peindre aussi. Puis résoudre et afficher.
 -eventuellement fonction refresh_win qui rafraichit intelligement la fenêtre aux seuls endroits qui seront modifiés.
 
@@ -139,3 +140,14 @@ du plus haut au plus bas, du plus à gauche au plus à droite, en allant taper a
 quelque chose de déjà affiché. Comment savoir à quel enfant on en était?
 Solution 1: récursivité. Ca me parait adapté.
 Solution 2: dévier la voie à chaque fois et faire prev jusqu'à trouver l'original quand on se heurte à null. (plus opti)
+
+Bon en fait ce qui serait peut-être plus malin serait de résoudre à partir de l'endroit qui est modifié.
+Problème actuel: on ne sait pas quelle valeur sont actuelles ou obsolètes.
+
+Procédure pour peindre une texture:
+-Déclarer la couleur de peinture.
+-Déclarer la cible de rendu.
+-Finalement présenter le rendu.
+
+On pourrait faire un système de pointeur sur fonction qui serait appelé lorsque l'élément doit être résolu (ce pointeur serait
+aussi responsable de l'affichage).

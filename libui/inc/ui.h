@@ -41,6 +41,11 @@
 #define UI_WINDOW_INPUT_GRABBED         SDL_WINDOW_INPUT_GRABBED
 #define UI_WINDOW_ALLOW_HIGHDPI         SDL_WINDOW_ALLOW_HIGHDPI
 
+#define UI_ALPHA_OPAQUE         SDL_ALPHA_OPAQUE
+#define UI_ALPHA_TRANSPARENT    SDL_ALPHA_TRANSPARENT
+
+#define EL_RENDERER(e) ((t_ui_win*)(e->win))->rend
+
 //An image usable by the ui framework.
 typedef SDL_Texture t_ui_img;
 
@@ -73,6 +78,7 @@ typedef struct	s_ui_elem
 	t_percent_rect  proportions;
 	SDL_Rect        actual_sizes;
 	char            display_priority;
+	void            (*display_func)(struct s_ui_elem*);
 	SDL_Texture     *img;
 	//Sensibility
 	UI_BOOL         sensible;
@@ -130,8 +136,9 @@ void    ui_close(t_ui *to_destroy);
 void 	ui_refresh_win(t_ui_win *win);
 
 //windows
-t_ui_win * ui_add_window(t_ui *ui, const char *title, int x, int y, int w,
-                      int h, uint32_t flags, uint32_t render_flags);
+t_ui_win *ui_add_window(t_ui *ui, const char *title, int x, int y, int w, int h,
+                        uint32_t flags, uint32_t render_flags,
+                        void (*display_func)(t_ui_elem *));
 void ui_update_window_size(t_ui_win *win);
 
 //Interface elements
@@ -139,16 +146,23 @@ void 	ui_create_button(t_ui *ui, t_percent_rect *button_space, void(*callback)
 		(SDL_Event *e));
 
 //interface elems
-t_ui_img    *ui_load_img_for_win(t_ui_win *win, const char *img_path);
-t_ui_elem   *ui_create_virgin_elem(t_percentage x, t_percentage y, t_percentage w,
-                                 t_percentage h, char display_priority);
+t_ui_img    *ui_load_img(t_ui_win *win, const char *img_path);
+t_ui_elem *ui_create_virgin_elem(t_percentage x, t_percentage y, t_percentage w,
+                                 t_percentage h, char display_priority,
+                                 void (*display_func)(t_ui_elem *));
 void        ui_remove_elem(t_ui_elem *e);
 void        ui_transfer_elem(t_ui_elem *new_parent, t_ui_elem *e,
 							 char new_disp_priority);
-t_ui_elem   *ui_add_elem(t_ui_elem *parent, t_percentage x, t_percentage y,
-						   t_percentage w, t_percentage h,
-						   char disp_priority, t_ui_img *img, UI_BOOL sensible,
-						   void(*hover_func)(void*), void(*click_func)(void*));
+t_ui_elem *ui_add_elem(t_ui_elem *parent, t_percentage x, t_percentage y,
+                       t_percentage w, t_percentage h,
+                       char disp_priority, void(*display_func)(t_ui_elem*),
+                       UI_BOOL sensible, void(*hover_func)(void*),
+                       void(*click_func)(void*));
 void        ui_display_elem(t_ui_elem *e);
+void        resolve_and_display_elem(t_ui_elem *e);
+void        ui_paint_elem(t_ui_elem *e, int r, int g, int b, int a);
+//blocking
+void ui_colorblock_1(t_ui_elem *e);
+void ui_colorblock_2(t_ui_elem *e);
 
 #endif //UI

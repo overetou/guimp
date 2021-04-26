@@ -14,33 +14,35 @@ t_ui    *ui_init(uint32_t ui_flags, int img_flags)
 	return new;
 }
 
-//Adds a window to the ui with the given parameters.
-// To display things inside the created window, operate upon the 'content'
-// member inside the window structure.
-t_ui_win *ui_add_window(t_ui *ui, const char *title, int x, int y, int w,
-                         int h, uint32_t flags, uint32_t render_flags)
+//Adds a window to the ui with the given parameters. Display func is the
+// function that will be called upon refreshing the interface. It should be
+// created by the user.
+t_ui_win *ui_add_window(t_ui *ui, const char *title, int x, int y, int w, int h,
+                        uint32_t flags, uint32_t render_flags,
+                        void (*display_func)(t_ui_elem *))
 {
 	t_ui_win    *win = malloc(sizeof(t_ui_win));
 
-	add_link_to_list(&(ui->wins), win);
+	add_link_to_list((t_link**)(&(ui->wins)), (t_link*)win);
 	win->sdl_ptr = SDL_CreateWindow(title, x, y, w, h, flags);
 	win->rend = SDL_CreateRenderer(win->sdl_ptr, -1, render_flags);
 	ui_update_window_size(win);
-	win->content = ui_create_virgin_elem(0, 0, 100, 100, 1);
+	win->content = ui_create_virgin_elem(0, 0, 100, 100, 1, display_func);
+	ui_calculate_win_content_actual_size(win);
 	return win;
 }
 
-static void free_window(t_ui_win *win)
+static void free_window(void *win)
 {
-	SDL_DestroyWindow(win->sdl_ptr);
-	SDL_DestroyRenderer(win->rend);
-	destroy_elem(win->content);
+	SDL_DestroyWindow(((t_ui_win*)(win))->sdl_ptr);
+	SDL_DestroyRenderer(((t_ui_win*)(win))->rend);
+	ui_remove_elem(((t_ui_win*)(win))->content);
 	free(win);
 }
 
 void    ui_remove_win(t_ui *ui, t_ui_win *win)
 {
-	remove_link_from_list(&(ui->wins), win);
+	remove_link_from_list((t_link**)(&(ui->wins)), (t_link*)win);
 	free_window(win);
 }
 
@@ -61,7 +63,7 @@ void 	ui_refresh_win(t_ui_win *win)
 // given to the ui.
 void ui_close(t_ui *to_destroy)
 {
-	free_list(to_destroy->wins, free_window);
+	free_list((t_link*)(to_destroy->wins), free_window);
 	free(to_destroy);
 	IMG_Quit();
 	SDL_Quit();
@@ -81,4 +83,5 @@ void ui_resolve_and_refresh_win(t_ui_win *win)
 		resolve_and_display_elem(sub_e);
 		sub_e = sub_e->next;
 	}
+	SDL_RenderPresent(win->rend);
 }
