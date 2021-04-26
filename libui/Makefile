@@ -27,7 +27,7 @@ VPATH=$(SRC_DIR)
 all: tests
 
 $(TARGET): $(OBJS) $(INC_DIRS)/ui.h
-	@ar rcs $@ $(OBJS) $(LIBS_FLAGS)
+	@ar rcs $@ $(OBJS)
 
 $(OBJS): $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c $(INC_DIRS)/ui.h |$(OBJ_DIR)
 	@$(COMPILE.c) $(OUTPUT_OPTIONS) -o $@ $<
@@ -39,7 +39,7 @@ clean:
 	rm -rf $(OBJS) $(TARGET)
 
 tests: $(TARGET)
-	$(CC) $(INC_FLAGS) tests/windows_demo.c -o windows_demo -L . -lui -lSDL2 -lSDL2_image
+	$(CC) -g $(INC_FLAGS) tests/windows_demo.c -o windows_demo -L . -lui -lSDL2 -lSDL2_image
 
 clean_tests:
 	rm windows_demo

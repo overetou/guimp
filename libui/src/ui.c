@@ -7,8 +7,8 @@ t_ui    *ui_init(uint32_t ui_flags, int img_flags)
 {
 	t_ui    *new = ui_secure_malloc(sizeof(t_ui));
 
-	ui_sdl_critical_check(SDL_Init(ui_flags));
-	ui_sdl_critical_check(IMG_Init(img_flags));
+	ui_sdl_critical_check(SDL_Init(ui_flags) == 0);
+	ui_sdl_critical_check(IMG_Init(img_flags) == img_flags);
 	new->wins = NULL;
 	new->focused = NULL;
 	return new;
@@ -32,18 +32,22 @@ t_ui_win *ui_add_window(t_ui *ui, const char *title, int x, int y, int w, int h,
 	return win;
 }
 
-static void free_window(void *win)
+static void ui_free_window(void *win)
 {
-	SDL_DestroyWindow(((t_ui_win*)(win))->sdl_ptr);
+	t_ui_elem *e = ((t_ui_win*)(win))->content;
+
 	SDL_DestroyRenderer(((t_ui_win*)(win))->rend);
-	ui_remove_elem(((t_ui_win*)(win))->content);
+	SDL_DestroyWindow(((t_ui_win*)(win))->sdl_ptr);
+	while (e->sub_elems)
+		ui_remove_elem(e->sub_elems);
+	free(e);
 	free(win);
 }
 
 void    ui_remove_win(t_ui *ui, t_ui_win *win)
 {
 	remove_link_from_list((t_link**)(&(ui->wins)), (t_link*)win);
-	free_window(win);
+	ui_free_window(win);
 }
 
 //Rework that func so that it takes a t_ui_window* as parameter (and no ui
@@ -63,7 +67,7 @@ void 	ui_refresh_win(t_ui_win *win)
 // given to the ui.
 void ui_close(t_ui *to_destroy)
 {
-	free_list((t_link*)(to_destroy->wins), free_window);
+	free_list((t_link *) (to_destroy->wins), ui_free_window);
 	free(to_destroy);
 	IMG_Quit();
 	SDL_Quit();

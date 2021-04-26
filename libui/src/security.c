@@ -6,10 +6,9 @@
 void    ui_sdl_critical_check(int val)
 {
 	if (val)
-	{
-		printf("Critical SDL operation failure: %s\n", SDL_GetError());
-		exit(0);
-	}
+		return;
+	printf("Critical SDL operation failure: %s\n", SDL_GetError());
+	exit(0);
 }
 
 //If the given value == UI_FALSE, print the given message, a report of the sys
