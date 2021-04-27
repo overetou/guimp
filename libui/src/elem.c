@@ -40,6 +40,48 @@ t_ui_elem *ui_create_virgin_elem(t_percentage x, t_percentage y, t_percentage w,
 	return new;
 }
 
+static void incorporate_sub_elem(t_ui_elem **list, t_ui_elem *e)
+{
+	t_ui_elem *n;
+
+	if (*list == NULL)
+		init_list((t_link**)list, (t_link*)e);
+	else if (e->display_priority == 0)
+	{
+		n = *list;
+		while (n->next != NULL)
+			n = n->next;
+		n->next = e;
+		e->prev = n;
+		e->next = NULL;
+	}
+	else if (e->display_priority > (*list)->display_priority)
+		list_add_link_on_top_of_initiated((t_link**)list, (t_link*)e);
+	else
+	{
+		n = *list;
+		while (n->next)
+		{
+			if (n->next->display_priority >= e->display_priority)
+			{
+				n->next->prev = e;
+				break;
+			}
+			n = n->next;
+		}
+		e->next = n->next;
+		n->next = e;
+		e->prev = n;
+		if (n->display_priority == e->display_priority)
+		{
+			do {
+				(n->display_priority)++;
+				n = n->prev;
+			} while (n);
+		}
+	}
+}
+
 //Incorporates the described element inside its parent. Returns the new
 // element's pointer for optionnal use.
 t_ui_elem *ui_add_elem(t_ui_elem *parent, t_percentage x, t_percentage y,
@@ -66,13 +108,7 @@ t_ui_elem *ui_add_elem(t_ui_elem *parent, t_percentage x, t_percentage y,
 	new->has_sub_clicks = UI_FALSE;
 	new->click_func = click_func;
 	new->sub_elems = NULL;
-	add_link_to_list((t_link**)(&(parent->sub_elems)), (t_link*)new);//TODO:
-	// replace this by a specialised function that puts the link in its
-	// rightful pos in the queue, based on its display priority. Name of the
-	// func: ui_incorporate_elem. Note: if there is already an elem with the
-	// same display priority in the queue, the arriving elem is placed first and
-	// the contested + all of its followers see their display priority
-	// incremented.
+	incorporate_sub_elem(&(parent->sub_elems), new);
 	ui_infer_elem_actual_size(new);
 	return new;
 }
@@ -92,8 +128,7 @@ void ui_transfer_elem(t_ui_elem *new_parent, t_ui_elem *e,
 {
 	remove_link_from_list((t_link**)(&(e->parent->sub_elems)), (t_link*)e);
 	e->display_priority = new_disp_priority;
-	add_link_to_list((t_link**)(&(new_parent->sub_elems)), (t_link*)e);
-	//TODO: same as in add elem, replace the func.
+	incorporate_sub_elem(&(new_parent->sub_elems), e);
 	e->parent = new_parent;
 }
 

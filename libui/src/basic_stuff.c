@@ -23,6 +23,21 @@ void add_link_to_list(t_link **list, t_link *new_link)
 	*list = new_link;
 }
 
+void init_list(t_link **list, t_link *new_link)
+{
+	*list = new_link;
+	new_link->next = NULL;
+	new_link->prev = NULL;
+}
+
+void list_add_link_on_top_of_initiated(t_link **list, t_link *new_link)
+{
+	new_link->next = *list;
+	*list = new_link;
+	new_link->prev = NULL;
+	new_link->next->prev = new_link;
+}
+
 void remove_link_from_list(t_link **list, t_link *to_remove)
 {
 	if (to_remove->prev)
