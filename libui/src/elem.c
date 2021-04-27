@@ -15,7 +15,8 @@ t_ui_img *ui_load_img(t_ui_win *win, const char *img_path)
 // or set to nonexistent, excepted for sensible. You can set them manually or
 // use the appropriate functions.
 t_ui_elem *ui_create_virgin_elem(t_percentage x, t_percentage y, t_percentage w,
-                                 t_percentage h, char display_priority,
+                                 t_percentage h, t_ui_win *win,
+                                 char display_priority,
                                  void (*display_func)(t_ui_elem *))
 {
 	t_ui_elem *new = ui_secure_malloc(sizeof(t_ui_elem));
@@ -24,6 +25,7 @@ t_ui_elem *ui_create_virgin_elem(t_percentage x, t_percentage y, t_percentage w,
 	new->proportions.y = y;
 	new->proportions.w = w;
 	new->proportions.h = h;
+	new->win = win;
 	new->display_priority = display_priority;
 	new->next = NULL;
 	new->prev = NULL;

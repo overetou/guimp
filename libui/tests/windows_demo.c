@@ -13,7 +13,7 @@ int main(void)
 	win = ui_add_window(ui, "Pak", 100, 100, 1300, 800, UI_WINDOW_RESIZABLE, UI_RENDERER_ACCELERATED | UI_RENDERER_PRESENTVSYNC, ui_colorblock_1);
 	button = ui_add_elem(win->content, 25, 25, 50, 50, 1, ui_colorblock_2, UI_TRUE, NULL, NULL);
 	ui_resolve_and_refresh_win(win);
-	SDL_Delay(2000);
+	SDL_Delay(4000);
 	ui_close(ui);
 	puts("Finished.");
 	return 0;

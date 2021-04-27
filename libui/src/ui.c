@@ -21,13 +21,15 @@ t_ui_win *ui_add_window(t_ui *ui, const char *title, int x, int y, int w, int h,
                         uint32_t flags, uint32_t render_flags,
                         void (*display_func)(t_ui_elem *))
 {
-	t_ui_win    *win = malloc(sizeof(t_ui_win));
+	t_ui_win    *win = ui_secure_malloc(sizeof(t_ui_win));
 
 	add_link_to_list((t_link**)(&(ui->wins)), (t_link*)win);
 	win->sdl_ptr = SDL_CreateWindow(title, x, y, w, h, flags);
+	ui_sdl_critical_check(win->sdl_ptr != NULL);
 	win->rend = SDL_CreateRenderer(win->sdl_ptr, -1, render_flags);
+	ui_sdl_critical_check(win->rend != NULL);
 	ui_update_window_size(win);
-	win->content = ui_create_virgin_elem(0, 0, 100, 100, 1, display_func);
+	win->content = ui_create_virgin_elem(0, 0, 100, 100, win, 1, display_func);
 	ui_calculate_win_content_actual_size(win);
 	return win;
 }
@@ -54,7 +56,9 @@ void    ui_remove_win(t_ui *ui, t_ui_win *win)
 // parameter)
 void ui_update_window_size(t_ui_win *win)
 {
-	SDL_GetWindowSize(win->sdl_ptr, &(win->width), &(win->height));
+	ui_sdl_critical_check(
+	SDL_GetRendererOutputSize(win->rend, &(win->width), &(win->height)
+	) == 0);
 }
 
 //Destroys everything the given ui knows of. This includes every interface

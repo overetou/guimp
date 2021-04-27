@@ -145,8 +145,9 @@ void ui_update_window_size(t_ui_win *win);
 
 //interface elems
 t_ui_img    *ui_load_img(t_ui_win *win, const char *img_path);
-t_ui_elem   *ui_create_virgin_elem(t_percentage x, t_percentage y, t_percentage w,
-                                 t_percentage h, char display_priority,
+t_ui_elem *ui_create_virgin_elem(t_percentage x, t_percentage y, t_percentage w,
+                                 t_percentage h, t_ui_win *win,
+                                 char display_priority,
                                  void (*display_func)(t_ui_elem *));
 void        ui_remove_elem(t_ui_elem *e);
 void        ui_transfer_elem(t_ui_elem *new_parent, t_ui_elem *e,
