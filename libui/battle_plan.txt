@@ -154,3 +154,7 @@ aussi responsable de l'affichage).
 
 -Mettre tous les mallocs en secured malloc
 -Sécuriser toutes les fonctions SDL, IMG et TTF.
+
+Calcul de la à partir des proportions et de l'actual size précédente:
+On veut que le calcul de x et de y tienne compte à la fois de là où commence le parent et de sa taille.
+pour x on aura donc: parent_actual_x + parent_actual_w * e_proportions_x / 100
