@@ -9,6 +9,7 @@ t_ui    *ui_init(uint32_t ui_flags, int img_flags)
 
 	ui_sdl_critical_check(SDL_Init(ui_flags) == 0);
 	ui_sdl_critical_check(IMG_Init(img_flags) == img_flags);
+	ui_sdl_critical_check(TTF_Init() == 0);
 	new->wins = NULL;
 	new->focused = NULL;
 	return new;
@@ -68,6 +69,7 @@ void ui_close(t_ui *to_destroy)
 {
 	free_list((t_link *) (to_destroy->wins), ui_free_window);
 	free(to_destroy);
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }

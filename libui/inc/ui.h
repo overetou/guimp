@@ -6,6 +6,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include "SDL/SDL_ttf.h"
 
 #define UI_BOOL int
 #define UI_TRUE 1

@@ -126,10 +126,17 @@ Notes:
 logiques partagés par les éléments.
 
 Réalisation:
--fonction ui_add_elem qui prend en paramêtre tous les paramêtre assignables pour l'utilisateur.
--fonction ui_resolve_and_refresh_win qui opère sur tous les éléments affichables avant de faire un render.
--Fonction de peinture d'élément.
--tester de créer une fenêtre, la peindre, placer un élément et le peindre aussi. Puis résoudre et afficher.
+OK-fonction ui_add_elem qui prend en paramêtre tous les paramêtre assignables pour l'utilisateur.
+OK-fonction ui_resolve_and_refresh_win qui opère sur tous les éléments affichables avant de faire un render.
+OK-Fonction de peinture d'élément.
+OK-tester de créer une fenêtre, la peindre, placer un élément et le peindre aussi. Puis résoudre et afficher.
+-Afficher du texte dans un elem et créer des fonctions faciles à manipuler pour gérer tout ça.
+-Mettre en place le système de sensibilité aux clics
+    -définition de zone de sensibilité d'un élem.
+    -Mise en place d'une liste de structure contenant un callback et un argument (dédiée aux clics, peut-être même aux clics
+        gauches.)
+    -Poll ou autre de SDL pour obtenir les interactions utilisateur.
+    -Ecumage des éléments pour déterminer comment se traduisent ces intéractions.
 -eventuellement fonction refresh_win qui rafraichit intelligement la fenêtre aux seuls endroits qui seront modifiés.
 
 raffraichissement de l'affichage:
