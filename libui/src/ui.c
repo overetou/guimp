@@ -77,7 +77,7 @@ void refresh_win(t_ui_win *win)
 	t_ui_elem *sub_e;
 	win->content->display_func(win->content);
 	sub_e = win->content->sub_elems;
-	while (sub_e)
+	while (sub_e && sub_e->display_priority)
 	{
 		display_elem(sub_e);
 		sub_e = sub_e->next;

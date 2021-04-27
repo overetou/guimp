@@ -137,14 +137,11 @@ void ui_display_elem(t_ui_elem *e)
 
 void display_elem(t_ui_elem *e)
 {
-	if (e->display_priority)
+	e->display_func(e);
+	e = e->sub_elems;
+	while (e && e->display_priority)
 	{
-		e->display_func(e);
-		e = e->sub_elems;
-		while (e)
-		{
-			display_elem(e);
-			e = e->next;
-		}
+		display_elem(e);
+		e = e->next;
 	}
 }
