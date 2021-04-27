@@ -3,7 +3,7 @@
 //
 #include "ui.h"
 
-//You have to specify the window for wich the img will be active. If you want
+//You have to specify the window for wich the store will be active. If you want
 // to use the same image for several window, call this function several time.
 //I know, this is not ideal, but that's how SDL works.
 t_ui_img *ui_load_img(t_ui_win *win, const char *img_path)
@@ -29,7 +29,7 @@ t_ui_elem *ui_create_virgin_elem(t_percentage x, t_percentage y, t_percentage w,
 	new->display_priority = display_priority;
 	new->next = NULL;
 	new->prev = NULL;
-	new->img = NULL;
+	new->store = NULL;
 	new->display_func = display_func;
 	new->sensible = UI_TRUE;
 	new->has_sub_hovers = UI_FALSE;
@@ -83,7 +83,7 @@ static void incorporate_sub_elem(t_ui_elem **list, t_ui_elem *e)
 }
 
 //Incorporates the described element inside its parent. Returns the new
-// element's pointer for optionnal use.
+// element's pointer for optional use.
 t_ui_elem *ui_add_elem(t_ui_elem *parent, t_percentage x, t_percentage y,
 					   t_percentage w, t_percentage h,
 					   char disp_priority, void(*display_func)(t_ui_elem*),
@@ -100,7 +100,7 @@ t_ui_elem *ui_add_elem(t_ui_elem *parent, t_percentage x, t_percentage y,
 	new->proportions.h = h;
 	new->display_priority = disp_priority;
 	new->display_func = display_func;
-	new->img = NULL;
+	new->store = NULL;
 	new->sensible = sensible;
 	new->nb_sensible_zones = 0;
 	new->has_sub_hovers = UI_FALSE;
@@ -116,8 +116,6 @@ t_ui_elem *ui_add_elem(t_ui_elem *parent, t_percentage x, t_percentage y,
 void ui_remove_elem(t_ui_elem *e)
 {
 	remove_link_from_list((t_link**)(&(e->parent->sub_elems)), (t_link*)e);
-	/*if (e->img)
-		SDL_DestroyTexture(e->img);*/
 	while (e->sub_elems)
 		ui_remove_elem(e->sub_elems);
 	free(e);
@@ -137,16 +135,15 @@ void ui_display_elem(t_ui_elem *e)
 	e->display_func(e);
 }
 
-void resolve_and_display_elem(t_ui_elem *e)
+void display_elem(t_ui_elem *e)
 {
 	if (e->display_priority)
 	{
-		//ui_infer_elem_actual_size(e);
 		e->display_func(e);
 		e = e->sub_elems;
 		while (e)
 		{
-			resolve_and_display_elem(e);
+			display_elem(e);
 			e = e->next;
 		}
 	}

@@ -72,17 +72,14 @@ void ui_close(t_ui *to_destroy)
 	SDL_Quit();
 }
 
-void ui_resolve_and_refresh_win(t_ui_win *win)
+void refresh_win(t_ui_win *win)
 {
 	t_ui_elem *sub_e;
-	//TODO: Resolve all actual_sizes from proportions and ..
-	//TODO: ..print all things that are visible in order.
-	//Easy!
 	win->content->display_func(win->content);
 	sub_e = win->content->sub_elems;
 	while (sub_e)
 	{
-		resolve_and_display_elem(sub_e);
+		display_elem(sub_e);
 		sub_e = sub_e->next;
 	}
 	SDL_RenderPresent(win->rend);

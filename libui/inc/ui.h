@@ -79,7 +79,7 @@ typedef struct	s_ui_elem
 	SDL_Rect        actual_sizes;
 	char            display_priority;
 	void            (*display_func)(struct s_ui_elem*);
-	SDL_Texture     *img;
+	void             *store;//Member at the disposition of the user.
 	//Sensibility
 	UI_BOOL         sensible;
 	t_percent_rect  *sensible_zones;//tab
@@ -135,7 +135,7 @@ void    ui_infer_elem_actual_size(t_ui_elem *e);
 //core functions
 t_ui    *ui_init(uint32_t ui_flags, int img_flags);
 void    ui_close(t_ui *to_destroy);
-void        ui_resolve_and_refresh_win(t_ui_win *win);
+void        refresh_win(t_ui_win *win);
 
 //windows
 t_ui_win *ui_add_window(t_ui *ui, const char *title, int x, int y, int w, int h,
@@ -143,9 +143,7 @@ t_ui_win *ui_add_window(t_ui *ui, const char *title, int x, int y, int w, int h,
                         void (*display_func)(t_ui_elem *));
 void ui_update_window_size(t_ui_win *win);
 
-//Interface elements
-
-//interface elems
+//elems
 t_ui_img    *ui_load_img(t_ui_win *win, const char *img_path);
 t_ui_elem *ui_create_virgin_elem(t_percentage x, t_percentage y, t_percentage w,
                                  t_percentage h, t_ui_win *win,
@@ -160,10 +158,15 @@ t_ui_elem   *ui_add_elem(t_ui_elem *parent, t_percentage x, t_percentage y,
                        UI_BOOL sensible, void(*hover_func)(void*),
                        void(*click_func)(void*));
 void        ui_display_elem(t_ui_elem *e);
-void        resolve_and_display_elem(t_ui_elem *e);
+void        display_elem(t_ui_elem *e);
 void        ui_paint_elem(t_ui_elem *e, int r, int g, int b, int a);
 //blocking
 void    ui_colorblock_1(t_ui_elem *e);
 void    ui_colorblock_2(t_ui_elem *e);
+
+//display
+void ui_colorize_elem(t_ui_elem *e, int r, int g, int b, int a);
+
+//Interface elements
 
 #endif //UI
