@@ -166,7 +166,9 @@ void    ui_colorblock_1(t_ui_elem *e);
 void    ui_colorblock_2(t_ui_elem *e);
 
 //display
-void ui_colorize_elem(t_ui_elem *e, int r, int g, int b, int a);
+void        ui_colorize_elem(t_ui_elem *e, int r, int g, int b, int a);
+TTF_Font    *ui_load_font(const char *path, int size);
+TTF_Font    *ui_close_font(TTF_Font *font);
 
 //Interface elements
 

@@ -5,3 +5,4 @@ libui/libui.a
 libui/windows_demo
 guimp
 libui/vgcore*
+libui/*.zip
