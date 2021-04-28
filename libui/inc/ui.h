@@ -6,7 +6,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "SDL/SDL_ttf.h"
+#include <SDL2/SDL_ttf.h>
 
 #define UI_BOOL int
 #define UI_TRUE 1
@@ -168,7 +168,7 @@ void    ui_colorblock_2(t_ui_elem *e);
 //display
 void        ui_colorize_elem(t_ui_elem *e, int r, int g, int b, int a);
 TTF_Font    *ui_load_font(const char *path, int size);
-TTF_Font    *ui_close_font(TTF_Font *font);
+void ui_close_font(TTF_Font *font);
 
 //Interface elements
 

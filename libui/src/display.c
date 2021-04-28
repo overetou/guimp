@@ -9,10 +9,10 @@ TTF_Font *ui_load_font(const char *path, int size)
 	TTF_Font    *new = TTF_OpenFont(path, size);
 
 	ui_sdl_critical_check(new != NULL);
-	return (NULL);
+	return (new);
 }
 
-TTF_Font *ui_close_font(TTF_Font *font)
+void ui_close_font(TTF_Font *font)
 {
 	TTF_CloseFont(font);
 }

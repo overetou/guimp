@@ -12,7 +12,7 @@ int main(void)
 	ui = ui_init(UI_INIT_VIDEO, IMG_INIT_JPG | IMG_INIT_PNG);
 	win = ui_add_window(ui, "Pak", 100, 100, 1300, 800, UI_WINDOW_RESIZABLE, UI_RENDERER_ACCELERATED | UI_RENDERER_PRESENTVSYNC, ui_colorblock_1);
 	button = ui_add_elem(win->content, 25, 25, 50, 50, 1, ui_colorblock_2, UI_TRUE, NULL, NULL);
-	button->store = ui_load_font("blackchancery/BLKCHCRY.TTF", 15);
+	button->store = ui_load_font("blackchancery/BLKCHCRY.TTF", 10);
 	refresh_win(win);
 	SDL_Delay(4000);
 	ui_close(ui);
