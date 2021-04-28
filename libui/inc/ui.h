@@ -8,7 +8,6 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 
-#define UI_BOOL int
 #define UI_TRUE 1
 #define UI_FALSE 0
 
@@ -50,6 +49,7 @@
 #define UI_EXPAND_COLOR_PTR(x) x->r, x->g, x->b, x->a
 
 //An image usable by the ui framework.
+typedef int t_ui_bool;
 typedef SDL_Texture t_ui_img;
 typedef SDL_Color t_ui_color;
 

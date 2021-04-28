@@ -14,7 +14,8 @@ CFLAGS=-Wall -Wextra -Werror
 LIBS=SDL2 SDL2_image SDL2_ttf m#m stands for mathlib
 
 #From there we use the info to compile everything.
-SRC_FILE_NAMES = ui.c security.c calculus.c interface_elements.c basic_stuff.c elem.c blocking.c display.c
+SRC_FILE_NAMES = ui.c security.c calculus.c interface_elements.c basic_stuff.c \
+elem.c blocking.c display.c events.c
 SOURCES=$(addprefix $(SRC_DIR)/, $(SRC_FILE_NAMES))
 OBJS:=$(SOURCES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 INC_FLAGS=$(addprefix -I,$(INC_DIRS))
