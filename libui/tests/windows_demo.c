@@ -5,9 +5,10 @@
 
 int main(void)
 {
-	t_ui    *ui;
-	t_ui_win *win;
-	t_ui_elem *button;
+	t_ui            *ui;
+	t_ui_win        *win;
+	t_ui_elem       *button;
+	t_percent_rect  sensible_zone = {0, 0, 100, 100};
 
 	ui = ui_init(UI_INIT_VIDEO, IMG_INIT_JPG | IMG_INIT_PNG);
 	win = ui_add_window(ui, "Pak", 100, 100, 1500, 800,
@@ -17,6 +18,7 @@ int main(void)
 	button = ui_add_elem(win->content, 25, 25, 50, 50, 1,
 					  ui_colorblock_2, UI_TRUE, NULL, NULL);
 	button->store = ui_load_font("blackchancery/BLKCHCRY.TTF", 80);
+	button->sensible_zones = &sensible_zone;
 	refresh_win(win);
 	ui_handle_events(ui);
 	ui_close_font(button->store);

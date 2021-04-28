@@ -83,9 +83,9 @@ typedef struct	s_ui_elem
 	SDL_Rect        actual_sizes;
 	char            display_priority;
 	void            (*display_func)(struct s_ui_elem*);
-	void             *store;//Member at the disposition of the user.
+	void            *store;//Member at the disposition of the user.
 	//Sensibility
-	t_ui_bool        sensible;
+	t_ui_bool       sensible;
 	t_percent_rect  *sensible_zones;//tab
 	short           nb_sensible_zones;
 	//Hover
