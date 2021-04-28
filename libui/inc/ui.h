@@ -45,7 +45,9 @@
 #define UI_ALPHA_OPAQUE         SDL_ALPHA_OPAQUE
 #define UI_ALPHA_TRANSPARENT    SDL_ALPHA_TRANSPARENT
 
-#define EL_RENDERER(e) ((t_ui_win*)(e->win))->rend
+#define UI_EL_RENDERER(e) ((t_ui_win*)(e->win))->rend
+#define UI_EXPAND_COLOR(x) x.r, x.g, x.b, x.a
+#define UI_EXPAND_COLOR_PTR(x) x->r, x->g, x->b, x->a
 
 //An image usable by the ui framework.
 typedef SDL_Texture t_ui_img;

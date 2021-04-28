@@ -130,7 +130,8 @@ OK-fonction ui_add_elem qui prend en paramêtre tous les paramêtre assignables 
 OK-fonction ui_resolve_and_refresh_win qui opère sur tous les éléments affichables avant de faire un render.
 OK-Fonction de peinture d'élément.
 OK-tester de créer une fenêtre, la peindre, placer un élément et le peindre aussi. Puis résoudre et afficher.
--Afficher du texte dans un elem et créer des fonctions faciles à manipuler pour gérer tout ça.
+OK-Afficher du texte dans un elem et créer des fonctions faciles à manipuler pour gérer tout ça.
+-Ne plus utiliser de SDL_Delay et gérer la fermeture de la fenêtre avec des moyens normaux.
 -Mettre en place le système de sensibilité aux clics
     -définition de zone de sensibilité d'un élem.
     -Mise en place d'une liste de structure contenant un callback et un argument (dédiée aux clics, peut-être même aux clics
