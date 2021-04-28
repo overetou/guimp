@@ -49,6 +49,7 @@
 
 //An image usable by the ui framework.
 typedef SDL_Texture t_ui_img;
+typedef SDL_Color t_ui_color;
 
 //A discrete value between 0 and 100
 typedef char t_percentage;
@@ -168,8 +169,10 @@ void    ui_colorblock_2(t_ui_elem *e);
 //display
 void        ui_colorize_elem(t_ui_elem *e, int r, int g, int b, int a);
 TTF_Font    *ui_load_font(const char *path, int size);
-void ui_close_font(TTF_Font *font);
-
+void        ui_close_font(TTF_Font *font);
+void        ui_display_centered_text_line(t_ui_elem *e, const char *text_line,
+									  t_ui_color *foreground,
+									  t_ui_color *background);
 //Interface elements
 
 #endif //UI
