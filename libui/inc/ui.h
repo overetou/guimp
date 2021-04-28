@@ -85,14 +85,14 @@ typedef struct	s_ui_elem
 	void            (*display_func)(struct s_ui_elem*);
 	void             *store;//Member at the disposition of the user.
 	//Sensibility
-	UI_BOOL         sensible;
+	t_ui_bool        sensible;
 	t_percent_rect  *sensible_zones;//tab
 	short           nb_sensible_zones;
 	//Hover
-	UI_BOOL         has_sub_hovers;
+	t_ui_bool        has_sub_hovers;
 	void            (*hover_func)(void*);
 	//Clicks
-	UI_BOOL         has_sub_clicks;
+	t_ui_bool        has_sub_clicks;
 	void            (*click_func)(void*);
 	//sub_elems
 	struct s_ui_elem *sub_elems;
@@ -129,7 +129,7 @@ void    list_add_link_on_top_of_initiated(t_link **list, t_link *new_link);
 
 //security
 void    ui_sdl_critical_check(int val);
-void	ui_critical_check(UI_BOOL val, const char *msg);
+void	ui_critical_check(t_ui_bool val, const char *msg);
 void    *ui_secure_malloc(size_t  len);
 
 //calculus
@@ -159,7 +159,7 @@ void        ui_transfer_elem(t_ui_elem *new_parent, t_ui_elem *e,
 t_ui_elem   *ui_add_elem(t_ui_elem *parent, t_percentage x, t_percentage y,
                        t_percentage w, t_percentage h,
                        char disp_priority, void(*display_func)(t_ui_elem*),
-                       UI_BOOL sensible, void(*hover_func)(void*),
+                       t_ui_bool sensible, void(*hover_func)(void*),
                        void(*click_func)(void*));
 void        ui_display_elem(t_ui_elem *e);
 void        display_elem(t_ui_elem *e);
@@ -176,5 +176,8 @@ void        ui_display_centered_text_line(t_ui_elem *e, const char *text_line,
 									  t_ui_color *foreground,
 									  t_ui_color *background);
 //Interface elements
+
+//events
+void    ui_handle_events(t_ui *ui);
 
 #endif //UI

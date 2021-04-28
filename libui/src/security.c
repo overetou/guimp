@@ -13,7 +13,7 @@ void    ui_sdl_critical_check(int val)
 
 //If the given value == UI_FALSE, print the given message, a report of the sys
 //-tem and exit the application.
-void	ui_critical_check(UI_BOOL val, const char *msg)
+void	ui_critical_check(t_ui_bool val, const char *msg)
 {
 	if (val)
 		return;

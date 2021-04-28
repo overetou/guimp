@@ -18,7 +18,7 @@ int main(void)
 					  ui_colorblock_2, UI_TRUE, NULL, NULL);
 	button->store = ui_load_font("blackchancery/BLKCHCRY.TTF", 80);
 	refresh_win(win);
-	SDL_Delay(4000);
+	ui_handle_events(ui);
 	ui_close_font(button->store);
 	ui_close(ui);
 	puts("Finished.");

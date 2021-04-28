@@ -26,7 +26,7 @@ VPATH=$(SRC_DIR)
 
 .phony: $(TARGET) clean re
 
-all: tests
+all: $(TEST_OUT)
 
 $(TARGET): $(OBJS) $(INC_DIRS)/ui.h
 	@ar rcs $@ $(OBJS)
