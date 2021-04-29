@@ -96,7 +96,7 @@ typedef struct	s_ui_elem
 	void            (*hover_func)(struct s_ui_elem*);
 	//Clicks
 	t_ui_bool        has_sub_clicks;
-	void            (*click_func)(struct s_ui_elem*);
+	void            (*click_func)(struct s_ui_elem*, SDL_MouseButtonEvent*);
 	//sub_elems
 	struct s_ui_elem *sub_elems;
 	//win ref
@@ -185,13 +185,14 @@ void        ui_display_centered_text_line(t_ui_elem *e, const char *text_line,
 
 //Sensibility
 void ui_add_clickable_zones(t_ui_elem *e, t_percent_rect *zones,
-                            void (*click_func)(t_ui_elem *),
+                            void (*click_func)(t_ui_elem *,
+                                               SDL_MouseButtonEvent*),
                             short nb_sensible_zones);
 
 //events
 void    ui_handle_events(t_ui *ui);
 
 //Premade callbacks
-void    ui_stop_event_handling_from_elem(t_ui_elem *e);
+void ui_stop_event_handling_from_elem(t_ui_elem *e, SDL_MouseButtonEvent *ev);
 
 #endif //UI

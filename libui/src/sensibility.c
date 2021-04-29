@@ -4,7 +4,8 @@
 #include "ui.h"
 
 void ui_add_clickable_zones(t_ui_elem *e, t_percent_rect *zones,
-                            void (*click_func)(t_ui_elem *),
+                            void (*click_func)(t_ui_elem*,
+                                               SDL_MouseButtonEvent*),
                             short nb_sensible_zones)
 {
 	t_ui_elem   *p = e->parent;

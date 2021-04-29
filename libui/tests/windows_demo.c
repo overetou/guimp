@@ -67,4 +67,24 @@ int main(void)
     On appelle finalement SDL_RenderPresent
 -Mais ça ne s'arrête pas là, car la ui_close sera différente.
 	ui_remove_elem va se lancer de façon récursive.
+
+ étape 4:
+ -On appelle ui_add_clickable_zones:
+	 -on déduit la taille de la zone sensible
+	 -on affecte les proportions de la zone.
+	 -on set la click_func.
+	 -on fait une loop sur les parents et on leur met à tous has_sub_clicks.
+ -Ensuite dans ui_handle_events. si on a un mouse button down:
+    -On cherche la fenêtre dans laquelle le click a eu lieu.
+    -Ensuite on va parcourir la hiérarchie:
+        -si e est sensible:
+            -si il a des subcliks:
+                -Si le point de l'évènement est dans l'actual size, e passe à
+                ses sous elems.
+			-Sinon, si une click func a été donnée et que le point est dans
+				l'actual size des zones sensibles, on active la click func.
+			-Sinon:
+				-On passe à l'élément suivant.
+		-sinon:
+			On passe à l'élément suivant, jusqu'à ce qu'il n'y en ai plus.
  */

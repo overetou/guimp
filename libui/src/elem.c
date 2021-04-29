@@ -35,8 +35,10 @@ t_ui_elem *ui_create_virgin_elem(t_percentage x, t_percentage y, t_percentage w,
 	new->has_sub_hovers = UI_FALSE;
 	new->hover_func = NULL;
 	new->has_sub_clicks = UI_FALSE;
+	new->nb_sensible_zones = 0;
 	new->click_func = NULL;
 	new->sub_elems = NULL;
+	new->parent = NULL;
 	return new;
 }
 

@@ -3,7 +3,7 @@
 //
 #include "ui.h"
 
-static t_ui_win *ui_find_win_from_id(t_ui *ui, SDL_Window *wanted)
+static t_ui_win *ui_find_win(t_ui *ui, SDL_Window *wanted)
 {
 	t_ui_win *win = ui->wins;
 
@@ -20,26 +20,20 @@ t_ui_bool ui_is_point_in_rect(Sint32 x, Sint32 y, SDL_Rect *rect)
 
 void ui_handle_click(t_ui *ui, SDL_MouseButtonEvent *ev)
 {
-	t_ui_win    *win = ui_find_win_from_id(ui, SDL_GetWindowFromID(ev->windowID));
+	t_ui_win    *win = ui_find_win(ui, SDL_GetWindowFromID(ev->windowID));
 	t_ui_elem   *e = win->content;
 
 	while (e)
 	{
 		if (e->sensible)
 		{
-			if (e->has_sub_clicks)
-			{
-				if (ui_is_point_in_rect(ev->x, ev->y, &(e->actual_sizes)))
-					e = e->sub_elems;
-			}
+			if (e->has_sub_clicks && ui_is_point_in_rect(ev->x, ev->y, &(e->actual_sizes)))
+				e = e->sub_elems;
+			else if (e->click_func && ui_is_point_in_rect(ev->x, ev->y,
+												 &(e->sensible_rects)))
+				e->click_func(e, ev);
 			else
-			{
-				if (e->click_func && ui_is_point_in_rect(ev->x, ev->y,
-				&(e->sensible_rects)))
-					e->click_func(e);
-				else
-					e = e->next;
-			}
+				e = e->next;
 		}
 		else
 			e = e->next;

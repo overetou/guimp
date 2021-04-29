@@ -32,7 +32,7 @@ $(TARGET): $(OBJS) $(INC_DIRS)/ui.h
 	@ar rcs $@ $(OBJS)
 
 $(OBJS): $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c $(INC_DIRS)/ui.h |$(OBJ_DIR)
-	@$(COMPILE.c) $(OUTPUT_OPTIONS) -o $@ $<
+	@$(COMPILE.c) -g $(OUTPUT_OPTIONS) -o $@ $<
 
 $(OBJ_DIR):
 	mkdir $(OBJ_DIR)
@@ -41,6 +41,6 @@ clean:
 	rm -rf $(OBJS) $(TARGET)
 
 $(TEST_OUT): $(TARGET) tests/windows_demo.c
-	$(CC) $(INC_FLAGS) -o $@ tests/windows_demo.c $(LIB_DIRFLAGS) $(LIBS_FLAGS) $<
+	$(CC) -g $(INC_FLAGS) -o $@ tests/windows_demo.c $(LIB_DIRFLAGS) $(LIBS_FLAGS) $<
 
 re: clean $(TARGET)
