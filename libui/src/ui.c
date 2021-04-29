@@ -25,6 +25,8 @@ t_ui_win *ui_add_window(t_ui *ui, const char *title, int x, int y, int w, int h,
 	t_ui_win    *win = ui_secure_malloc(sizeof(t_ui_win));
 
 	add_link_to_list((t_link**)(&(ui->wins)), (t_link*)win);
+	printf("Added 1 win. Current win: %p, next win: %p.\n", ui->wins,
+		ui->wins->next);
 	win->sdl_ptr = SDL_CreateWindow(title, x, y, w, h, flags);
 	ui_sdl_critical_check(win->sdl_ptr != NULL);
 	win->rend = SDL_CreateRenderer(win->sdl_ptr, -1, render_flags);
@@ -40,6 +42,9 @@ static void ui_free_window(void *win)
 {
 	t_ui_elem *e = ((t_ui_win*)(win))->content;
 
+	printf("Sizes of the contained rect: %d, %d, %d, %d.\n",
+		e->actual_sizes.x, e->actual_sizes.y, e->actual_sizes.w,
+		e->actual_sizes.h);
 	SDL_DestroyRenderer(((t_ui_win*)(win))->rend);
 	SDL_DestroyWindow(((t_ui_win*)(win))->sdl_ptr);
 	while (e->sub_elems)
@@ -68,7 +73,7 @@ void ui_update_window_size(t_ui_win *win)
 // given to the ui.
 void ui_close(t_ui *to_destroy)
 {
-	free_list((t_link *) (to_destroy->wins), ui_free_window);
+	free_list((t_link*)(to_destroy->wins), ui_free_window);
 	free(to_destroy);
 	TTF_Quit();
 	IMG_Quit();

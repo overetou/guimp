@@ -182,3 +182,5 @@ Lorsque l'on cliquera, on regardera pour chaque élément:
     -si il a une sensible zone
         -si le click a été fait dans sa sensible zone.
         -On execute sa fonction de click et on s'arrête là.
+
+Problème avec l'initialisation de window.

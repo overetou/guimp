@@ -15,6 +15,7 @@ int main(void)
 					 UI_WINDOW_RESIZABLE,
 					 UI_RENDERER_ACCELERATED | UI_RENDERER_PRESENTVSYNC,
 					 ui_colorblock_1);
+	/*
 	button = ui_add_elem(win->content, 25, 25, 50, 50, 1,
 					  ui_colorblock_2, UI_TRUE);
 	button->store = ui_load_font("blackchancery/BLKCHCRY.TTF", 80);
@@ -22,7 +23,7 @@ int main(void)
 					   ui_stop_event_handling_from_elem, 1);
 	refresh_win(win);
 	ui_handle_events(ui);
-	ui_close_font(button->store);
+	ui_close_font(button->store);*/
 	ui_close(ui);
 	puts("Finished.");
 	return 0;
