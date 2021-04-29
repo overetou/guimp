@@ -93,7 +93,7 @@ typedef struct	s_ui_elem
 	void            (*hover_func)(void*);
 	//Clicks
 	t_ui_bool        has_sub_clicks;
-	void            (*click_func)(void*);
+	void            (*click_func)(struct s_ui_elem*);
 	//sub_elems
 	struct s_ui_elem *sub_elems;
 	//win ref
@@ -117,6 +117,7 @@ typedef struct  s_ui
 {
 	t_ui_win    *wins; //A linked list.
 	t_ui_elem   *focused;
+	t_ui_bool   keep_going;
 }               t_ui;
 
 //basic stuff
@@ -176,6 +177,10 @@ void        ui_display_centered_text_line(t_ui_elem *e, const char *text_line,
 									  t_ui_color *foreground,
 									  t_ui_color *background);
 //Interface elements
+
+//Sensibility
+void    ui_add_clickable_zones(t_ui_elem *e, t_percent_rect *zones,
+                               void(*click_func)(t_ui_elem*));
 
 //events
 void    ui_handle_events(t_ui *ui);

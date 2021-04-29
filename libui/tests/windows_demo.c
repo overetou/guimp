@@ -18,7 +18,8 @@ int main(void)
 	button = ui_add_elem(win->content, 25, 25, 50, 50, 1,
 					  ui_colorblock_2, UI_TRUE, NULL, NULL);
 	button->store = ui_load_font("blackchancery/BLKCHCRY.TTF", 80);
-	button->sensible_zones = &sensible_zone;
+	ui_add_clickable_zones(button, &sensible_zone,
+					   ui_stop_event_handling_from_elem);
 	refresh_win(win);
 	ui_handle_events(ui);
 	ui_close_font(button->store);
