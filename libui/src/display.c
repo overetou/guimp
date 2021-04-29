@@ -28,10 +28,10 @@ void    ui_display_centered_text_line(t_ui_elem *e, const char *text_line,
 			== 0);
 	text_rect.x = e->actual_sizes.x + (e->actual_sizes.w - text_rect.w) / 2;
 	text_rect.y = e->actual_sizes.y + (e->actual_sizes.h - text_rect.h) / 2;
-	texture = SDL_CreateTextureFromSurface(UI_EL_RENDERER(e), surface);
+	texture = SDL_CreateTextureFromSurface(UI_EL_REND(e), surface);
 	ui_sdl_critical_check(texture != NULL);
 	ui_sdl_critical_check(
-	SDL_RenderCopy(UI_EL_RENDERER(e), texture, NULL, &text_rect)
+	SDL_RenderCopy(UI_EL_REND(e), texture, NULL, &text_rect)
 	 == 0);
 	SDL_DestroyTexture(texture);
 	SDL_FreeSurface(surface);
@@ -45,7 +45,7 @@ void ui_close_font(TTF_Font *font)
 void ui_colorize_elem(t_ui_elem *e, int r, int g, int b, int a)
 {
 	ui_sdl_critical_check(
-			SDL_SetRenderDrawColor(UI_EL_RENDERER(e), r, g, b, a) == 0
-			&& SDL_RenderFillRect(UI_EL_RENDERER(e), &(e->actual_sizes)) == 0
+			SDL_SetRenderDrawColor(UI_EL_REND(e), r, g, b, a) == 0
+			&& SDL_RenderFillRect(UI_EL_REND(e), &(e->actual_sizes)) == 0
 			);
 }

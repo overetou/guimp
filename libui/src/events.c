@@ -60,7 +60,7 @@ void ui_handle_events(t_ui *ui)
 				ui->keep_going = UI_FALSE;
 				break;
 			case SDL_MOUSEBUTTONDOWN:
-				ui_handle_click(ui, &ev);
+				ui_handle_click(ui, (SDL_MouseButtonEvent*)(&ev));
 				break;
 		}
 	}

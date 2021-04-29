@@ -44,7 +44,9 @@
 #define UI_ALPHA_OPAQUE         SDL_ALPHA_OPAQUE
 #define UI_ALPHA_TRANSPARENT    SDL_ALPHA_TRANSPARENT
 
-#define UI_EL_RENDERER(e) ((t_ui_win*)(e->win))->rend
+#define UI_EL_WIN(e) ((t_ui_win*)(e->win))
+#define UI_EL_REND(e) UI_EL_WIN(e)->rend
+#define UI_EL_UI(e) ((t_ui*)(UI_EL_WIN(e)->ui))
 #define UI_EXPAND_COLOR(x) x.r, x.g, x.b, x.a
 #define UI_EXPAND_COLOR_PTR(x) x->r, x->g, x->b, x->a
 
@@ -87,11 +89,11 @@ typedef struct	s_ui_elem
 	//Sensibility
 	t_ui_bool       sensible;
 	t_percent_rect  *sensible_zones;//tab
-	SDL_Rect        *sensible_rects;
+	SDL_Rect        sensible_rects;
 	short           nb_sensible_zones;
 	//Hover
 	t_ui_bool        has_sub_hovers;
-	void            (*hover_func)(void*);
+	void            (*hover_func)(struct s_ui_elem*);
 	//Clicks
 	t_ui_bool        has_sub_clicks;
 	void            (*click_func)(struct s_ui_elem*);
@@ -105,6 +107,7 @@ typedef struct	s_ui_elem
 
 typedef struct	s_ui_win
 {
+	void            *ui;
 	struct s_ui_win *next;
 	struct s_ui_win *prev;
 	SDL_Window      *sdl_ptr;
@@ -137,6 +140,8 @@ void    *ui_secure_malloc(size_t  len);
 //calculus
 void    ui_calculate_win_content_actual_size(t_ui_win *win);
 void    ui_infer_elem_actual_size(t_ui_elem *e);
+void    ui_infer_actual_size(t_ui_elem *e, t_percent_rect *proportions,
+                             SDL_Rect *target);
 
 //core functions
 t_ui    *ui_init(uint32_t ui_flags, int img_flags);
@@ -158,11 +163,10 @@ t_ui_elem *ui_create_virgin_elem(t_percentage x, t_percentage y, t_percentage w,
 void        ui_remove_elem(t_ui_elem *e);
 void        ui_transfer_elem(t_ui_elem *new_parent, t_ui_elem *e,
 							 char new_disp_priority);
-t_ui_elem   *ui_add_elem(t_ui_elem *parent, t_percentage x, t_percentage y,
-                       t_percentage w, t_percentage h,
-                       char disp_priority, void(*display_func)(t_ui_elem*),
-                       t_ui_bool sensible, void(*hover_func)(void*),
-                       void(*click_func)(void*));
+t_ui_elem *
+ui_add_elem(t_ui_elem *parent, t_percentage x, t_percentage y, t_percentage w,
+            t_percentage h, char disp_priority,
+            void (*display_func)(t_ui_elem *), t_ui_bool sensible);
 void        ui_display_elem(t_ui_elem *e);
 void        display_elem(t_ui_elem *e);
 void        ui_paint_elem(t_ui_elem *e, int r, int g, int b, int a);
@@ -180,10 +184,14 @@ void        ui_display_centered_text_line(t_ui_elem *e, const char *text_line,
 //Interface elements
 
 //Sensibility
-void    ui_add_clickable_zones(t_ui_elem *e, t_percent_rect *zones,
-                               void(*click_func)(t_ui_elem*));
+void ui_add_clickable_zones(t_ui_elem *e, t_percent_rect *zones,
+                            void (*click_func)(t_ui_elem *),
+                            short nb_sensible_zones);
 
 //events
 void    ui_handle_events(t_ui *ui);
+
+//Premade callbacks
+void    ui_stop_event_handling_from_elem(t_ui_elem *e);
 
 #endif //UI
