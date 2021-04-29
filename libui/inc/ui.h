@@ -87,6 +87,7 @@ typedef struct	s_ui_elem
 	//Sensibility
 	t_ui_bool       sensible;
 	t_percent_rect  *sensible_zones;//tab
+	SDL_Rect        *sensible_rects;
 	short           nb_sensible_zones;
 	//Hover
 	t_ui_bool        has_sub_hovers;
