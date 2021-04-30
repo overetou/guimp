@@ -107,9 +107,11 @@ typedef struct	s_ui_elem
 
 typedef struct	s_ui_win
 {
-	void            *ui;
+	//Don't touch this
 	struct s_ui_win *next;
 	struct s_ui_win *prev;
+	//other content.
+	void            *ui;
 	SDL_Window      *sdl_ptr;
 	SDL_Renderer    *rend;
 	int             width;
