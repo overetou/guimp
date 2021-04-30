@@ -50,7 +50,10 @@ void ui_handle_events(t_ui *ui)
 	ui->keep_going = UI_TRUE;
 	while (ui->keep_going)
 	{
-		ui_sdl_critical_check(SDL_WaitEvent(&ev) == 1);
+		ui_sdl_critical_check(SDL_WaitEvent(&ev) == 1);//FIXME: SDL_WaitEvent
+		// waits to much between polls and feels laggy. Replace it with
+		// tighter loop and if possible stop the polling when none of the
+		// window are focused.
 		switch (ev.type)
 		{
 			case SDL_QUIT:
