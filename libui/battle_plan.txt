@@ -126,63 +126,24 @@ Notes:
 logiques partagés par les éléments.
 
 Réalisation:
+CORE:
 OK-fonction ui_add_elem qui prend en paramêtre tous les paramêtre assignables pour l'utilisateur.
 OK-fonction ui_resolve_and_refresh_win qui opère sur tous les éléments affichables avant de faire un render.
 OK-Fonction de peinture d'élément.
 OK-tester de créer une fenêtre, la peindre, placer un élément et le peindre aussi. Puis résoudre et afficher.
 OK-Afficher du texte dans un elem et créer des fonctions faciles à manipuler pour gérer tout ça.
 OK-Ne plus utiliser de SDL_Delay et gérer la fermeture de la fenêtre avec des moyens normaux.
--Mettre en place le système de sensibilité aux clics
-    -définition de zone de sensibilité d'un élem.
-    -Mise en place d'une liste de structure contenant un callback et un argument (dédiée aux clics, peut-être même aux clics
-        gauches.)
-    -Poll ou autre de SDL pour obtenir les interactions utilisateur.
-    -Ecumage des éléments pour déterminer comment se traduisent ces intéractions.
--eventuellement fonction refresh_win qui rafraichit intelligement la fenêtre aux seuls endroits qui seront modifiés.
+OK-Mettre en place le système de sensibilité aux clics
+BLOCKING:
+-Creer une fonction de boutton
+-texte éditable en ligne
+-texte éditable en zone.
+DISPLAY:
+-Fonction d'affichage de texte, si nécessaire avec retour à la ligne.(fonctionnement le plus simple possible
+pour commencer.)
+-Fonction d'affichage d'image à partir d'un nom de fichier.
+-
 
-raffraichissement de l'affichage:
-On veut passer sur chaque élément, et afficher tous ceux qui doivent l'être dans l'ordre:
-du plus haut au plus bas, du plus à gauche au plus à droite, en allant taper au fond à chaque fois.
-
-1. On affiche tout jusqu'à taper au fond. On sait donc qu'a chaque fois que l'on fera un retour en arrière, on atterira sur
-quelque chose de déjà affiché. Comment savoir à quel enfant on en était?
-Solution 1: récursivité. Ca me parait adapté.
-Solution 2: dévier la voie à chaque fois et faire prev jusqu'à trouver l'original quand on se heurte à null. (plus opti)
-
-Bon en fait ce qui serait peut-être plus malin serait de résoudre à partir de l'endroit qui est modifié.
-Problème actuel: on ne sait pas quelle valeur sont actuelles ou obsolètes.
-
-Procédure pour peindre une texture:
--Déclarer la couleur de peinture.
--Déclarer la cible de rendu.
--Finalement présenter le rendu.
-
-On pourrait faire un système de pointeur sur fonction qui serait appelé lorsque l'élément doit être résolu (ce pointeur serait
-aussi responsable de l'affichage).
-
--Mettre tous les mallocs en secured malloc
--Sécuriser toutes les fonctions SDL, IMG et TTF.
-
-Calcul de la à partir des proportions et de l'actual size précédente:
-On veut que le calcul de x et de y tienne compte à la fois de là où commence le parent et de sa taille.
-pour x on aura donc: parent_actual_x + parent_actual_w * e_proportions_x / 100
-
-Click transmission system:
-Le système se construit de façon incrémentale, sans que l'utilisateur n'ai à se soucier de
-quoi que ce soit, au prix d'un peu de calculs suplémentaire.
-Basiquement, la seule interface qu'aura l'utilisateur sera une fonction ui_add_sensible_zone.
-Au moment où il appelle cette fonction, on va remonter la hiérarchie de l'interface via les
-membres 'parent'.
-Pour chaque élément, à partir du parent de l'élément clickable, on met son has_subclick à true.
-Lorsque l'on cliquera, on regardera pour chaque élément:
--si il est sensible:
-    -si il a des subclicks
-        -si le click en question a été fait dans son actual size.
-            -si oui on recommence pour tout ses enfants.
-    -si il a une sensible zone
-        -si le click a été fait dans sa sensible zone.
-        -On execute sa fonction de click et on s'arrête là.
-
-Problème avec l'initialisation de window. C'est bon c'est réglé. Par contre on a une boucle
-infinie. On peut fermer la fenêtre si on ne la déclenche pas. On en déduit donc qu'elle se trouve
-dans la fonction appelée par mouse button down.
+SEMI_BONUS-eventuellement fonction refresh_win qui rafraichit intelligement la fenêtre aux seuls endroits qui seront
+modifiés.
+SEMI_BONUS-Remplacer SDL_WaitEvent par quelque chose de plus vif.
