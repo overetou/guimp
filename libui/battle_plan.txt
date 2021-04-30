@@ -183,4 +183,6 @@ Lorsque l'on cliquera, on regardera pour chaque élément:
         -si le click a été fait dans sa sensible zone.
         -On execute sa fonction de click et on s'arrête là.
 
-Problème avec l'initialisation de window.
+Problème avec l'initialisation de window. C'est bon c'est réglé. Par contre on a une boucle
+infinie. On peut fermer la fenêtre si on ne la déclenche pas. On en déduit donc qu'elle se trouve
+dans la fonction appelée par mouse button down.
