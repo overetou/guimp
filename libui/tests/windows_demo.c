@@ -20,7 +20,7 @@ int main(void)
 					  ui_colorblock_2, UI_TRUE);
 	button->store = ui_load_font("blackchancery/BLKCHCRY.TTF", 80);
 	ui_add_clickable_zones(button, &sensible_zone,
-					   ui_stop_event_handling_from_elem, 1);
+					   ui_debug_say_clicked, 1);
 	refresh_win(win);
 	ui_handle_events(ui);
 	ui_close_font(button->store);

@@ -142,8 +142,8 @@ void    *ui_secure_malloc(size_t  len);
 //calculus
 void    ui_calculate_win_content_actual_size(t_ui_win *win);
 void    ui_infer_elem_actual_size(t_ui_elem *e);
-void    ui_infer_actual_size(t_ui_elem *e, t_percent_rect *proportions,
-                             SDL_Rect *target);
+void    ui_infer_actual_size(SDL_Rect *reference_rect, t_percent_rect *proportions, SDL_Rect
+								*to_fill);
 
 //core functions
 t_ui    *ui_init(uint32_t ui_flags, int img_flags);
@@ -195,6 +195,7 @@ void ui_add_clickable_zones(t_ui_elem *e, t_percent_rect *zones,
 void    ui_handle_events(t_ui *ui);
 
 //Premade callbacks
-void ui_stop_event_handling_from_elem(t_ui_elem *e, SDL_MouseButtonEvent *ev);
+void    ui_stop_event_handling_from_elem(t_ui_elem *e, SDL_MouseButtonEvent *ev);
+void    ui_debug_say_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev);
 
 #endif //UI
