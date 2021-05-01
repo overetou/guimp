@@ -3,6 +3,11 @@
 //
 #include "ui.h"
 
+void ui_do_nothing(void *unused)
+{
+	(void)unused;
+}
+
 void ui_debug_say_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 {
 	(void)ev;
@@ -10,7 +15,7 @@ void ui_debug_say_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 	puts("Clicked");
 }
 
-void ui_stop_event_handling_from_elem(t_ui_elem *e, SDL_MouseButtonEvent *ev)
+void ui_stop_event_handling(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 {
 	(void)ev;
 	UI_EL_UI(e)->keep_going = UI_FALSE;

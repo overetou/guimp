@@ -159,8 +159,11 @@ typedef struct  s_ui
 	TTF_Font    *fonts[FONT_NB];//A tab to store your font pointers.
 }               t_ui;
 
-//example functions
-
+typedef struct  s_ui_button_store
+{
+	t_ui_img        *text_img;
+	t_percent_rect  sensible_zone;
+};
 
 //basic stuff
 void    mem_copy(char *dest, const char *src, int len);
@@ -221,7 +224,10 @@ void        ui_display_centered_text_line(t_ui_elem *e, const char *text_line,
 									  t_ui_color *foreground,
 									  t_ui_color *background);
 //Interface elements
-
+t_ui_elem   *ui_create_button(t_ui_elem *parent, t_percentage x,
+							  t_percentage y, t_percentage w, t_percentage h,
+							  void (*click_func)(t_ui_elem*,
+							  		SDL_MouseButtonEvent*));
 //Sensibility
 void ui_add_clickable_zones(t_ui_elem *e, t_percent_rect *zones,
                             void (*click_func)(t_ui_elem *,
@@ -231,8 +237,10 @@ void ui_add_clickable_zones(t_ui_elem *e, t_percent_rect *zones,
 //events
 void    ui_handle_events(t_ui *ui);
 
-//Premade callbacks
-void    ui_stop_event_handling_from_elem(t_ui_elem *e, SDL_MouseButtonEvent *ev);
+//Pre-made callbacks
+void    ui_stop_event_handling(t_ui_elem *e, SDL_MouseButtonEvent *ev);/*Uses
+ * the element to set 'keep_going' to false.(In its containing ui.)*/
 void    ui_debug_say_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev);
+void    ui_do_nothing(void *unused);
 
 #endif //UI

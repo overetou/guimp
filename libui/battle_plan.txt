@@ -159,3 +159,9 @@ pour commencer.)
 
 SEMI_BONUS:
 -Remplacer SDL_WaitEvent par quelque chose de plus vif.
+
+A faire bientôt:
+Créer une structure store spécial bouton où on mettra:
+    1.la texture du texte à afficher.
+    2.la sensible zone.
+Dans la démo, charger la font dans son silot dédié.
