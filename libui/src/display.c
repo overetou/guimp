@@ -37,6 +37,18 @@ void    ui_display_centered_text_line(t_ui_elem *e, const char *text_line,
 	SDL_FreeSurface(surface);
 }
 
+t_ui_img *ui_text_to_texture(const char *text, TTF_Font *font, t_ui_color
+*foreground, t_ui_color *background)
+{
+	SDL_Surface *surface;
+	t_ui_img    *to_return;
+
+	surface = TTF_RenderText_Shaded(font, text, *foreground, *background);
+	ui_sdl_critical_check(surface != NULL);
+
+	return to_return;
+}
+
 void ui_close_font(TTF_Font *font)
 {
 	TTF_CloseFont(font);
