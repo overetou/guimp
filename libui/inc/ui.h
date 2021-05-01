@@ -226,8 +226,10 @@ void        ui_display_centered_text_line(t_ui_elem *e, const char *text_line,
 //Interface elements
 t_ui_elem   *ui_create_button(t_ui_elem *parent, t_percentage x,
 							  t_percentage y, t_percentage w, t_percentage h,
+							  const char *text,
 							  void (*click_func)(t_ui_elem*,
 							  		SDL_MouseButtonEvent*));
+
 //Sensibility
 void ui_add_clickable_zones(t_ui_elem *e, t_percent_rect *zones,
                             void (*click_func)(t_ui_elem *,

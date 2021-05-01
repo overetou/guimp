@@ -161,7 +161,14 @@ SEMI_BONUS:
 -Remplacer SDL_WaitEvent par quelque chose de plus vif.
 
 A faire bientôt:
-Créer une structure store spécial bouton où on mettra:
+OK-Créer une structure store spécial bouton où on mettra:
     1.la texture du texte à afficher.
     2.la sensible zone.
-Dans la démo, charger la font dans son silot dédié.
+-Faire une fonction: ui_text_to_texture, qui prend en paramètre l'index de la police, le texte
+    et renvoie la texture.
+-Faire une fonction: ui_display_img_at_center_of_elem.
+-Eventuellement Faire une fonction: ui_display_img. Qui permet de préciser le x et le y de place
+    -ment (proportionnel) par rapport à l'élément.
+-Eventuellement Faire une fonction: ui_display_img_to_target. Qui permet de préciser le x, le y,
+    le w et le h rapport à l'élément.
+Dans la démo, charger la police dans son silot dédié.
