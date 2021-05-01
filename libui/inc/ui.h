@@ -8,6 +8,8 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 
+#define FONT_NB 1
+
 #define UI_TRUE 1
 #define UI_FALSE 0
 
@@ -50,10 +52,12 @@
 #define UI_EXPAND_COLOR(x) x.r, x.g, x.b, x.a
 #define UI_EXPAND_COLOR_PTR(x) x->r, x->g, x->b, x->a
 
-//An image usable by the ui framework.
-typedef int t_ui_bool;
-typedef SDL_Texture t_ui_img;
-typedef SDL_Color t_ui_color;
+typedef int t_ui_bool;//Can be set to UI_TRUE or UI_FALSE.
+typedef SDL_Texture t_ui_img;//An image that can be used by the ui.
+typedef SDL_Color t_ui_color;/*A color. r = red, g = green, b = blue, a =
+ * alpha (the transparency level. Higher means less transparent.). All of
+ * these values are meant to go from 0 to 255. Example: opaque red: r = 255,
+ * b = 0, b = 0, a = 255.*/
 
 //A discrete value between 0 and 100
 typedef char t_percentage;
@@ -67,8 +71,8 @@ typedef struct	s_percent_rect
 	t_percentage h;
 }				t_percent_rect;
 
-//A structure that will only be used as a mean to make some
-// generic code.
+/*A structure that will only be used as a mean to make some
+generic code.*/
 typedef struct	s_link
 {
 	struct s_link   *next;
@@ -77,54 +81,86 @@ typedef struct	s_link
 
 typedef struct	s_ui_elem
 {
-	//Other elements in the same containing element. NULL if none.
-	struct s_ui_elem *next;
-	struct s_ui_elem *prev;
+	/*Other elements in the same containing element. NULL if none. Don't
+	change the order of these two or put something before them.*/
+	struct s_ui_elem    *next;
+	struct s_ui_elem    *prev;
 	//Display info
-	t_percent_rect  proportions;
-	SDL_Rect        actual_sizes;
-	char            display_priority;
-	void            (*display_func)(struct s_ui_elem*);
-	void            *store;//Member at the disposition of the user.
+	t_percent_rect      proportions;/*Size of the element in percentages
+	relative to its parent actual size.*/
+	SDL_Rect            actual_sizes;/*The actual estate of the elem on the
+	screen, in pixels.*/
+	char                display_priority;/*0 for invisible elem. Must be
+	positive otherwise. Smaller will be displayed on top of bigger
+	display_priority.*/
+	void                (*display_func)(struct s_ui_elem*);/*A pointer to the
+	function that will be called when the ui prompts the elem to display
+	itself. See such callback examples in src/blocking.c.
+	storing*/
+	void                *store;/*Pointer the disposition of the user. Use it
+	however you like!*/
+	void                (*free_store_func)(void*);/*This func will be called
+ * at the destruction of the element. It is meant to destroy the content of
+ * the 'store' member of the elem ('store' will be passed as argument). If you
+ * stored nothing, pass ui_do_nothing to it. Not NULL because the function
+ * will be called without checking anything.*/
 	//Sensibility
-	t_ui_bool       sensible;
-	t_percent_rect  *sensible_zones;//tab
-	SDL_Rect        sensible_rects;
-	short           nb_sensible_zones;
+	t_ui_bool           sensible;/*If set to false, none of the user events
+ * will be transmitted to or through this element.*/
+	t_percent_rect      *sensible_zones;/*A table of percent rects that
+	represent the sensible zones of the elem.*/
+	SDL_Rect            sensible_rects;/*Sensible zones resolved by the ui into
+	actual pixel values. You are not expected to modify this value
+	but you may access it anytime.*/
+	short               nb_sensible_zones;//Number of sensible zones.
 	//Hover
-	t_ui_bool        has_sub_hovers;
-	void            (*hover_func)(struct s_ui_elem*);
+	t_ui_bool           has_sub_hovers;/*True if somewhere in the
+ * sub-hierarchie of this element, one has hover_func set to a callback.*/
+	void                (*hover_func)(struct s_ui_elem*);/*Called when one
+ * of the element's sensible zones is hovered.*/
 	//Clicks
-	t_ui_bool        has_sub_clicks;
-	void            (*click_func)(struct s_ui_elem*, SDL_MouseButtonEvent*);
+	t_ui_bool           has_sub_clicks;/*Same as before but applied to clicks
+ * . Note that it concerns right click, left click and the middle button upon
+ * their button-down event.TODO: transmit button-up events as well.*/
+	void                (*click_func)(struct s_ui_elem*,
+			SDL_MouseButtonEvent*);/*Called when any sensible zone of the
+ * elem is clicked.*/
 	//sub_elems
-	struct s_ui_elem *sub_elems;
-	//win ref
-	void            *win;
+	struct s_ui_elem    *sub_elems;/*Elements contained inside this one.*/
 	//parent
-	struct s_ui_elem *parent;
+	struct s_ui_elem    *parent;/*The element that contains this one.*/
+	//win ref
+	void                *win;/*The window that contains this element.*/
 }				t_ui_elem;
 
 typedef struct	s_ui_win
 {
-	//Don't touch this
-	struct s_ui_win *next;
-	struct s_ui_win *prev;
-	//other content.
-	void            *ui;
+	/*Let those as the 2 first members, in the same order, or problems there
+	will be!*/
+	struct s_ui_win *next;//The next window in line.
+	struct s_ui_win *prev;/*Previous window.
+	other content.*/
+	void            *ui;/*Points back to its owning ui. Use this to modify
+	keep_going or access your fonts. Note that elems have a win pointer.*/
 	SDL_Window      *sdl_ptr;
 	SDL_Renderer    *rend;
-	int             width;
+	int             width;//Not percentages but the real value in pixels.
 	int             height;
-	t_ui_elem       *content;
+	t_ui_elem       *content;/*The root elem of the window. Should be used to
+	set the background color/ image.*/
 }				t_ui_win;
 
 typedef struct  s_ui
 {
-	t_ui_win    *wins; //A linked list.
-	t_ui_elem   *focused;
-	t_ui_bool   keep_going;
+	t_ui_win    *wins; //This list stores all the windows you added to the ui.
+	t_ui_elem   *focused;//TODO: Keep track of the currently focused element.
+	t_ui_bool   keep_going;/*Goes to true when ui_handle_events is called.
+	Set it to false to make the loop stop.*/
+	TTF_Font    *fonts[FONT_NB];//A tab to store your font pointers.
 }               t_ui;
+
+//example functions
+
 
 //basic stuff
 void    mem_copy(char *dest, const char *src, int len);

@@ -126,7 +126,9 @@ Notes:
 logiques partagés par les éléments.
 
 Réalisation:
+
 CORE:
+
 OK-fonction ui_add_elem qui prend en paramêtre tous les paramêtre assignables pour l'utilisateur.
 OK-fonction ui_resolve_and_refresh_win qui opère sur tous les éléments affichables avant de faire un render.
 OK-Fonction de peinture d'élément.
@@ -134,16 +136,26 @@ OK-tester de créer une fenêtre, la peindre, placer un élément et le peindre 
 OK-Afficher du texte dans un elem et créer des fonctions faciles à manipuler pour gérer tout ça.
 OK-Ne plus utiliser de SDL_Delay et gérer la fermeture de la fenêtre avec des moyens normaux.
 OK-Mettre en place le système de sensibilité aux clics
+OK-fonction refresh_win qui rafraichit intelligement la fenêtre aux seuls endroits qui seront
+    modifiés. Il suffit d'appeller la fonction display de l'élément addoc et de ses subs
+    une fois que la modification est finie.
+
 BLOCKING:
+
 -Creer une fonction de boutton
+-bouton radio
+-bouton checkbox
+-Slider
 -texte éditable en ligne
 -texte éditable en zone.
+-barre de scroll (c'est un bonus)
+
 DISPLAY:
+
 -Fonction d'affichage de texte, si nécessaire avec retour à la ligne.(fonctionnement le plus simple possible
 pour commencer.)
 -Fonction d'affichage d'image à partir d'un nom de fichier.
--
+-Système de scroll (pour du texte pour commencer, mais peut-être le rendre générique pour que ça marche aussi avec des images.)
 
-SEMI_BONUS-eventuellement fonction refresh_win qui rafraichit intelligement la fenêtre aux seuls endroits qui seront
-modifiés.
-SEMI_BONUS-Remplacer SDL_WaitEvent par quelque chose de plus vif.
+SEMI_BONUS:
+-Remplacer SDL_WaitEvent par quelque chose de plus vif.
