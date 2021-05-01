@@ -12,40 +12,42 @@ TTF_Font *ui_load_font(const char *path, int size)
 	return (new);
 }
 
-void    ui_display_centered_text_line(t_ui_elem *e, const char *text_line,
-									  t_ui_color *foreground,
-									  t_ui_color *background)
+void ui_display_img_at_center_of_elem(t_ui_elem *e, t_ui_img *img)
 {
-	SDL_Surface *surface;
-	SDL_Texture *texture;
-	SDL_Rect    text_rect;
+	SDL_Rect rect;
 
-	surface = TTF_RenderText_Shaded(e->store, text_line, *foreground,
-								 *background);
-	ui_sdl_critical_check(surface != NULL);
 	ui_sdl_critical_check(
-			TTF_SizeText(e->store, text_line, &(text_rect.w), &(text_rect.h))
+			SDL_QueryTexture(img, NULL, NULL, &(rect.w), &(rect.h))
 			== 0);
-	text_rect.x = e->actual_sizes.x + (e->actual_sizes.w - text_rect.w) / 2;
-	text_rect.y = e->actual_sizes.y + (e->actual_sizes.h - text_rect.h) / 2;
-	texture = SDL_CreateTextureFromSurface(UI_EL_REND(e), surface);
-	ui_sdl_critical_check(texture != NULL);
-	ui_sdl_critical_check(
-	SDL_RenderCopy(UI_EL_REND(e), texture, NULL, &text_rect)
-	 == 0);
-	SDL_DestroyTexture(texture);
-	SDL_FreeSurface(surface);
+	rect.x = e->actual_sizes.x + (e->actual_sizes.w - rect.w) / 2;
+	rect.y = e->actual_sizes.y + (e->actual_sizes.h - rect.h) / 2;
+	ui_sdl_critical_check(SDL_RenderCopy(UI_EL_REND(e), img, NULL, &rect) == 0);
 }
 
-t_ui_img *ui_text_to_texture(const char *text, TTF_Font *font, t_ui_color
-*foreground, t_ui_color *background)
+void ui_display_img(t_ui_elem *e, t_ui_img *img, t_percentage x, t_percentage y)
+{
+	SDL_Rect rect;
+
+	ui_sdl_critical_check(
+			SDL_QueryTexture(img, NULL, NULL, &(rect.w), &(rect.h))
+			== 0);
+	rect.x = e->actual_sizes.x + ((e->actual_sizes.w * x) / 100);
+	rect.y = e->actual_sizes.y + ((e->actual_sizes.h * y) / 100);
+	ui_sdl_critical_check(SDL_RenderCopy(UI_EL_REND(e), img, NULL, &rect) == 0);
+}
+
+t_ui_img *ui_text_to_texture(const char *text, int font_index, t_ui_color
+*foreground, t_ui_color *background, t_ui_elem *e)
 {
 	SDL_Surface *surface;
 	t_ui_img    *to_return;
 
-	surface = TTF_RenderText_Shaded(font, text, *foreground, *background);
+	surface = TTF_RenderText_Shaded(UI_EL_UI(e)->fonts[font_index], text, *foreground,
+								 *background);
 	ui_sdl_critical_check(surface != NULL);
-
+	to_return = SDL_CreateTextureFromSurface(UI_EL_REND(e), surface);
+	ui_sdl_critical_check(to_return != NULL);
+	SDL_FreeSurface(surface);
 	return to_return;
 }
 

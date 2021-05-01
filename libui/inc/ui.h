@@ -163,7 +163,7 @@ typedef struct  s_ui_button_store
 {
 	t_ui_img        *text_img;
 	t_percent_rect  sensible_zone;
-};
+}               t_ui_button_store;
 
 //basic stuff
 void    mem_copy(char *dest, const char *src, int len);
@@ -214,15 +214,17 @@ void        display_elem(t_ui_elem *e);
 void        ui_paint_elem(t_ui_elem *e, int r, int g, int b, int a);
 //blocking
 void    ui_colorblock_1(t_ui_elem *e);
-void    ui_colorblock_2(t_ui_elem *e);
+void    ui_display_button(t_ui_elem *e);
 
 //display
 void        ui_colorize_elem(t_ui_elem *e, int r, int g, int b, int a);
 TTF_Font    *ui_load_font(const char *path, int size);
 void        ui_close_font(TTF_Font *font);
-void        ui_display_centered_text_line(t_ui_elem *e, const char *text_line,
-									  t_ui_color *foreground,
-									  t_ui_color *background);
+t_ui_img    *ui_text_to_texture(const char *text, int font_index, t_ui_color
+	*foreground, t_ui_color *background, t_ui_elem *e);
+void        ui_display_img_at_center_of_elem(t_ui_elem *e, t_ui_img *img);
+void        ui_display_img(t_ui_elem *e, t_ui_img *img, t_percentage x,
+						   t_percentage y);
 //Interface elements
 t_ui_elem   *ui_create_button(t_ui_elem *parent, t_percentage x,
 							  t_percentage y, t_percentage w, t_percentage h,
