@@ -204,7 +204,8 @@ void        ui_transfer_elem(t_ui_elem *new_parent, t_ui_elem *e,
 t_ui_elem *
 ui_add_elem(t_ui_elem *parent, t_percentage x, t_percentage y, t_percentage w,
             t_percentage h, char disp_priority,
-            void (*display_func)(t_ui_elem *), t_ui_bool sensible);
+            void (*display_func)(t_ui_elem *), t_ui_bool sensible,
+            void (*store_free_func)(void *));
 void        ui_display_elem(t_ui_elem *e);
 void        display_elem(t_ui_elem *e);
 void        ui_paint_elem(t_ui_elem *e, int r, int g, int b, int a);

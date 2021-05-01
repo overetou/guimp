@@ -89,7 +89,8 @@ static void incorporate_sub_elem(t_ui_elem **list, t_ui_elem *e)
 t_ui_elem *
 ui_add_elem(t_ui_elem *parent, t_percentage x, t_percentage y, t_percentage w,
             t_percentage h, char disp_priority,
-            void (*display_func)(t_ui_elem *), t_ui_bool sensible)
+            void (*display_func)(t_ui_elem *), t_ui_bool sensible,
+            void (*store_free_func)(void *))
 {
 	t_ui_elem *new = ui_secure_malloc(sizeof(t_ui_elem));
 
