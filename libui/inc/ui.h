@@ -171,7 +171,9 @@ void    add_link_to_list(t_link **list, t_link *new_link);
 void    remove_link_from_list(t_link **list, t_link *to_remove);
 void    free_list(t_link *list, void(*free_func)(void*));
 void    init_list(t_link **list, t_link *new_link);
-void    list_add_link_on_top_of_initiated(t_link **list, t_link *new_link);
+void    list_add_link_at_start(t_link **list, t_link *new_link);
+void    list_add_link_at_end(t_link *last_link, t_link *new_link);
+void    list_add_link_in_the_middle(t_link *next_link_to_be, t_link *new_link);
 
 //security
 void    ui_sdl_critical_check(int val);

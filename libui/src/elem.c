@@ -42,44 +42,38 @@ t_ui_elem *ui_create_virgin_elem(t_percentage x, t_percentage y, t_percentage w,
 	return new;
 }
 
-static void incorporate_sub_elem(t_ui_elem **list, t_ui_elem *e)
+//TODO: This could be optimised with better classification algorithms but as
+// it is not supposed to scale madly maybe it is fine to leave it as is.
+// However it is expected that people may always pass 1 as display priority.
+// In such a case, it may be good to keep a pointer on the 1 elem to operate
+// smoothly.
+static void incorporate_sub_elem(t_ui_elem **list, t_ui_elem *to_incorporate)
 {
-	t_ui_elem *n;
+	t_ui_elem *traveler;
 
 	if (*list == NULL)
-		init_list((t_link**)list, (t_link*)e);
-	else if (e->display_priority == 0)
-	{
-		n = *list;
-		while (n->next != NULL)
-			n = n->next;
-		n->next = e;
-		e->prev = n;
-		e->next = NULL;
-	}
-	else if (e->display_priority > (*list)->display_priority)
-		list_add_link_on_top_of_initiated((t_link**)list, (t_link*)e);
+		init_list((t_link**)list, (t_link*)to_incorporate);
 	else
 	{
-		n = *list;
-		while (n->next)
+		traveler = *list;
+		if (to_incorporate->display_priority == 0)
+			(void)to_incorporate;/*TODO: Add our little friend efficiently.*/
+		else
 		{
-			if (n->next->display_priority >= e->display_priority)
+			while (to_incorporate->display_priority <= traveler->display_priority)
 			{
-				n->next->prev = e;
-				break;
+				if (traveler->next)
+					traveler = traveler->next;
+				else
+				{
+					list_add_link_at_end((t_link*)traveler, (t_link*)to_incorporate);
+					return;
+				}
 			}
-			n = n->next;
-		}
-		e->next = n->next;
-		n->next = e;
-		e->prev = n;
-		if (n->display_priority == e->display_priority)
-		{
-			do {
-				(n->display_priority)++;
-				n = n->prev;
-			} while (n);
+			if (traveler == *list)
+				list_add_link_at_start((t_link**)list, (t_link*)to_incorporate);
+			else
+				list_add_link_in_the_middle((t_link*)traveler, (t_link*)to_incorporate);
 		}
 	}
 }
