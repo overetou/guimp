@@ -153,6 +153,8 @@ OK-fonction refresh_win qui rafraichit intelligement la fenêtre aux seuls endro
 BLOCKING:
 
 OK-Creer une fonction de boutton
+-Ajouter dans display une fonction qui permet de créer un cercle plein à partir d'une couleur
+    et d'un référentiel de taille.
 -bouton radio
 -bouton checkbox
 -Slider
@@ -172,32 +174,14 @@ SEMI_BONUS:
 -Eventuellement Faire une fonction: ui_display_img_to_target. Qui permet de préciser le x, le y,
     le w et le h rapport à l'élément.
 
-Inspection des problèmes liés à la multitude d'éléments au sein d'un parent.
-Ordre de frappe:
--Regarder le code de libération des éléments, fenêtres, toutes les boucles qui y existent et
-surtout leur condition d'arrêt.
--Si ca ne marche pas, faire un reread du processus d'allocation des éléments au sein de
-l'organisation de l'ui et comparer ca avec son processus de libération.
-Etrangement on commence par supprimer un élément de "milieu de liste" en premier. Normal?
-A mon avis c'est le code de incorporate_sub_elem qui est faux. Il a besoin d'une refonte de
-toute façon car il est tout sauf clair et facilement lisible.
+Boutons radios rond:
+On aura un élément logique parent qui contiendra tous les bouttons. Ici on pourra lui indiquer
+de prendre la moitié gauche de la fenêtre.
+Dans son store, on mettra:
+une texture pour le rond background des bouttons.
+une texture pour le rond de coche des boutons.
+Ces deux textures seront calculées par la display func pour nous simplifier le boulot.
+Les displays func des bouttons iront juste chercher ces textures pour les copier à leur
+emplacement.
 
-Mission de la fonction:
-On nous donne un double pointeur sur une liste et un élément. Cet élément contient un membre
-'display priority' qui nous indique à quel endroit dans la liste l'élément est sensé être
-intégré. On doit classer ces éléments du plus grand au plus petit. Aucun display priority ne peut
-être identique sauf ceux à 0.
-
-Cas de figure:
-1.La liste est vide.
-    On appelle init list et le job est vite fait bien fait.
-2.La liste compte au moins un élément.
-    Dans ce cas on va boucler sur les membres jusqu'à ce que l'on ai trouvé là ou l'on veut
-    mettre notre élément.
-    Conditions d'arrêt:
-        -l'élément est supérieur à celui qui est inspecté.
-            Dans ce cas on l'intègre comme prev de cet elem.
-        -l'élément suivant à celui qui est inspecté est NULL.
-            Dans ce cas on ajoute l'élément en fin de queue.
-        -l'élément inspécté a une priorité à 0.
-            Dans ce cas on intègre le nôtre comme prev de celui-ci.
+On peut déduire le placement vertical des choix radios à partir de l'index du choix.

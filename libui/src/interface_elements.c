@@ -26,7 +26,7 @@ t_ui_elem   *ui_create_button(t_ui_elem *parent, t_percentage x,
 			ui_display_button,
 			UI_TRUE,
 			ui_free_button_store);
-	new->store = malloc(sizeof(t_ui_button_store));
+	new->store = ui_secure_malloc(sizeof(t_ui_button_store));
 	((t_ui_button_store*)(new->store))->text_img = ui_text_to_texture(
 			text, 0, &fg, &bg, new);
 	((t_ui_button_store*)(new->store))->sensible_zone.x = 0;
@@ -41,25 +41,46 @@ t_ui_elem   *ui_create_button(t_ui_elem *parent, t_percentage x,
 	return new;
 }
 
-t_ui_elem   *ui_create_radio_button(t_ui_elem *parent, t_percentage x,
-                                    t_percentage y, t_percentage w, t_percentage h,
-                                    void (*click_func)(t_ui_elem*,
-							  		SDL_MouseButtonEvent*))
+void    free_radio_store(void *store)
+{
+	t_radio_space_store *st;
+
+	SDL_DestroyTexture(st->round_bg);
+	SDL_DestroyTexture(st->round_fg);
+	free(st);
+}
+
+t_ui_elem   *ui_create_radio_button_container(t_ui_elem *parent, t_percentage
+x, t_percentage y, t_percentage w, t_percentage h)
 {
 	t_ui_elem *new;
+	t_radio_space_store *st;
+
+	new = ui_add_elem(parent, x, y, w, h, 1, ui_display_nothing, UI_TRUE,
+				   free_radio_store);
+	new->store = ui_secure_malloc(sizeof(t_radio_space_store));
+	st = new->store;
+	st->current_choice = 0;
+	return new;
+}
+
+t_ui_elem *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
+                                  short choice_index)
+{
+	t_ui_elem               *new;
+	t_radio_button_store    *store;
 
 	new = ui_add_elem(
 			parent,
-			x, y, w, h,
+			15, (int)(choice_index * 10 + 15), 5, 5,
 			1,
 			ui_display_radio_button,
 			UI_TRUE,
 			free);
-	new->store = malloc(sizeof(t_percent_rect));
-	((t_percent_rect*)(new->store))->x = 0;
-	((t_percent_rect*)(new->store))->y = 0;
-	((t_percent_rect*)(new->store))->w = 100;
-	((t_percent_rect*)(new->store))->h = 100;
+	new->store = ui_secure_malloc(sizeof(t_radio_button_store));
+	store = new->store;
+	store->choice_index = choice_index;
+
 	ui_add_clickable_zones(
 			new,
 			new->store,

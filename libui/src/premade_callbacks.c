@@ -8,6 +8,11 @@ void ui_free_nothing(void *unused)
 	(void)unused;
 }
 
+void ui_display_nothing(t_ui_elem *e)
+{
+	(void)e;
+}
+
 void ui_debug_say_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 {
 	(void)ev;

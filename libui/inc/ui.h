@@ -165,6 +165,19 @@ typedef struct  s_ui_button_store
 	t_percent_rect  sensible_zone;
 }               t_ui_button_store;
 
+typedef struct  s_radio_space_store
+{
+	t_ui_img    *round_bg;
+	t_ui_img    *round_fg;
+	short       current_choice;
+}               t_radio_space_store;
+
+typedef struct      s_radio_button_store
+{
+	t_percent_rect  sensible_zone;
+	short           choice_index;
+}                   t_radio_button_store;
+
 //basic stuff
 void    mem_copy(char *dest, const char *src, int len);
 void    add_link_to_list(t_link **list, t_link *new_link);
@@ -234,10 +247,8 @@ t_ui_elem   *ui_create_button(t_ui_elem *parent, t_percentage x,
 							  const char *text,
 							  void (*click_func)(t_ui_elem*,
 							  		SDL_MouseButtonEvent*));
-t_ui_elem   *ui_create_radio_button(t_ui_elem *parent, t_percentage x,
-                                    t_percentage y, t_percentage w, t_percentage h,
-                                    void (*click_func)(t_ui_elem*,
-							  		SDL_MouseButtonEvent*));
+t_ui_elem *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
+                                  short choice_index);
 
 //Sensibility
 void ui_add_clickable_zones(t_ui_elem *e, t_percent_rect *zones,
@@ -253,5 +264,6 @@ void    ui_stop_event_handling(t_ui_elem *e, SDL_MouseButtonEvent *ev);/*Uses
  * the element to set 'keep_going' to false.(In its containing ui.)*/
 void    ui_debug_say_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev);
 void    ui_free_nothing(void *unused);
+void    ui_display_nothing(t_ui_elem *e);
 
 #endif //UI
