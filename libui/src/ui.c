@@ -40,11 +40,11 @@ static void ui_free_window(void *win)
 {
 	t_ui_elem *e = ((t_ui_win*)(win))->content;
 
-	SDL_DestroyRenderer(((t_ui_win*)(win))->rend);
-	SDL_DestroyWindow(((t_ui_win*)(win))->sdl_ptr);
 	while (e->sub_elems)
 		ui_remove_elem(e->sub_elems);
 	free(e);
+	SDL_DestroyRenderer(((t_ui_win*)(win))->rend);
+	SDL_DestroyWindow(((t_ui_win*)(win))->sdl_ptr);
 	free(win);
 }
 

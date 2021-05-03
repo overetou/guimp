@@ -139,7 +139,11 @@ OK-Mettre en place le système de sensibilité aux clics
 OK-fonction refresh_win qui rafraichit intelligement la fenêtre aux seuls endroits qui seront
     modifiés. Il suffit d'appeller la fonction display de l'élément addoc et de ses subs
     une fois que la modification est finie.
-
+-Rajouter une fonction: ui_modify_elem_appearance qui change la fonction display de l'elem et
+    appelle ui_display_elem dessus. Plus d'autres choses si nécessaire.
+-Ajouter le support d'une free_store_func dans win->content au cas ou l'utilisateur veuille
+    utiliser le store de content. Sinon la mémoire leakera au moment ui_free_window supprimera
+    'content'.
 BLOCKING:
 
 -Creer une fonction de boutton

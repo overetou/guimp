@@ -112,12 +112,14 @@ ui_add_elem(t_ui_elem *parent, t_percentage x, t_percentage y, t_percentage w,
 	new->sub_elems = NULL;
 	incorporate_sub_elem(&(parent->sub_elems), new);
 	ui_infer_elem_actual_size(new);
+	new->free_store_func = store_free_func;
 	return new;
 }
 
 void ui_remove_elem(t_ui_elem *e)
 {
 	remove_link_from_list((t_link**)(&(e->parent->sub_elems)), (t_link*)e);
+	e->free_store_func(e->store);
 	while (e->sub_elems)
 		ui_remove_elem(e->sub_elems);
 	free(e);
