@@ -19,8 +19,8 @@ int main(void)
 								 ui_debug_say_clicked);
 	ui_create_radio_button(win->content, 15, 20, 5, 5,
 								 ui_debug_say_clicked);
-	//ui_create_radio_button(win->content, 15, 30, 5, 5,
-	//							 ui_debug_say_clicked);
+	ui_create_radio_button(win->content, 15, 30, 5, 5,
+								 ui_debug_say_clicked);
 	refresh_win(win);
 	ui_handle_events(ui);
 
