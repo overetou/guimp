@@ -215,6 +215,7 @@ void        ui_paint_elem(t_ui_elem *e, int r, int g, int b, int a);
 //blocking
 void    ui_colorblock_1(t_ui_elem *e);
 void    ui_display_button(t_ui_elem *e);
+void    ui_display_radio_button(t_ui_elem *e);
 
 //display
 void        ui_colorize_elem(t_ui_elem *e, int r, int g, int b, int a);
@@ -231,6 +232,10 @@ t_ui_elem   *ui_create_button(t_ui_elem *parent, t_percentage x,
 							  const char *text,
 							  void (*click_func)(t_ui_elem*,
 							  		SDL_MouseButtonEvent*));
+t_ui_elem   *ui_create_radio_button(t_ui_elem *parent, t_percentage x,
+                                    t_percentage y, t_percentage w, t_percentage h,
+                                    void (*click_func)(t_ui_elem*,
+							  		SDL_MouseButtonEvent*));
 
 //Sensibility
 void ui_add_clickable_zones(t_ui_elem *e, t_percent_rect *zones,
@@ -245,6 +250,6 @@ void    ui_handle_events(t_ui *ui);
 void    ui_stop_event_handling(t_ui_elem *e, SDL_MouseButtonEvent *ev);/*Uses
  * the element to set 'keep_going' to false.(In its containing ui.)*/
 void    ui_debug_say_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev);
-void    ui_do_nothing(void *unused);
+void    ui_free_nothing(void *unused);
 
 #endif //UI

@@ -144,9 +144,13 @@ OK-fonction refresh_win qui rafraichit intelligement la fenêtre aux seuls endro
 -Ajouter le support d'une free_store_func dans win->content au cas ou l'utilisateur veuille
     utiliser le store de content. Sinon la mémoire leakera au moment ui_free_window supprimera
     'content'.
+-Dans proportions, si w est à 0, on conservera toujours les actual size w et h.
+    De cette on ne fait qu'un test par resolution d'elem pour s'assurer que les proportions
+    doivent être appliquées pour ces deux membres.
+
 BLOCKING:
 
--Creer une fonction de boutton
+OK-Creer une fonction de boutton
 -bouton radio
 -bouton checkbox
 -Slider
@@ -176,3 +180,10 @@ OK-Eventuellement Faire une fonction: ui_display_img. Qui permet de préciser le
 -Eventuellement Faire une fonction: ui_display_img_to_target. Qui permet de préciser le x, le y,
     le w et le h rapport à l'élément.
 Dans la démo, charger la police dans son silot dédié.
+
+Problème: Possibilité de déclarer la taille absolue d'un boutton? On risque d'avoir un problème
+d'uniformité étant donné que la taille d'un élément varie en fonction de la taille de son parent.
+Il faudrait introduire la notion de taille absolue.
+Par example dans proportions, si w est à 0, on conservera toujours les actual size w et h.
+    De cette on ne fait qu'un test par resolution d'elem pour s'assurer que les proportions
+    doivent être appliquées.

@@ -3,7 +3,7 @@
 //
 #include "ui.h"
 
-void ui_do_nothing(void *unused)
+void ui_free_nothing(void *unused)
 {
 	(void)unused;
 }

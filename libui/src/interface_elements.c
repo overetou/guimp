@@ -40,3 +40,31 @@ t_ui_elem   *ui_create_button(t_ui_elem *parent, t_percentage x,
 			1);
 	return new;
 }
+
+t_ui_elem   *ui_create_radio_button(t_ui_elem *parent, t_percentage x,
+                                    t_percentage y, t_percentage w, t_percentage h,
+                                    void (*click_func)(t_ui_elem*,
+							  		SDL_MouseButtonEvent*))
+{
+	t_ui_elem *new;
+
+	new = ui_add_elem(
+			parent,
+			x, y, w, h,
+			1,
+			ui_display_radio_button,
+			UI_TRUE,
+			free);
+	new->store = malloc(sizeof(t_percent_rect));
+	((t_percent_rect*)(new->store))->x = 0;
+	((t_percent_rect*)(new->store))->y = 0;
+	((t_percent_rect*)(new->store))->w = 100;
+	((t_percent_rect*)(new->store))->h = 100;
+	ui_add_clickable_zones(
+			new,
+			new->store,
+			click_func,
+			1
+			);
+	return new;
+}
