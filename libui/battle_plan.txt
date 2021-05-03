@@ -167,23 +167,12 @@ pour commencer.)
 
 SEMI_BONUS:
 -Remplacer SDL_WaitEvent par quelque chose de plus vif.
-
-A faire bientôt:
-OK-Créer une structure store spécial bouton où on mettra:
-    1.la texture du texte à afficher.
-    2.la sensible zone.
-OK-Faire une fonction: ui_text_to_texture, qui prend en paramètre l'index de la police, le texte
-    et renvoie la texture.
-OK-Faire une fonction: ui_display_img_at_center_of_elem.
-OK-Eventuellement Faire une fonction: ui_display_img. Qui permet de préciser le x et le y de place
-    -ment (proportionnel) par rapport à l'élément.
 -Eventuellement Faire une fonction: ui_display_img_to_target. Qui permet de préciser le x, le y,
     le w et le h rapport à l'élément.
-Dans la démo, charger la police dans son silot dédié.
 
-Problème: Possibilité de déclarer la taille absolue d'un boutton? On risque d'avoir un problème
-d'uniformité étant donné que la taille d'un élément varie en fonction de la taille de son parent.
-Il faudrait introduire la notion de taille absolue.
-Par example dans proportions, si w est à 0, on conservera toujours les actual size w et h.
-    De cette on ne fait qu'un test par resolution d'elem pour s'assurer que les proportions
-    doivent être appliquées.
+Inspection des problèmes liés à la multitude d'éléments au sein d'un parent.
+Ordre de frappe:
+-Regarder le code de libération des éléments, fenêtres, toutes les boucles qui y existent et
+surtout leur condition d'arrêt.
+-Si ca ne marche pas, faire un reread du processus d'allocation des éléments au sein de
+l'organisation de l'ui et comparer ca avec son processus de libération.
