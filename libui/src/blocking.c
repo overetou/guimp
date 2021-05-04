@@ -23,7 +23,7 @@ void ui_display_radio_space(t_ui_elem *e)
 	t_radio_space_store *store = e->store;
 	int size = e->actual_sizes.h;
 	SDL_Color unchecked_color = {150, 100, 100, UI_ALPHA_OPAQUE};
-	SDL_Color checked_color = {200, 100, 100, UI_ALPHA_OPAQUE};
+	SDL_Color checked_color = {100, 150, 100, UI_ALPHA_OPAQUE};
 
 	store->unchecked_img = ui_create_colored_texture(e->win, size, size,
 												  &unchecked_color);
