@@ -20,7 +20,7 @@ void ui_display_button(t_ui_elem *e)
 
 void ui_display_radio_button(t_ui_elem *e)
 {
-	SDL_Color   bg = {150, 100, 100, UI_ALPHA_OPAQUE};
-
-	ui_colorize_elem(e, UI_EXPAND_COLOR(bg));
+	//On commence par afficher l'image de bouton à droite. Il va nous
+	// falloire déduire la taille du carré par rappor à la ligne d'espace
+	// allouée.
 }

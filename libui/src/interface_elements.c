@@ -64,6 +64,30 @@ x, t_percentage y, t_percentage w, t_percentage h)
 	return new;
 }
 
+void        radio_button_click_func(t_ui_elem *e, SDL_MouseButtonEvent *ev)
+{
+	t_radio_space_store     *parent_store = e->parent->store;
+	t_radio_button_store    *store = e->store;
+	t_radio_button_store    *traveler_store;
+	t_ui_elem               *traveler;
+	int                     i = 0;
+
+	if (store->choice_index != parent_store->current_choice)
+	{
+		traveler = e->parent->sub_elems;
+		while (i != parent_store->current_choice)
+		{
+			i++;
+			traveler = traveler->next;
+		}
+		traveler_store = traveler->store;
+		traveler_store->checkbox_img = parent_store->unchecked_img;
+		parent_store->current_choice = store->choice_index;
+		store->checkbox_img = parent_store->checked_img;
+		ui_display_elem(e->parent);
+	}
+}
+
 t_ui_elem *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
                                   short choice_index)
 {
@@ -84,7 +108,7 @@ t_ui_elem *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
 	ui_add_clickable_zones(
 			new,
 			new->store,
-			click_func,
+			radio_button_click_func,
 			1
 			);
 	return new;

@@ -167,8 +167,8 @@ typedef struct  s_ui_button_store
 
 typedef struct  s_radio_space_store
 {
-	t_ui_img    *round_bg;
-	t_ui_img    *round_fg;
+	t_ui_img    *unchecked_img;
+	t_ui_img    *checked_img;
 	short       current_choice;
 }               t_radio_space_store;
 
@@ -176,6 +176,7 @@ typedef struct      s_radio_button_store
 {
 	t_percent_rect  sensible_zone;
 	short           choice_index;
+	t_ui_img        *checkbox_img;
 }                   t_radio_button_store;
 
 //basic stuff

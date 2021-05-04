@@ -15,12 +15,6 @@ int main(void)
 					 ui_colorblock_1);
 	ui->fonts[0] = ui_load_font("blackchancery/BLKCHCRY.TTF", 15);
 
-	ui_create_radio_button(win->content, 15, 10, 5, 5,
-								 ui_debug_say_clicked);
-	ui_create_radio_button(win->content, 15, 20, 5, 5,
-								 ui_debug_say_clicked);
-	ui_create_radio_button(win->content, 15, 30, 5, 5,
-								 ui_debug_say_clicked);
 	refresh_win(win);
 	ui_handle_events(ui);
 
