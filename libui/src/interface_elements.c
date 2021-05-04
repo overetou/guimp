@@ -93,7 +93,9 @@ t_ui_elem *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
 {
 	t_ui_elem               *new;
 	t_radio_button_store    *store;
+	t_radio_space_store     *parent_store = parent->store;
 
+	(void)choice_text;
 	new = ui_add_elem(
 			parent,
 			15, (int)(choice_index * 10 + 15), 70, 5,
@@ -104,7 +106,10 @@ t_ui_elem *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
 	new->store = ui_secure_malloc(sizeof(t_radio_button_store));
 	store = new->store;
 	store->choice_index = choice_index;
-
+	if (parent_store->current_choice == choice_index)
+		store->checkbox_img = parent_store->checked_img;
+	else
+		store->checkbox_img = parent_store->unchecked_img;
 	ui_add_clickable_zones(
 			new,
 			new->store,

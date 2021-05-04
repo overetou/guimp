@@ -242,6 +242,8 @@ t_ui_img    *ui_text_to_texture(const char *text, int font_index, t_ui_color
 void        ui_display_img_at_center_of_elem(t_ui_elem *e, t_ui_img *img);
 void        ui_display_img(t_ui_elem *e, t_ui_img *img, t_percentage x,
 						   t_percentage y);
+t_ui_img    *ui_create_colored_texture(t_ui_win *win, int w, int h, t_ui_color
+*color);
 //Interface elements
 t_ui_elem   *ui_create_button(t_ui_elem *parent, t_percentage x,
 							  t_percentage y, t_percentage w, t_percentage h,

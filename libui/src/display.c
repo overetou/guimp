@@ -63,3 +63,22 @@ void ui_colorize_elem(t_ui_elem *e, int r, int g, int b, int a)
 			&& SDL_RenderFillRect(UI_EL_REND(e), &(e->actual_sizes)) == 0
 			);
 }
+
+t_ui_img *ui_create_colored_texture(t_ui_win *win, int w, int h, t_ui_color
+*color)
+{
+	t_ui_img *new_img;
+	SDL_Rect dest = {0, 0, w, h};
+
+	new_img = SDL_CreateTexture(win->rend, SDL_PIXELFORMAT_RGBA8888,
+							 SDL_TEXTUREACCESS_TARGET, w, h);
+	SDL_SetRenderTarget(win->rend, new_img);
+	SDL_SetRenderDrawColor(win->rend, UI_EXPAND_COLOR_PTR(color));
+	SDL_RenderDrawRect(win->rend, &dest);
+	SDL_SetRenderTarget(win->rend, NULL);//Set render target back to window.
+	return new_img;
+}
+
+void ui_draw_fullcircle_img(t_ui_win *win, int w, int h)
+{
+}
