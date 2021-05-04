@@ -149,6 +149,7 @@ OK-fonction refresh_win qui rafraichit intelligement la fenêtre aux seuls endro
 -Dans proportions, si w est à 0, on conservera toujours les actual size w et h.
     De cette on ne fait qu'un test par resolution d'elem pour s'assurer que les proportions
     doivent être appliquées pour ces deux membres.
+-S'assurer de la cohérence des types de chaque texture. Apparemment ça accélère le programme.
 
 BLOCKING:
 

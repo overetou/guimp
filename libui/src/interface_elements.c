@@ -91,12 +91,22 @@ void        radio_button_click_func(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 	}
 }
 
-t_ui_elem *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
+void        ui_free_radio_button_store(void *to_free)
+{
+	t_radio_button_store *store = to_free;
+
+	SDL_DestroyTexture(store->text);
+	free(to_free);
+}
+
+t_ui_elem   *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
                                   short choice_index)
 {
 	t_ui_elem               *new;
 	t_radio_button_store    *store;
 	t_radio_space_store     *parent_store = parent->store;
+	t_ui_color              fg = {200, 200, 200, UI_ALPHA_OPAQUE};
+	t_ui_color              bg = {70, 70, 70, UI_ALPHA_OPAQUE};
 
 	(void)choice_text;
 	new = ui_add_elem(
@@ -105,9 +115,10 @@ t_ui_elem *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
 			1,
 			ui_display_radio_button,
 			UI_TRUE,
-			free);
+			ui_free_radio_button_store);
 	new->store = ui_secure_malloc(sizeof(t_radio_button_store));
 	store = new->store;
+	store->text = ui_text_to_texture(choice_text, 0, &fg, &bg, new);
 	store->choice_index = choice_index;
 	if (parent_store->current_choice == choice_index)
 		store->checkbox_img = &(parent_store->checked_img);

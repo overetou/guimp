@@ -177,6 +177,7 @@ typedef struct      s_radio_button_store
 	t_percent_rect  sensible_zone;
 	short           choice_index;
 	t_ui_img        **checkbox_img;
+	t_ui_img        *text;
 }                   t_radio_button_store;
 
 //basic stuff
