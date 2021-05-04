@@ -43,7 +43,7 @@ t_ui_elem   *ui_create_button(t_ui_elem *parent, t_percentage x,
 
 void    free_radio_store(void *store)
 {
-	t_radio_space_store *st;
+	t_radio_space_store *st = store;
 
 	SDL_DestroyTexture(st->unchecked_img);
 	SDL_DestroyTexture(st->checked_img);
@@ -72,6 +72,7 @@ void        radio_button_click_func(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 	t_ui_elem               *traveler;
 	int                     i = 0;
 
+	(void)ev;
 	if (store->choice_index != parent_store->current_choice)
 	{
 		traveler = e->parent->sub_elems;

@@ -185,3 +185,10 @@ Les displays func des bouttons iront juste chercher ces textures pour les copier
 emplacement.
 
 On peut déduire le placement vertical des choix radios à partir de l'index du choix.
+
+Problème:
+L'affichage ne se fait pas.
+Méthode de résolution:
+1: Lancer avec valgrind pour voir si on fait des fautes au niveau de la mémoire.
+2: Regarder si les fonctions de display sont correctement appelées et si oui quelles sont les
+    valeurs des rectangles cibles (à mettre en relation avec la taille de la fenêtre.)

@@ -81,4 +81,7 @@ t_ui_img *ui_create_colored_texture(t_ui_win *win, int w, int h, t_ui_color
 
 void ui_draw_fullcircle_img(t_ui_win *win, int w, int h)
 {
+	(void)win;
+	(void)w;
+	(void)h;
 }
