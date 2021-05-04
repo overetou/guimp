@@ -83,9 +83,11 @@ void        radio_button_click_func(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 		}
 		traveler_store = traveler->store;
 		traveler_store->checkbox_img = &(parent_store->unchecked_img);
+		ui_display_radio_button(traveler);
 		parent_store->current_choice = store->choice_index;
 		store->checkbox_img = &(parent_store->checked_img);
-		ui_display_elem(e->parent);
+		ui_display_radio_button(e);
+		SDL_RenderPresent(((t_ui_win*)(e->win))->rend);
 	}
 }
 
@@ -111,15 +113,18 @@ t_ui_elem *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
 		store->checkbox_img = &(parent_store->checked_img);
 	else
 		store->checkbox_img = &(parent_store->unchecked_img);
+	store->sensible_zone.x = 0;
+	store->sensible_zone.y = 0;
+	store->sensible_zone.w = 100;
+	//TODO: Make the part that assigns the
+	// sensible rect modular. Or just use a new elem to materialise the
+	// button to press.
+	store->sensible_zone.h = 100;
 	ui_add_clickable_zones(
 			new,
 			&(store->sensible_zone),
-			ui_debug_say_clicked,
+			radio_button_click_func,
 			1
 			);
-	store->sensible_zone.x = 0;
-	store->sensible_zone.y = 0;
-	store->sensible_zone.w = new->proportions.h;
-	store->sensible_zone.h = new->proportions.h;
 	return new;
 }
