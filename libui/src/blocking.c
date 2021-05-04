@@ -39,6 +39,6 @@ void ui_display_radio_button(t_ui_elem *e)
 	//On commence par afficher l'image de bouton à droite. Il va nous
 	// falloire déduire la taille du carré par rappor à la ligne d'espace
 	// allouée.
-	SDL_RenderCopy(UI_EL_REND(e), store->checkbox_img, NULL, &dest);
+	SDL_RenderCopy(UI_EL_REND(e), *(store->checkbox_img), NULL, &dest);
 	//Déjà on essaie d'afficher ça.
 }

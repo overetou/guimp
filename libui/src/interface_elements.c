@@ -82,9 +82,9 @@ void        radio_button_click_func(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 			traveler = traveler->next;
 		}
 		traveler_store = traveler->store;
-		traveler_store->checkbox_img = parent_store->unchecked_img;
+		traveler_store->checkbox_img = &(parent_store->unchecked_img);
 		parent_store->current_choice = store->choice_index;
-		store->checkbox_img = parent_store->checked_img;
+		store->checkbox_img = &(parent_store->checked_img);
 		ui_display_elem(e->parent);
 	}
 }
@@ -108,9 +108,9 @@ t_ui_elem *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
 	store = new->store;
 	store->choice_index = choice_index;
 	if (parent_store->current_choice == choice_index)
-		store->checkbox_img = parent_store->checked_img;
+		store->checkbox_img = &(parent_store->checked_img);
 	else
-		store->checkbox_img = parent_store->unchecked_img;
+		store->checkbox_img = &(parent_store->unchecked_img);
 	ui_add_clickable_zones(
 			new,
 			&(store->sensible_zone),

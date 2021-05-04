@@ -75,6 +75,7 @@ t_ui_img *ui_create_colored_texture(t_ui_win *win, int w, int h, t_ui_color
 	SDL_SetRenderTarget(win->rend, new_img);
 	SDL_SetRenderDrawColor(win->rend, UI_EXPAND_COLOR_PTR(color));
 	SDL_RenderDrawRect(win->rend, &dest);
+	SDL_RenderPresent(win->rend);
 	SDL_SetRenderTarget(win->rend, NULL);//Set render target back to window.
 	return new_img;
 }
