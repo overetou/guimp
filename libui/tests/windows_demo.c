@@ -7,6 +7,7 @@ int main(void)
 {
 	t_ui            *ui;
 	t_ui_win        *win;
+	t_ui_elem       *radio_space;
 
 	ui = ui_init(UI_INIT_VIDEO, IMG_INIT_JPG | IMG_INIT_PNG);
 	win = ui_add_window(ui, "Pak", 100, 100, 500, 500,
@@ -15,9 +16,18 @@ int main(void)
 					 ui_colorblock_1);
 	ui->fonts[0] = ui_load_font("blackchancery/BLKCHCRY.TTF", 15);
 
+	radio_space = ui_create_radio_button_container(win->content, 0, 0, 50, 100);
+	ui_create_radio_button(radio_space, "Vim", 0);
+	ui_create_radio_button(radio_space, "Emacs", 1);
+	ui_create_radio_button(radio_space, "VSCode", 2);
+	ui_create_radio_button(radio_space, "CLion", 3);
+
 	refresh_win(win);
 	ui_handle_events(ui);
 
+	t_radio_space_store *store = radio_space->store;
+	const char *editor_tab[] = {"Vim", "Emacs", "VSCode", "CLion"};
+	printf("Your editor is %s.\n", editor_tab[store->current_choice]);
 	ui_close_font(ui->fonts[0]);
 	ui_close(ui);
 	puts("Finished.");

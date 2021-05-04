@@ -248,6 +248,8 @@ t_ui_elem   *ui_create_button(t_ui_elem *parent, t_percentage x,
 							  const char *text,
 							  void (*click_func)(t_ui_elem*,
 							  		SDL_MouseButtonEvent*));
+t_ui_elem   *ui_create_radio_button_container(t_ui_elem *parent, t_percentage
+x, t_percentage y, t_percentage w, t_percentage h);
 t_ui_elem *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
                                   short choice_index);
 

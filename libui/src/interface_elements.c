@@ -45,8 +45,8 @@ void    free_radio_store(void *store)
 {
 	t_radio_space_store *st;
 
-	SDL_DestroyTexture(st->round_bg);
-	SDL_DestroyTexture(st->round_fg);
+	SDL_DestroyTexture(st->unchecked_img);
+	SDL_DestroyTexture(st->checked_img);
 	free(st);
 }
 
@@ -96,7 +96,7 @@ t_ui_elem *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
 
 	new = ui_add_elem(
 			parent,
-			15, (int)(choice_index * 10 + 15), 5, 5,
+			15, (int)(choice_index * 10 + 15), 70, 5,
 			1,
 			ui_display_radio_button,
 			UI_TRUE,
