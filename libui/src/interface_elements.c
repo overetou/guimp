@@ -56,7 +56,7 @@ x, t_percentage y, t_percentage w, t_percentage h)
 	t_ui_elem *new;
 	t_radio_space_store *st;
 
-	new = ui_add_elem(parent, x, y, w, h, 1, ui_display_nothing, UI_TRUE,
+	new = ui_add_elem(parent, x, y, w, h, 1, ui_display_radio_space, UI_TRUE,
 				   free_radio_store);
 	new->store = ui_secure_malloc(sizeof(t_radio_space_store));
 	st = new->store;
@@ -112,9 +112,13 @@ t_ui_elem *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
 		store->checkbox_img = parent_store->unchecked_img;
 	ui_add_clickable_zones(
 			new,
-			new->store,
+			&(store->sensible_zone),
 			radio_button_click_func,
 			1
 			);
+	store->sensible_zone.x = 0;
+	store->sensible_zone.y = 0;
+	store->sensible_zone.w = new->proportions.h;
+	store->sensible_zone.h = new->proportions.h;
 	return new;
 }

@@ -28,6 +28,7 @@ int main(void)
 	t_radio_space_store *store = radio_space->store;
 	const char *editor_tab[] = {"Vim", "Emacs", "VSCode", "CLion"};
 	printf("Your editor is %s.\n", editor_tab[store->current_choice]);
+
 	ui_close_font(ui->fonts[0]);
 	ui_close(ui);
 	puts("Finished.");

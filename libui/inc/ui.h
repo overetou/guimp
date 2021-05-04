@@ -231,6 +231,7 @@ void        ui_paint_elem(t_ui_elem *e, int r, int g, int b, int a);
 //blocking
 void    ui_colorblock_1(t_ui_elem *e);
 void    ui_display_button(t_ui_elem *e);
+void    ui_display_radio_space(t_ui_elem *e);
 void    ui_display_radio_button(t_ui_elem *e);
 
 //display
