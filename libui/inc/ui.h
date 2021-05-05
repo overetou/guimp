@@ -86,10 +86,12 @@ typedef struct	s_ui_elem
 	struct s_ui_elem    *next;
 	struct s_ui_elem    *prev;
 	//Display info
-	t_percent_rect      proportions;/*Size of the element in percentages
+	SDL_Rect            relative_dimensions;/*Size of the element in percentages
 	relative to its parent actual size.*/
-	SDL_Rect            actual_sizes;/*The actual estate of the elem on the
-	screen, in pixels.*/
+	void                (*elem_dimensions_resolution_func)(SDL_Rect *reference,
+							SDL_Rect *values, SDL_Rect *to_fill);
+	SDL_Rect            actual_dimensions;/*The actual estate of the elem on the
+ * screen, in pixels.*/
 	char                display_priority;/*0 for invisible elem. Must be
 	positive otherwise. Smaller will be displayed on top of bigger
 	display_priority.*/
@@ -107,9 +109,11 @@ typedef struct	s_ui_elem
 	//Sensibility
 	t_ui_bool           sensible;/*If set to false, none of the user events
  * will be transmitted to or through this element.*/
-	t_percent_rect      *sensible_zones;/*A table of percent rects that
+	t_percent_rect      *sensible_zones_relative_dimensions;/*A table of percent rects that
 	represent the sensible zones of the elem.*/
-	SDL_Rect            sensible_rects;/*Sensible zones resolved by the ui into
+	void                (*sensible_zones_resolution_func)(SDL_Rect *reference,
+							SDL_Rect *values, SDL_Rect *to_fill);
+	SDL_Rect            sensible_zones_actual_dimensions;/*Sensible zones resolved by the ui into
 	actual pixel values. You are not expected to modify this value
 	but you may access it anytime.*/
 	short               nb_sensible_zones;//Number of sensible zones.

@@ -21,10 +21,10 @@ t_ui_elem *ui_create_virgin_elem(t_percentage x, t_percentage y, t_percentage w,
 {
 	t_ui_elem *new = ui_secure_malloc(sizeof(t_ui_elem));
 
-	new->proportions.x = x;
-	new->proportions.y = y;
-	new->proportions.w = w;
-	new->proportions.h = h;
+	new->relative_dimensions.x = x;
+	new->relative_dimensions.y = y;
+	new->relative_dimensions.w = w;
+	new->relative_dimensions.h = h;
 	new->win = win;
 	new->display_priority = display_priority;
 	new->next = NULL;
@@ -90,10 +90,10 @@ ui_add_elem(t_ui_elem *parent, t_percentage x, t_percentage y, t_percentage w,
 
 	new->parent = parent;
 	new->win = parent->win;
-	new->proportions.x = x;
-	new->proportions.y = y;
-	new->proportions.w = w;
-	new->proportions.h = h;
+	new->relative_dimensions.x = x;
+	new->relative_dimensions.y = y;
+	new->relative_dimensions.w = w;
+	new->relative_dimensions.h = h;
 	new->display_priority = disp_priority;
 	new->display_func = display_func;
 	new->store = NULL;

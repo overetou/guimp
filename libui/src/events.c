@@ -27,10 +27,10 @@ void ui_handle_click(t_ui *ui, SDL_MouseButtonEvent *ev)
 	{
 		if (e->sensible)
 		{
-			if (e->has_sub_clicks && ui_is_point_in_rect(ev->x, ev->y, &(e->actual_sizes)))
+			if (e->has_sub_clicks && ui_is_point_in_rect(ev->x, ev->y, &(e->actual_dimensions)))
 				e = e->sub_elems;
 			else if (e->click_func && ui_is_point_in_rect(ev->x, ev->y,
-												 &(e->sensible_rects)))
+												 &(e->sensible_zones_actual_dimensions)))
 			{
 				e->click_func(e, ev);
 				break;

@@ -19,8 +19,8 @@ void ui_display_img_at_center_of_elem(t_ui_elem *e, t_ui_img *img)
 	ui_sdl_critical_check(
 			SDL_QueryTexture(img, NULL, NULL, &(rect.w), &(rect.h))
 			== 0);
-	rect.x = e->actual_sizes.x + (e->actual_sizes.w - rect.w) / 2;
-	rect.y = e->actual_sizes.y + (e->actual_sizes.h - rect.h) / 2;
+	rect.x = e->actual_dimensions.x + (e->actual_dimensions.w - rect.w) / 2;
+	rect.y = e->actual_dimensions.y + (e->actual_dimensions.h - rect.h) / 2;
 	ui_sdl_critical_check(SDL_RenderCopy(UI_EL_REND(e), img, NULL, &rect) == 0);
 }
 
@@ -31,8 +31,8 @@ void ui_display_img(t_ui_elem *e, t_ui_img *img, t_percentage x, t_percentage y)
 	ui_sdl_critical_check(
 			SDL_QueryTexture(img, NULL, NULL, &(rect.w), &(rect.h))
 			== 0);
-	rect.x = e->actual_sizes.x + ((e->actual_sizes.w * x) / 100);
-	rect.y = e->actual_sizes.y + ((e->actual_sizes.h * y) / 100);
+	rect.x = e->actual_dimensions.x + ((e->actual_dimensions.w * x) / 100);
+	rect.y = e->actual_dimensions.y + ((e->actual_dimensions.h * y) / 100);
 	ui_sdl_critical_check(SDL_RenderCopy(UI_EL_REND(e), img, NULL, &rect) == 0);
 }
 
@@ -60,7 +60,7 @@ void ui_colorize_elem(t_ui_elem *e, int r, int g, int b, int a)
 {
 	ui_sdl_critical_check(
 			SDL_SetRenderDrawColor(UI_EL_REND(e), r, g, b, a) == 0
-			&& SDL_RenderFillRect(UI_EL_REND(e), &(e->actual_sizes)) == 0
+			&& SDL_RenderFillRect(UI_EL_REND(e), &(e->actual_dimensions)) == 0
 			);
 }
 

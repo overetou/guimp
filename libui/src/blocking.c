@@ -21,7 +21,7 @@ void ui_display_button(t_ui_elem *e)
 void ui_display_radio_space(t_ui_elem *e)
 {
 	t_radio_space_store *store = e->store;
-	int size = e->actual_sizes.h;
+	int size = e->actual_dimensions.h;
 	SDL_Color unchecked_color = {150, 100, 100, UI_ALPHA_OPAQUE};
 	SDL_Color checked_color = {100, 150, 100, UI_ALPHA_OPAQUE};
 
@@ -34,8 +34,8 @@ void ui_display_radio_space(t_ui_elem *e)
 void ui_display_radio_button(t_ui_elem *e)
 {
 	t_radio_button_store *store = e->store;
-	SDL_Rect dest = {e->actual_sizes.x, e->actual_sizes.y, e->actual_sizes.h,
-				  e->actual_sizes.h};
+	SDL_Rect dest = {e->actual_dimensions.x, e->actual_dimensions.y, e->actual_dimensions.h,
+	                 e->actual_dimensions.h};
 
 	SDL_RenderCopy(UI_EL_REND(e), *(store->checkbox_img), NULL, &dest);
 	ui_display_img(e, store->text, 20, 15);

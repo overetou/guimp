@@ -5,10 +5,10 @@
 
 void ui_calculate_win_content_actual_size(t_ui_win *win)
 {
-	win->content->actual_sizes.x = 0;
-	win->content->actual_sizes.y = 0;
-	win->content->actual_sizes.w = win->width;
-	win->content->actual_sizes.h = win->height;
+	win->content->actual_dimensions.x = 0;
+	win->content->actual_dimensions.y = 0;
+	win->content->actual_dimensions.w = win->width;
+	win->content->actual_dimensions.h = win->height;
 }
 
 void ui_infer_actual_size(SDL_Rect *reference_rect, t_percent_rect *proportions, SDL_Rect
@@ -24,5 +24,5 @@ void ui_infer_actual_size(SDL_Rect *reference_rect, t_percent_rect *proportions,
 
 void ui_infer_elem_actual_size(t_ui_elem *e)
 {
-	ui_infer_actual_size(&(e->parent->actual_sizes), &(e->proportions), &(e->actual_sizes));
+	ui_infer_actual_size(&(e->parent->actual_dimensions), &(e->relative_dimensions), &(e->actual_dimensions));
 }
