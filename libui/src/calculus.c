@@ -21,8 +21,3 @@ void ui_infer_actual_size(SDL_Rect *reference_rect, SDL_Rect *relative_dimension
 	to_fill->w = reference_rect->w * relative_dimensions->w / 100;
 	to_fill->h = reference_rect->h * relative_dimensions->h / 100;
 }
-
-void ui_infer_elem_actual_size(t_ui_elem *e)
-{
-	ui_infer_actual_size(&(e->parent->actual_dimensions), &(e->relative_dimensions), &(e->actual_dimensions));
-}

@@ -189,7 +189,6 @@ void    *ui_secure_malloc(size_t  len);
 
 //calculus
 void    ui_calculate_win_content_actual_size(t_ui_win *win);
-void    ui_infer_elem_actual_size(t_ui_elem *e);
 void    ui_infer_actual_size(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
 								*to_fill);
 
@@ -253,9 +252,11 @@ t_ui_elem *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
 
 //Sensibility
 void ui_add_clickable_zones(t_ui_elem *e, SDL_Rect *zones,
-                            void (*click_func)(t_ui_elem *,
-                                               SDL_MouseButtonEvent*),
-                            short nb_sensible_zones);
+                            void (*click_func)(t_ui_elem*,
+                            		SDL_MouseButtonEvent*),
+                            		short nb_sensible_zones,
+                            		void (*sensible_zones_resolution_func)
+		                            (SDL_Rect*, SDL_Rect*, SDL_Rect*));
 
 //events
 void    ui_handle_events(t_ui *ui);
