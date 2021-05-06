@@ -188,9 +188,15 @@ void	ui_critical_check(t_ui_bool val, const char *msg);
 void    *ui_secure_malloc(size_t  len);
 
 //calculus
-void    ui_calculate_win_content_actual_size(t_ui_win *win);
-void    ui_infer_actual_size(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
+void    ui_resolve_win_content_actual_size(t_ui_win *win);
+void    ui_resolve_as_percentages(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
 								*to_fill);
+void	ui_resolve_keep_actual_dimensions(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
+*to_fill);
+void	ui_resolve_as_square_from_h(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
+*to_fill);
+void	ui_set_x_and_y_from_ref(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
+*to_fill);
 
 //core functions
 t_ui    *ui_init(uint32_t ui_flags, int img_flags);

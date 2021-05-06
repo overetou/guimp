@@ -9,8 +9,8 @@ void        ui_free_button_store(void *to_free)
 	free(to_free);
 }
 
-t_ui_elem   *ui_create_button(t_ui_elem *parent, t_percentage x,
-							  t_percentage y, t_percentage w, t_percentage h,
+t_ui_elem   *ui_create_button(t_ui_elem *parent, int x,
+							  int y, int w, int h,
 							  const char *text,
 							  void (*click_func)(t_ui_elem*,
 							  		SDL_MouseButtonEvent*))
@@ -25,7 +25,7 @@ t_ui_elem   *ui_create_button(t_ui_elem *parent, t_percentage x,
 			1,
 			ui_display_button,
 			UI_TRUE,
-			ui_free_button_store);
+			ui_free_button_store, ui_resolve_as_percentages);
 	new->store = ui_secure_malloc(sizeof(t_ui_button_store));
 	((t_ui_button_store*)(new->store))->text_img = ui_text_to_texture(
 			text, 0, &fg, &bg, new);
@@ -37,7 +37,7 @@ t_ui_elem   *ui_create_button(t_ui_elem *parent, t_percentage x,
 			new,
 			&(((t_ui_button_store*)(new->store))->sensible_zone),
 			click_func,
-			1);
+			1, ui_resolve_as_percentages);
 	return new;
 }
 
@@ -50,14 +50,14 @@ void    free_radio_store(void *store)
 	free(st);
 }
 
-t_ui_elem   *ui_create_radio_button_container(t_ui_elem *parent, t_percentage
-x, t_percentage y, t_percentage w, t_percentage h)
+t_ui_elem   *ui_create_radio_button_container(t_ui_elem *parent, int
+x, int y, int w, int h)
 {
 	t_ui_elem *new;
 	t_radio_space_store *st;
 
 	new = ui_add_elem(parent, x, y, w, h, 1, ui_display_radio_space, UI_TRUE,
-				   free_radio_store);
+				   free_radio_store, ui_resolve_as_percentages);
 	new->store = ui_secure_malloc(sizeof(t_radio_space_store));
 	st = new->store;
 	st->current_choice = 0;
@@ -115,7 +115,7 @@ t_ui_elem   *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
 			1,
 			ui_display_radio_button,
 			UI_TRUE,
-			ui_free_radio_button_store);
+			ui_free_radio_button_store, ui_resolve_as_percentages);
 	new->store = ui_secure_malloc(sizeof(t_radio_button_store));
 	store = new->store;
 	store->text = ui_text_to_texture(choice_text, 0, &fg, &bg, new);
@@ -127,15 +127,12 @@ t_ui_elem   *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
 	store->sensible_zone.x = 0;
 	store->sensible_zone.y = 0;
 	store->sensible_zone.w = 100;
-	//TODO: Make the part that assigns the
-	// sensible rect modular. Or just use a new elem to materialise the
-	// button to press.
 	store->sensible_zone.h = 100;
 	ui_add_clickable_zones(
 			new,
 			&(store->sensible_zone),
 			radio_button_click_func,
-			1
-			);
+			1,
+			ui_resolve_as_square_from_h);
 	return new;
 }

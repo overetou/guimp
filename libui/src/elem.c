@@ -108,9 +108,12 @@ ui_add_elem(t_ui_elem *parent, int x, int y, int w,
 	new->sub_elems = NULL;
 	incorporate_sub_elem(&(parent->sub_elems), new);
 	new->elem_dimensions_resolution_func = elem_dimensions_resolution_func;
+	ui_set_x_and_y_from_ref(&(parent->actual_dimensions),
+	                        &(new->relative_dimensions),
+	                        &(new->actual_dimensions));
 	elem_dimensions_resolution_func(&(parent->actual_dimensions),
-								 &(new->relative_dimensions),
-								 &(new->actual_dimensions));
+	                                &(new->relative_dimensions),
+	                                &(new->actual_dimensions));
 	new->free_store_func = store_free_func;
 	return new;
 }

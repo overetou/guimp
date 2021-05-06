@@ -31,7 +31,7 @@ t_ui_win *ui_add_window(t_ui *ui, const char *title, int x, int y, int w, int h,
 	ui_sdl_critical_check(win->rend != NULL);
 	ui_update_window_size(win);
 	win->content = ui_create_virgin_elem(0, 0, 100, 100, win, 1, display_func);
-	ui_calculate_win_content_actual_size(win);
+	ui_resolve_win_content_actual_size(win);
 	win->ui = ui;
 	return win;
 }
