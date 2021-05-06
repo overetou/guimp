@@ -24,7 +24,7 @@ void ui_display_img_at_center_of_elem(t_ui_elem *e, t_ui_img *img)
 	ui_sdl_critical_check(SDL_RenderCopy(UI_EL_REND(e), img, NULL, &rect) == 0);
 }
 
-void ui_display_img(t_ui_elem *e, t_ui_img *img, t_percentage x, t_percentage y)
+void ui_display_img(t_ui_elem *e, t_ui_img *img, int x, int y)
 {
 	SDL_Rect rect;
 

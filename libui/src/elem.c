@@ -14,8 +14,8 @@ t_ui_img *ui_load_img(t_ui_win *win, const char *img_path)
 //Creates an elem with given parameters. All other settings will be negative
 // or set to nonexistent, excepted for sensible. You can set them manually or
 // use the appropriate functions.
-t_ui_elem *ui_create_virgin_elem(t_percentage x, t_percentage y, t_percentage w,
-                                 t_percentage h, t_ui_win *win,
+t_ui_elem *ui_create_virgin_elem(int x, int y, int w,
+                                 int h, t_ui_win *win,
                                  char display_priority,
                                  void (*display_func)(t_ui_elem *))
 {
@@ -81,8 +81,8 @@ static void incorporate_sub_elem(t_ui_elem **list, t_ui_elem *to_incorporate)
 //Incorporates the described element inside its parent. Returns the new
 // element's pointer for optional use.
 t_ui_elem *
-ui_add_elem(t_ui_elem *parent, t_percentage x, t_percentage y, t_percentage w,
-            t_percentage h, char disp_priority,
+ui_add_elem(t_ui_elem *parent, int x, int y, int w,
+            int h, char disp_priority,
             void (*display_func)(t_ui_elem *), t_ui_bool sensible,
             void (*store_free_func)(void *))
 {

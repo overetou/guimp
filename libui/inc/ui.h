@@ -59,18 +59,6 @@ typedef SDL_Color t_ui_color;/*A color. r = red, g = green, b = blue, a =
  * these values are meant to go from 0 to 255. Example: opaque red: r = 255,
  * b = 0, b = 0, a = 255.*/
 
-//A discrete value between 0 and 100
-typedef char t_percentage;
-
-//The values inside this struct are percentages between 0 and 100
-typedef struct	s_percent_rect
-{
-	t_percentage x;
-	t_percentage y;
-	t_percentage w;
-	t_percentage h;
-}				t_percent_rect;
-
 /*A structure that will only be used as a mean to make some
 generic code.*/
 typedef struct	s_link
@@ -109,7 +97,7 @@ typedef struct	s_ui_elem
 	//Sensibility
 	t_ui_bool           sensible;/*If set to false, none of the user events
  * will be transmitted to or through this element.*/
-	t_percent_rect      *sensible_zones_relative_dimensions;/*A table of percent rects that
+	SDL_Rect      *sensible_zones_relative_dimensions;/*A table of percent rects that
 	represent the sensible zones of the elem.*/
 	void                (*sensible_zones_resolution_func)(SDL_Rect *reference,
 							SDL_Rect *values, SDL_Rect *to_fill);
@@ -166,7 +154,7 @@ typedef struct  s_ui
 typedef struct  s_ui_button_store
 {
 	t_ui_img        *text_img;
-	t_percent_rect  sensible_zone;
+	SDL_Rect  sensible_zone;
 }               t_ui_button_store;
 
 typedef struct  s_radio_space_store
@@ -178,7 +166,7 @@ typedef struct  s_radio_space_store
 
 typedef struct      s_radio_button_store
 {
-	t_percent_rect  sensible_zone;
+	SDL_Rect  sensible_zone;
 	short           choice_index;
 	t_ui_img        **checkbox_img;
 	t_ui_img        *text;
@@ -202,7 +190,7 @@ void    *ui_secure_malloc(size_t  len);
 //calculus
 void    ui_calculate_win_content_actual_size(t_ui_win *win);
 void    ui_infer_elem_actual_size(t_ui_elem *e);
-void    ui_infer_actual_size(SDL_Rect *reference_rect, t_percent_rect *proportions, SDL_Rect
+void    ui_infer_actual_size(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
 								*to_fill);
 
 //core functions
@@ -218,16 +206,16 @@ void ui_update_window_size(t_ui_win *win);
 
 //elems
 t_ui_img    *ui_load_img(t_ui_win *win, const char *img_path);
-t_ui_elem *ui_create_virgin_elem(t_percentage x, t_percentage y, t_percentage w,
-                                 t_percentage h, t_ui_win *win,
+t_ui_elem *ui_create_virgin_elem(int x, int y, int w,
+                                 int h, t_ui_win *win,
                                  char display_priority,
                                  void (*display_func)(t_ui_elem *));
 void        ui_remove_elem(t_ui_elem *e);
 void        ui_transfer_elem(t_ui_elem *new_parent, t_ui_elem *e,
 							 char new_disp_priority);
 t_ui_elem *
-ui_add_elem(t_ui_elem *parent, t_percentage x, t_percentage y, t_percentage w,
-            t_percentage h, char disp_priority,
+ui_add_elem(t_ui_elem *parent, int x, int y, int w,
+            int h, char disp_priority,
             void (*display_func)(t_ui_elem *), t_ui_bool sensible,
             void (*store_free_func)(void *));
 void        ui_display_elem(t_ui_elem *e);
@@ -246,23 +234,23 @@ void        ui_close_font(TTF_Font *font);
 t_ui_img    *ui_text_to_texture(const char *text, int font_index, t_ui_color
 	*foreground, t_ui_color *background, t_ui_elem *e);
 void        ui_display_img_at_center_of_elem(t_ui_elem *e, t_ui_img *img);
-void        ui_display_img(t_ui_elem *e, t_ui_img *img, t_percentage x,
-						   t_percentage y);
+void        ui_display_img(t_ui_elem *e, t_ui_img *img, int x,
+						   int y);
 t_ui_img    *ui_create_colored_texture(t_ui_win *win, int w, int h, t_ui_color
 *color);
 //Interface elements
-t_ui_elem   *ui_create_button(t_ui_elem *parent, t_percentage x,
-							  t_percentage y, t_percentage w, t_percentage h,
+t_ui_elem   *ui_create_button(t_ui_elem *parent, int x,
+							  int y, int w, int h,
 							  const char *text,
 							  void (*click_func)(t_ui_elem*,
 							  		SDL_MouseButtonEvent*));
-t_ui_elem   *ui_create_radio_button_container(t_ui_elem *parent, t_percentage
-x, t_percentage y, t_percentage w, t_percentage h);
+t_ui_elem   *ui_create_radio_button_container(t_ui_elem *parent, int
+x, int y, int w, int h);
 t_ui_elem *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
                                   short choice_index);
 
 //Sensibility
-void ui_add_clickable_zones(t_ui_elem *e, t_percent_rect *zones,
+void ui_add_clickable_zones(t_ui_elem *e, SDL_Rect *zones,
                             void (*click_func)(t_ui_elem *,
                                                SDL_MouseButtonEvent*),
                             short nb_sensible_zones);
