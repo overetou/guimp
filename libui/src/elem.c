@@ -84,7 +84,9 @@ t_ui_elem *
 ui_add_elem(t_ui_elem *parent, int x, int y, int w,
             int h, char disp_priority,
             void (*display_func)(t_ui_elem *), t_ui_bool sensible,
-            void (*store_free_func)(void *))
+            void (*store_free_func)(void *), void
+            (*elem_dimensions_resolution_func)(SDL_Rect *, SDL_Rect *,
+            		SDL_Rect *))
 {
 	t_ui_elem *new = ui_secure_malloc(sizeof(t_ui_elem));
 
@@ -105,7 +107,10 @@ ui_add_elem(t_ui_elem *parent, int x, int y, int w,
 	new->click_func = NULL;
 	new->sub_elems = NULL;
 	incorporate_sub_elem(&(parent->sub_elems), new);
-	ui_infer_elem_actual_size(new);
+	new->elem_dimensions_resolution_func = elem_dimensions_resolution_func;
+	elem_dimensions_resolution_func(&(parent->actual_dimensions),
+								 &(new->relative_dimensions),
+								 &(new->actual_dimensions));
 	new->free_store_func = store_free_func;
 	return new;
 }
