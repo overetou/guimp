@@ -174,3 +174,7 @@ SEMI_BONUS:
 -Remplacer SDL_WaitEvent par quelque chose de plus vif.
 -Eventuellement Faire une fonction: ui_display_img_to_target. Qui permet de préciser le x, le y,
     le w et le h rapport à l'élément.
+
+Before other things, lets do the draw_fullcircle func.
+On va faire des render dans la texture. La première étape sera donc de passer la render target.
+Ensuite on peut rendre un carré. Ce carré sera le plus grand possible qui rentre dans le cercle.

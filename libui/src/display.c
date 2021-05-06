@@ -80,9 +80,11 @@ t_ui_img *ui_create_colored_texture(t_ui_win *win, int w, int h, t_ui_color
 	return new_img;
 }
 
-void ui_draw_fullcircle_img(t_ui_win *win, int w, int h)
+void ui_draw_fullcircle(t_ui_img *img, int w, int h, int radius, t_ui_win *win)
 {
-	(void)win;
-	(void)w;
-	(void)h;
+	SDL_SetRenderTarget(win->rend, img);
+
+
+
+	SDL_SetRenderTarget(win->rend, NULL);
 }
