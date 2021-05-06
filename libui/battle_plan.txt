@@ -174,19 +174,3 @@ SEMI_BONUS:
 -Remplacer SDL_WaitEvent par quelque chose de plus vif.
 -Eventuellement Faire une fonction: ui_display_img_to_target. Qui permet de préciser le x, le y,
     le w et le h rapport à l'élément.
-
-Boutons radios rond:
-On aura un élément logique parent qui contiendra tous les bouttons. Ici on pourra lui indiquer
-de prendre la moitié gauche de la fenêtre.
-Dans son store, on mettra:
-une texture pour le rond background des bouttons.
-une texture pour le rond de coche des boutons.
-Ces deux textures seront calculées par la display func pour nous simplifier le boulot.
-Les displays func des bouttons iront juste chercher ces textures pour les copier à leur
-emplacement.
-
-On peut déduire le placement vertical des choix radios à partir de l'index du choix.
-
-On veut que chaque zone puisse être résolue à l'aide d'une fonction custom.
-
-TODO: Mettre les fonctions relatives à chaque élément d'interface dans un fichier séparé.
