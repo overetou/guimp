@@ -86,23 +86,30 @@ void ui_draw_fullcircle(t_ui_img *img, int w, int h, int size, t_ui_win *win)
 	SDL_SetRenderDrawColor(win->rend, 100, 100, 255, SDL_ALPHA_OPAQUE);
 
 	(void)size;
+	int half_point = h / 2;
 	int i = 0;
 	int coord1 = w / 2;
 	int coord2 = coord1;
-	while (coord1 >= 0)
+	while (i != half_point)
 	{
 		SDL_RenderDrawLine(win->rend, coord1, i, coord2, i);
-		coord1--;
-		coord2++;
+		if (coord1 > 0)
+		{
+			coord1--;
+			coord2++;
+		}
 		i++;
 	}
 	coord1 += 2;
 	coord2 -= 2;
-	while (coord1 != coord2 && i != h)
+	while (i != h)
 	{
 		SDL_RenderDrawLine(win->rend, coord1, i, coord2, i);
-		coord1++;
-		coord2--;
+		if (coord1 != coord2)
+		{
+			coord1++;
+			coord2--;
+		}
 		i++;
 	}
 	SDL_RenderPresent(win->rend);
