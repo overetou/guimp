@@ -27,6 +27,7 @@ void ui_display_radio_space(t_ui_elem *e)
 
 	store->unchecked_img = ui_create_colored_texture(e->win, size, size,
 												  &unchecked_color);
+	ui_draw_fullcircle(store->unchecked_img, size, size, size, e->win);
 	store->checked_img = ui_create_colored_texture(e->win, size, size,
 	                                                 &checked_color);
 }

@@ -245,6 +245,9 @@ void        ui_display_img(t_ui_elem *e, t_ui_img *img, int x,
 						   int y);
 t_ui_img    *ui_create_colored_texture(t_ui_win *win, int w, int h, t_ui_color
 *color);
+void        ui_draw_fullcircle(t_ui_img *img, int w, int h, int size,
+							   t_ui_win *win);
+
 //Interface elements
 t_ui_elem   *ui_create_button(t_ui_elem *parent, int x,
 							  int y, int w, int h,
