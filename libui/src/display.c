@@ -90,6 +90,7 @@ void ui_draw_fullcircle(t_ui_img *img, int w, int h, int size, t_ui_win *win)
 	int i = 0;
 	int coord1 = w / 2;
 	int coord2 = coord1;
+	int final1, final2;
 	while (i != half_point)
 	{
 		SDL_RenderDrawLine(win->rend, coord1, i, coord2, i);
