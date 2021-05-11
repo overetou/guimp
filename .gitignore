@@ -7,3 +7,4 @@ guimp
 libui/vgcore*
 libui/*.zip
 libui/bl*
+libui/sdl2
