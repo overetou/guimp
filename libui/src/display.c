@@ -90,17 +90,18 @@ void ui_draw_fullcircle(t_ui_img *img, int w, int h, int size, t_ui_win *win)
 	int i = 0;
 	int coord1 = w / 2;
 	int coord2 = coord1;
-	int final1, final2;
+	//int diff;
 	while (i != half_point)
 	{
 		SDL_RenderDrawLine(win->rend, coord1, i, coord2, i);
-		if (coord1 > 0)
+		if (coord2 < w)
 		{
-			coord1--;
-			coord2++;
+			//diff = coord1;
+			//coord1 -= diff;
+			coord2 += half_point / (100 + i) - half_point ;
 		}
 		i++;
-	}
+	}/* 
 	coord1 += 2;
 	coord2 -= 2;
 	while (i != h)
@@ -108,11 +109,11 @@ void ui_draw_fullcircle(t_ui_img *img, int w, int h, int size, t_ui_win *win)
 		SDL_RenderDrawLine(win->rend, coord1, i, coord2, i);
 		if (coord1 != coord2)
 		{
-			coord1++;
-			coord2--;
+			coord1 += diff;
+			coord2 -= diff;
 		}
 		i++;
-	}
+	} */
 	SDL_RenderPresent(win->rend);
 	SDL_SetRenderTarget(win->rend, NULL);
 }

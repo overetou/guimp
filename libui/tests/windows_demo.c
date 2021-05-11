@@ -10,7 +10,7 @@ int main(void)
 	t_ui_elem       *radio_space;
 
 	ui = ui_init(UI_INIT_VIDEO, IMG_INIT_JPG | IMG_INIT_PNG);
-	win = ui_add_window(ui, "Pak", 100, 100, 500, 500,
+	win = ui_add_window(ui, "Pak", 100, 100, 1000, 1000,
 					 UI_WINDOW_RESIZABLE,
 					 UI_RENDERER_ACCELERATED | UI_RENDERER_PRESENTVSYNC,
 					 ui_colorblock_1);
