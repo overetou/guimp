@@ -5,8 +5,8 @@ TEST_OUT=windows_demo
 #Directories
 OBJ_DIR=obj
 SRC_DIR=src
-INC_DIRS=inc
-LIB_DIRS=.
+INC_DIRS=inc sdl2/SDL/include sdl2/SDL2_image-2.0.5 sdl2/SDL2_ttf-2.0.15
+LIB_DIRS=. sdl2/SDL/build/build/ sdl2/SDL2_ttf-2.0.15 sdl2/SDL2_ttf-2.0.15
 SDL_DIR=sdl2
 
 #Compilation related indications
@@ -25,7 +25,6 @@ LIBDIR_FLAGS=$(addprefix -L,$(LIB_DIRS))
 CFLAGS+= $(INC_FLAGS)
 LIBS_FLAGS=$(addprefix -l,$(LIBS))
 VPATH=$(SRC_DIR)
-
 .phony: $(TARGET) clean re
 
 all: $(TEST_OUT)
@@ -41,10 +40,10 @@ $(SDL_DIR):
 	cd $(SDL_DIR) && curl https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.5.zip --output SDL2_image-2.0.5.zip && unzip SDL2_image-2.0.5.zip && cd SDL2_image-2.0.5 && \
 	./configure && make
 
-$(TARGET): $(OBJS) $(INC_DIRS)/ui.h
+$(TARGET): $(OBJS) inc/ui.h
 	@ar rcs $@ $(OBJS)
 
-$(OBJS): $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c $(INC_DIRS)/ui.h |$(OBJ_DIR) $(SDL_DIR)
+$(OBJS): $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c inc/ui.h |$(OBJ_DIR) $(SDL_DIR)
 	@$(COMPILE.c) -g $(OUTPUT_OPTIONS) -o $@ $<
 
 $(OBJ_DIR):
@@ -54,6 +53,6 @@ clean:
 	rm -rf $(OBJS) $(TARGET)
 
 $(TEST_OUT): $(TARGET) tests/windows_demo.c
-	$(CC) -g $(INC_FLAGS) -o $@ tests/windows_demo.c $(LIB_DIRFLAGS) $(LIBS_FLAGS) $<
+	@ $(CC) -g $(INC_FLAGS) -o $@ tests/windows_demo.c $(LIB_DIRFLAGS) $(LIBS_FLAGS) $<
 
 re: clean $(TARGET)

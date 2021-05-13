@@ -4,9 +4,11 @@
 #ifndef UI
 #define UI
 
-#include <sdl2/SDL/SDL.h>
-#include <sdl2/IMG/SDL_image.h>
-#include <sdl2/TTF/SDL_ttf.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <SDL.h>
+#include <SDL_ttf.h>
+#include <SDL_image.h>
 
 #define FONT_NB 1
 
