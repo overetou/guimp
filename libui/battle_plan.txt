@@ -175,14 +175,4 @@ SEMI_BONUS:
 -Eventuellement Faire une fonction: ui_display_img_to_target. Qui permet de préciser le x, le y,
     le w et le h rapport à l'élément.
 
-Before other things, lets do the draw_fullcircle func.
-On va faire des render dans la texture. La première étape sera donc de passer la render target.
-Ensuite on peut rendre un carré. Ce carré sera le plus grand possible qui rentre dans le cercle.
-
-Par rapport au losange max contenu dans un cercle, l'écart s'écarte des extrémités jusqu'à
-la moitié de la distance, avant de se rapprocher.
-En pixels, cette moitiée est matérialisée par les diagonales de pixels. C'est là ou le cercle
-s'éloigne le plus du losange. Attention ce n'est pas le milieu de l'axe vertical supérieur (par
-exemple).
-
-Si on rajoute un pixel à chaque fois, on obtient une pente parfaitement oblique (à 45 degrés)
+boutton checkbox: faire des bouttons à taille fixe avec une texture de v vert téléchargée sur le net qui se met au milieu.
