@@ -176,3 +176,14 @@ SEMI_BONUS:
     le w et le h rapport à l'élément.
 
 boutton checkbox: faire des bouttons à taille fixe avec une texture de v vert téléchargée sur le net qui se met au milieu.
+0. Transférer les images de checkboxs dans le dossier assets.
+1. créer un store dans le win->content.
+	Y mettre les images des checkboxs.
+3. Faire le TODO dans ui_create_checkbox_button.
+4. définir la sensible zone de checkboxs, et creer la click_func.
+5. Tester tout ça.
+
+Note: on pourra facilement dériver des icones de ceux que l'on a déjà.
+Par exemple pour les passer en darkmode on peut faire un négatif. On peut aussi
+Somairement éditer les icones, par exemple faire une case vide à partir d'une case
+cochée.
