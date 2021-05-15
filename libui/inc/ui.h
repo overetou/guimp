@@ -272,15 +272,15 @@ t_ui_elem	*ui_create_radio_button_container(t_ui_elem *parent, int
 x, int y, int w, int h);
 t_ui_elem	*ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
 short choice_index);
-t_ui_elem	*ui_create_checkbox_button(t_ui_elem *parent, const char *text);
+t_ui_elem	*ui_create_checkbox_button(t_ui_elem *parent, const char *text, int x, int y);
 
 //Sensibility
 void ui_add_clickable_zones(t_ui_elem *e, SDL_Rect *zones,
-                            void (*click_func)(t_ui_elem*,
-                            		SDL_MouseButtonEvent*),
-                            		short nb_sensible_zones,
-                            		void (*sensible_zones_resolution_func)
-		                            (SDL_Rect*, SDL_Rect*, SDL_Rect*));
+	void (*click_func)(t_ui_elem*,
+	SDL_MouseButtonEvent*),
+	short nb_sensible_zones,
+	void (*sensible_zones_resolution_func)
+	(SDL_Rect*, SDL_Rect*, SDL_Rect*));
 
 //events
 void    ui_handle_events(t_ui *ui);

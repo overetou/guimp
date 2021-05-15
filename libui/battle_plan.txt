@@ -187,3 +187,7 @@ Note: on pourra facilement dériver des icones de ceux que l'on a déjà.
 Par exemple pour les passer en darkmode on peut faire un négatif. On peut aussi
 Somairement éditer les icones, par exemple faire une case vide à partir d'une case
 cochée.
+
+layout des checkbox:
+	On sait que nos bouttons et notre texte de checkbox auront une hauteur fixe.
+	En revanche il faudra les placer à la main.

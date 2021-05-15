@@ -27,16 +27,19 @@ void		ui_display_checkbox_button(t_ui_elem *e)
 	ui_display_img(e, store->text, 20, 15);
 }
 
-t_ui_elem	*ui_create_checkbox_button(t_ui_elem *parent, const char *text)
+t_ui_elem	*ui_create_checkbox_button(t_ui_elem *parent, const char *text, int x, int y)
 {
 	t_ui_elem				*new;
 	t_checkbox_button_store	*store;
 	t_ui_color				fg = {200, 200, 200, UI_ALPHA_OPAQUE};
 	t_ui_color				bg = {70, 70, 70, UI_ALPHA_OPAQUE};
 
-	new = ui_add_elem(parent, 0, 0, 0, 0, 1, ui_display_checkbox_button,
+	new = ui_add_elem(parent, x, y, 0, 0, 1, ui_display_checkbox_button,
 	UI_TRUE, ui_free_checkbox_store, ui_resolve_keep_actual_dimensions);
 	store = new->store;
 	store->checkbox = ((t_ui_wincontent_store*)(((t_ui_win*)(new->win))->content->store))->error;
-	new->actual_dimensions.w = ;
+	new->actual_dimensions.h = 30;
+	store->text = ui_text_to_texture(text, 0, &fg, &bg, new);
+	SDL_QueryTexture(store->text, NULL, NULL, &(new->actual_dimensions.w), NULL);
+	new->actual_dimensions.w += 30 + 5;
 }
