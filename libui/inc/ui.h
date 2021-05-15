@@ -153,10 +153,16 @@ typedef struct	s_ui
 	TTF_Font    *fonts[FONT_NB];//A tab to store your font pointers.
 }				t_ui;
 
+typedef struct	s_ui_wincontent_store
+{
+	t_ui_img	*success;
+	t_ui_img	*error;
+}				t_ui_wincontent_store;
+
 typedef struct	s_ui_button_store
 {
-	t_ui_img        *text_img;
-	SDL_Rect  sensible_zone;
+	t_ui_img	*text_img;
+	SDL_Rect	sensible_zone;
 }				t_ui_button_store;
 
 typedef struct	s_radio_space_store
@@ -236,6 +242,7 @@ void		ui_display_elem(t_ui_elem *e);
 void		display_elem(t_ui_elem *e);
 void		ui_paint_elem(t_ui_elem *e, int r, int g, int b, int a);
 //blocking
+void	ui_free_wincontent_store(void *to_free);
 void	ui_colorblock_1(t_ui_elem *e);
 void	ui_display_button(t_ui_elem *e);
 void	ui_display_radio_space(t_ui_elem *e);

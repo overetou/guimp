@@ -1,5 +1,14 @@
 #include "ui.h"
 
+void		ui_free_wincontent_store(void *to_free)
+{
+	t_ui_wincontent_store *store = to_free;
+
+	SDL_DestroyTexture(store->success);
+	SDL_DestroyTexture(store->error);
+	free(to_free);
+}
+
 void		ui_free_checkbox_store(void *to_free)
 {
 	t_checkbox_button_store *store = to_free;
@@ -27,5 +36,7 @@ t_ui_elem	*ui_create_checkbox_button(t_ui_elem *parent, const char *text)
 
 	new = ui_add_elem(parent, 0, 0, 0, 0, 1, ui_display_checkbox_button,
 	UI_TRUE, ui_free_checkbox_store, ui_resolve_keep_actual_dimensions);
-	//TODO: create the text image, then set the actual size of the elem.
+	store = new->store;
+	store->checkbox = ((t_ui_wincontent_store*)(((t_ui_win*)(new->win))->content->store))->error;
+	new->actual_dimensions.w = ;
 }
