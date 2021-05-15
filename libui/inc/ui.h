@@ -144,55 +144,62 @@ typedef struct	s_ui_win
 	set the background color/ image.*/
 }				t_ui_win;
 
-typedef struct  s_ui
+typedef struct	s_ui
 {
 	t_ui_win    *wins; //This list stores all the windows you added to the ui.
 	t_ui_elem   *focused;//TODO: Keep track of the currently focused element.
 	t_ui_bool   keep_going;/*Goes to true when ui_handle_events is called.
 	Set it to false to make the loop stop.*/
 	TTF_Font    *fonts[FONT_NB];//A tab to store your font pointers.
-}               t_ui;
+}				t_ui;
 
-typedef struct  s_ui_button_store
+typedef struct	s_ui_button_store
 {
 	t_ui_img        *text_img;
 	SDL_Rect  sensible_zone;
-}               t_ui_button_store;
+}				t_ui_button_store;
 
-typedef struct  s_radio_space_store
+typedef struct	s_radio_space_store
 {
 	t_ui_img    *unchecked_img;
 	t_ui_img    *checked_img;
 	short       current_choice;
-}               t_radio_space_store;
+}				t_radio_space_store;
 
-typedef struct      s_radio_button_store
+typedef struct	s_radio_button_store
 {
-	SDL_Rect  sensible_zone;
-	short           choice_index;
-	t_ui_img        **checkbox_img;
-	t_ui_img        *text;
-}                   t_radio_button_store;
+	SDL_Rect	sensible_zone;
+	short		choice_index;
+	t_ui_img	**checkbox_img;
+	t_ui_img	*text;
+}				t_radio_button_store;
+
+typedef struct		s_checkbox_button_store
+{
+	SDL_Rect		sensible_zone;
+	t_ui_img		*text;
+	t_ui_img		**checkbox;//We will use this to know wether the box is checked.
+}					t_checkbox_button_store;
 
 //basic stuff
-void    mem_copy(char *dest, const char *src, int len);
-void    add_link_to_list(t_link **list, t_link *new_link);
-void    remove_link_from_list(t_link **list, t_link *to_remove);
-void    free_list(t_link *list, void(*free_func)(void*));
-void    init_list(t_link **list, t_link *new_link);
-void    list_add_link_at_start(t_link **list, t_link *new_link);
-void    list_add_link_at_end(t_link *last_link, t_link *new_link);
-void    list_add_link_in_the_middle(t_link *next_link_to_be, t_link *new_link);
+void	mem_copy(char *dest, const char *src, int len);
+void	add_link_to_list(t_link **list, t_link *new_link);
+void	remove_link_from_list(t_link **list, t_link *to_remove);
+void	free_list(t_link *list, void(*free_func)(void*));
+void	init_list(t_link **list, t_link *new_link);
+void	list_add_link_at_start(t_link **list, t_link *new_link);
+void	list_add_link_at_end(t_link *last_link, t_link *new_link);
+void	list_add_link_in_the_middle(t_link *next_link_to_be, t_link *new_link);
 
 //security
-void    ui_sdl_critical_check(int val);
+void	ui_sdl_critical_check(int val);
 void	ui_critical_check(t_ui_bool val, const char *msg);
-void    *ui_secure_malloc(size_t  len);
+void	*ui_secure_malloc(size_t  len);
 
 //calculus
-void    ui_resolve_win_content_actual_size(t_ui_win *win);
-void    ui_resolve_as_percentages(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
-								*to_fill);
+void	ui_resolve_win_content_actual_size(t_ui_win *win);
+void	ui_resolve_as_percentages(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
+*to_fill);
 void	ui_resolve_keep_actual_dimensions(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
 *to_fill);
 void	ui_resolve_as_square_from_h(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
@@ -201,65 +208,64 @@ void	ui_set_x_and_y_from_ref(SDL_Rect *reference_rect, SDL_Rect *relative_dimens
 *to_fill);
 
 //core functions
-t_ui    *ui_init(uint32_t ui_flags, int img_flags);
-void    ui_close(t_ui *to_destroy);
-void        refresh_win(t_ui_win *win);
+t_ui	*ui_init(uint32_t ui_flags, int img_flags);
+void	ui_close(t_ui *to_destroy);
+void	refresh_win(t_ui_win *win);
 
 //windows
-t_ui_win *ui_add_window(t_ui *ui, const char *title, int x, int y, int w, int h,
-                        uint32_t flags, uint32_t render_flags,
-                        void (*display_func)(t_ui_elem *));
-void ui_update_window_size(t_ui_win *win);
+t_ui_win	*ui_add_window(t_ui *ui, const char *title, int x, int y, int 		w, int h, uint32_t flags, uint32_t render_flags, void (*display_func)(t_ui_elem *));
+void		ui_update_window_size(t_ui_win *win);
 
 //elems
-t_ui_img    *ui_load_img(t_ui_win *win, const char *img_path);
-t_ui_elem *ui_create_virgin_elem(int x, int y, int w,
+t_ui_img	*ui_load_img(t_ui_win *win, const char *img_path);
+t_ui_elem	*ui_create_virgin_elem(int x, int y, int w,
                                  int h, t_ui_win *win,
                                  char display_priority,
                                  void (*display_func)(t_ui_elem *));
-void        ui_remove_elem(t_ui_elem *e);
-void        ui_transfer_elem(t_ui_elem *new_parent, t_ui_elem *e,
+void		ui_remove_elem(t_ui_elem *e);
+void		ui_transfer_elem(t_ui_elem *new_parent, t_ui_elem *e,
 							 char new_disp_priority);
 t_ui_elem *
 ui_add_elem(t_ui_elem *parent, int x, int y, int w,
-            int h, char disp_priority,
-            void (*display_func)(t_ui_elem *), t_ui_bool sensible,
-            void (*store_free_func)(void *), void
-            (*elem_dimensions_resolution_func)(SDL_Rect *, SDL_Rect *,
-                                               SDL_Rect *));
-void        ui_display_elem(t_ui_elem *e);
-void        display_elem(t_ui_elem *e);
-void        ui_paint_elem(t_ui_elem *e, int r, int g, int b, int a);
+			int h, char disp_priority,
+			void (*display_func)(t_ui_elem *), t_ui_bool sensible,
+			void (*store_free_func)(void *), void
+			(*elem_dimensions_resolution_func)(SDL_Rect *, SDL_Rect *,
+			SDL_Rect *));
+void		ui_display_elem(t_ui_elem *e);
+void		display_elem(t_ui_elem *e);
+void		ui_paint_elem(t_ui_elem *e, int r, int g, int b, int a);
 //blocking
-void    ui_colorblock_1(t_ui_elem *e);
-void    ui_display_button(t_ui_elem *e);
-void    ui_display_radio_space(t_ui_elem *e);
-void    ui_display_radio_button(t_ui_elem *e);
+void	ui_colorblock_1(t_ui_elem *e);
+void	ui_display_button(t_ui_elem *e);
+void	ui_display_radio_space(t_ui_elem *e);
+void	ui_display_radio_button(t_ui_elem *e);
 
 //display
-void        ui_colorize_elem(t_ui_elem *e, int r, int g, int b, int a);
-TTF_Font    *ui_load_font(const char *path, int size);
-void        ui_close_font(TTF_Font *font);
-t_ui_img    *ui_text_to_texture(const char *text, int font_index, t_ui_color
+void		ui_colorize_elem(t_ui_elem *e, int r, int g, int b, int a);
+TTF_Font	*ui_load_font(const char *path, int size);
+void		ui_close_font(TTF_Font *font);
+t_ui_img	*ui_text_to_texture(const char *text, int font_index, t_ui_color
 	*foreground, t_ui_color *background, t_ui_elem *e);
-void        ui_display_img_at_center_of_elem(t_ui_elem *e, t_ui_img *img);
-void        ui_display_img(t_ui_elem *e, t_ui_img *img, int x,
-						   int y);
-t_ui_img    *ui_create_colored_texture(t_ui_win *win, int w, int h, t_ui_color
+void		ui_display_img_at_center_of_elem(t_ui_elem *e, t_ui_img *img);
+void		ui_display_img(t_ui_elem *e, t_ui_img *img, int x,
+							int y);
+t_ui_img	*ui_create_colored_texture(t_ui_win *win, int w, int h, t_ui_color
 *color);
-void        ui_draw_fullcircle(t_ui_img *img, int w, int h, int size,
+void		ui_draw_fullcircle(t_ui_img *img, int w, int h, int size,
 							   t_ui_win *win);
 
 //Interface elements
-t_ui_elem   *ui_create_button(t_ui_elem *parent, int x,
+t_ui_elem	*ui_create_button(t_ui_elem *parent, int x,
 							  int y, int w, int h,
 							  const char *text,
 							  void (*click_func)(t_ui_elem*,
 							  		SDL_MouseButtonEvent*));
-t_ui_elem   *ui_create_radio_button_container(t_ui_elem *parent, int
+t_ui_elem	*ui_create_radio_button_container(t_ui_elem *parent, int
 x, int y, int w, int h);
-t_ui_elem *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
-                                  short choice_index);
+t_ui_elem	*ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
+short choice_index);
+t_ui_elem	*ui_create_checkbox_button(t_ui_elem *parent, const char *text);
 
 //Sensibility
 void ui_add_clickable_zones(t_ui_elem *e, SDL_Rect *zones,

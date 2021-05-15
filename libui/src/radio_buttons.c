@@ -70,7 +70,6 @@ t_ui_elem   *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
 	t_ui_color              fg = {200, 200, 200, UI_ALPHA_OPAQUE};
 	t_ui_color              bg = {70, 70, 70, UI_ALPHA_OPAQUE};
 
-	(void)choice_text;
 	new = ui_add_elem(
 			parent,
 			15, (int)(choice_index * 10 + 15), 70, 5,

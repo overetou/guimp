@@ -16,11 +16,7 @@ int main(void)
 					 ui_colorblock_1);
 	ui->fonts[0] = ui_load_font("blackchancery/BLKCHCRY.TTF", 15);
 
-	radio_space = ui_create_radio_button_container(win->content, 0, 0, 50, 100);
-	ui_create_radio_button(radio_space, "Vim", 0);
-	ui_create_radio_button(radio_space, "Emacs", 1);
-	ui_create_radio_button(radio_space, "VSCode", 2);
-	ui_create_radio_button(radio_space, "CLion", 3);
+	
 
 	refresh_win(win);
 	ui_handle_events(ui);
