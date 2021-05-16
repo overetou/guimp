@@ -7,7 +7,6 @@ int main(void)
 {
 	t_ui					*ui;
 	t_ui_win				*win;
-	t_ui_elem				*radio_space;
 	t_ui_wincontent_store 	*wincontent_store;
 
 	ui = ui_init(UI_INIT_VIDEO, IMG_INIT_JPG | IMG_INIT_PNG);
@@ -16,20 +15,21 @@ int main(void)
 					 UI_RENDERER_ACCELERATED | UI_RENDERER_PRESENTVSYNC,
 					 ui_colorblock_1);
 	ui->fonts[0] = ui_load_font("blackchancery/BLKCHCRY.TTF", 15);//TODO: pass the font tank inside the wincontent_store?
-
 	win->content->store = malloc(sizeof(t_ui_wincontent_store));
 	win->content->free_store_func = ui_free_wincontent_store;
 	wincontent_store = win->content->store;
 	wincontent_store->success = ui_load_img(win, "assets/success.png");
 	wincontent_store->error = ui_load_img(win, "assets/error.png");
-	
+	if (wincontent_store->success == NULL || wincontent_store->error == NULL)
+	{
+		puts("Loading the image failed.");
+		exit(0);
+	}
+
+	ui_create_checkbox_button(win->content, "Check me.", 5, 5);
 
 	refresh_win(win);
 	ui_handle_events(ui);
-
-	t_radio_space_store *store = radio_space->store;
-	const char *editor_tab[] = {"Vim", "Emacs", "VSCode", "CLion"};
-	printf("Your editor is %s.\n", editor_tab[store->current_choice]);
 
 	ui_close_font(ui->fonts[0]);
 	ui_close(ui);

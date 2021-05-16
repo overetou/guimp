@@ -184,7 +184,7 @@ typedef struct		s_checkbox_button_store
 {
 	SDL_Rect		sensible_zone;
 	t_ui_img		*text;
-	t_ui_img		**checkbox;//We will use this to know wether the box is checked.
+	t_ui_img		*checkbox;//We will use this to know wether the box is checked.
 }					t_checkbox_button_store;
 
 //basic stuff

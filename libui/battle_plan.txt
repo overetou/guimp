@@ -179,7 +179,7 @@ boutton checkbox: faire des bouttons à taille fixe avec une texture de v vert t
 OK 0. Transférer les images de checkboxs dans le dossier assets.
 OK 1. créer un store dans le win->content.
 	Y mettre les images des checkboxs.
-3. Faire le TODO dans ui_create_checkbox_button.
+OK 3. Faire le TODO dans ui_create_checkbox_button.
 4. définir la sensible zone de checkboxs, et creer la click_func.
 5. Tester tout ça.
 
