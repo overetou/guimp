@@ -32,7 +32,7 @@ CUR_DIR = $(shell pwd)
 
 all: $(TEST_OUT)
 
-$(SDL_DIR):
+$(SDL_DIR):#This installation script is meant to be used during my scool corrections involving this lib.
 	mkdir $(SDL_DIR)
 	git clone https://github.com/libsdl-org/SDL.git $(SDL_DIR)/SDL
 	cd $(SDL_DIR)/SDL/ && mkdir build && cd build && ../configure --prefix=$(CUR_DIR)/$(SDL_DIR)/libs && make && make install
@@ -47,7 +47,7 @@ $(SDL_DIR):
 	./configure --prefix=$(CUR_DIR)/$(SDL_DIR)/libs SDL2_CONFIG=$(CUR_DIR)/$(SDL_DIR)/libs/bin/sdl2-config \
 	&& make && make install
 
-$(TARGET): $(OBJS) inc/ui.h load_path
+$(TARGET): $(OBJS) inc/ui.h
 	@ar rcs $@ $(OBJS)
 
 $(OBJS): $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c inc/ui.h |$(OBJ_DIR) $(SDL_DIR)
@@ -60,6 +60,6 @@ clean:
 	rm -rf $(OBJS) $(TARGET)
 
 $(TEST_OUT): $(TARGET) tests/windows_demo.c
-	$(CC) -g $(INC_FLAGS) -o $@ tests/windows_demo.c $(LIB_DIRFLAGS) $(LIBS_FLAGS) $<
+	$(CC) -g $(INC_FLAGS) -o $@ tests/windows_demo.c $(LIBDIR_FLAGS) $(LIBS_FLAGS) $<
 
 re: clean $(TARGET)
