@@ -6,7 +6,7 @@ libui/windows_demo
 guimp
 libui/vgcore*
 libui/*.zip
-libui/bl*
+libui/blackchancery.zip
 libui/sdl2
 libui/.vscode
 libui/assets/icon-collection1
