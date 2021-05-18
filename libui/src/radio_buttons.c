@@ -3,7 +3,7 @@
 //
 #include "ui.h"
 
-void    free_radio_store(void *store)
+void		free_radio_store(void *store)
 {
 	t_radio_space_store *st = store;
 
@@ -12,7 +12,7 @@ void    free_radio_store(void *store)
 	free(st);
 }
 
-void        ui_free_radio_button_store(void *to_free)
+void		ui_free_radio_button_store(void *to_free)
 {
 	t_radio_button_store *store = to_free;
 
@@ -20,13 +20,13 @@ void        ui_free_radio_button_store(void *to_free)
 	free(to_free);
 }
 
-void        radio_button_click_func(t_ui_elem *e, SDL_MouseButtonEvent *ev)
+void		radio_button_click_func(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 {
-	t_radio_space_store     *parent_store = e->parent->store;
-	t_radio_button_store    *store = e->store;
-	t_radio_button_store    *traveler_store;
-	t_ui_elem               *traveler;
-	int                     i = 0;
+	t_radio_space_store		*parent_store = e->parent->store;
+	t_radio_button_store	*store = e->store;
+	t_radio_button_store	*traveler_store;
+	t_ui_elem				*traveler;
+	int						i = 0;
 
 	(void)ev;
 	if (store->choice_index != parent_store->current_choice)
@@ -47,7 +47,7 @@ void        radio_button_click_func(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 	}
 }
 
-t_ui_elem   *ui_create_radio_button_container(t_ui_elem *parent, int
+t_ui_elem	*ui_create_radio_button_container(t_ui_elem *parent, int
 x, int y, int w, int h)
 {
 	t_ui_elem *new;
@@ -61,7 +61,7 @@ x, int y, int w, int h)
 	return new;
 }
 
-t_ui_elem   *ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
+t_ui_elem	*ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
                                     short choice_index)
 {
 	t_ui_elem               *new;

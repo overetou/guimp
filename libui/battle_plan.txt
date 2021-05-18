@@ -191,3 +191,5 @@ cochée.
 layout des checkbox:
 	On sait que nos bouttons et notre texte de checkbox auront une hauteur fixe.
 	En revanche il faudra les placer à la main.
+
+TODO: verifier le type de chaque texture et s'assurer que la routine d'affichage d'image tient bien compte de ce type.
