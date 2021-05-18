@@ -3,11 +3,11 @@ TARGET=libui.a
 TEST_OUT=windows_demo
 
 #Directories
+SDL_DIR=sdl2
 OBJ_DIR=obj
 SRC_DIR=src
-INC_DIRS=inc sdl2/SDL/include sdl2/SDL2_image-2.0.5 sdl2/SDL2_ttf-2.0.15
-LIB_DIRS=. sdl2/SDL/build/build/ sdl2/SDL2_ttf-2.0.15 sdl2/SDL2_ttf-2.0.15
-SDL_DIR=sdl2
+INC_DIRS=inc $(SDL_DIR)/libs/include
+LIB_DIRS=. $(SDL_DIR)/libs/lib
 
 #Compilation related indications
 CC=clang
@@ -25,20 +25,27 @@ LIBDIR_FLAGS=$(addprefix -L,$(LIB_DIRS))
 CFLAGS+= $(INC_FLAGS)
 LIBS_FLAGS=$(addprefix -l,$(LIBS))
 VPATH=$(SRC_DIR)
+
+CUR_DIR = $(shell pwd)
+
 .phony: $(TARGET) clean re
 
 all: $(TEST_OUT)
 
-$(SDL_DIR):
+$(SDL_DIR):#This installation script is meant to be used during my scool corrections involving this lib.
 	mkdir $(SDL_DIR)
-	git clone https://github.com/libsdl-org/SDL.git sdl2/SDL
-	cd $(SDL_DIR)/SDL/ && mkdir build && cd build && ../configure && make
+	git clone https://github.com/libsdl-org/SDL.git $(SDL_DIR)/SDL
+	cd $(SDL_DIR)/SDL/ && mkdir build && cd build && ../configure --prefix=$(CUR_DIR)/$(SDL_DIR)/libs && make && make install
 	git clone https://gitlab.freedesktop.org/freetype/freetype.git $(SDL_DIR)/freetype
-	cd $(SDL_DIR)/freetype && sh autogen.sh && ./configure FT2_CONFIG=../freetype/builds/unix/freetype-config && make
-	cd $(SDL_DIR) && curl https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.15.zip --output SDL2_ttf-2.0.15.zip && unzip SDL2_ttf-2.0.15.zip && cd SDL2_ttf-2.0.15 && \
-	./configure && make
-	cd $(SDL_DIR) && curl https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.5.zip --output SDL2_image-2.0.5.zip && unzip SDL2_image-2.0.5.zip && cd SDL2_image-2.0.5 && \
-	./configure && make
+	cd $(SDL_DIR)/freetype && sh autogen.sh && ./configure --prefix=$(CUR_DIR)/$(SDL_DIR)/libs  && make && make install
+	cd $(SDL_DIR) && curl https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.15.zip --output SDL2_ttf-2.0.15.zip \
+	&& unzip SDL2_ttf-2.0.15.zip && cd SDL2_ttf-2.0.15 && \
+	./configure --prefix=$(CUR_DIR)/$(SDL_DIR)/libs FT2_CONFIG=$(CUR_DIR)/$(SDL_DIR)/freetype/builds/unix/freetype-config SDL2_CONFIG=$(CUR_DIR)/$(SDL_DIR)/libs/bin/sdl2-config \
+	&& make && make install
+	cd $(SDL_DIR) && curl https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.5.zip --output SDL2_image-2.0.5.zip \
+	&& unzip SDL2_image-2.0.5.zip && cd SDL2_image-2.0.5 && \
+	./configure --prefix=$(CUR_DIR)/$(SDL_DIR)/libs SDL2_CONFIG=$(CUR_DIR)/$(SDL_DIR)/libs/bin/sdl2-config \
+	&& make && make install
 
 $(TARGET): $(OBJS) inc/ui.h
 	@ar rcs $@ $(OBJS)
@@ -53,6 +60,6 @@ clean:
 	rm -rf $(OBJS) $(TARGET)
 
 $(TEST_OUT): $(TARGET) tests/windows_demo.c
-	@ $(CC) -g $(INC_FLAGS) -o $@ tests/windows_demo.c $(LIB_DIRFLAGS) $(LIBS_FLAGS) $<
+	$(CC) -g $(INC_FLAGS) -o $@ tests/windows_demo.c $(LIBDIR_FLAGS) $(LIBS_FLAGS) $<
 
 re: clean $(TARGET)
