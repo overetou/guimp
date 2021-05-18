@@ -139,15 +139,10 @@ void ui_transfer_elem(t_ui_elem *new_parent, t_ui_elem *e,
 void ui_display_elem(t_ui_elem *e)
 {
 	e->display_func(e);
-}
-
-void display_elem(t_ui_elem *e)
-{
-	e->display_func(e);
 	e = e->sub_elems;
 	while (e && e->display_priority)
 	{
-		display_elem(e);
+		ui_display_elem(e);
 		e = e->next;
 	}
 }

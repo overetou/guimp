@@ -239,7 +239,6 @@ ui_add_elem(t_ui_elem *parent, int x, int y, int w,
 			(*elem_dimensions_resolution_func)(SDL_Rect *, SDL_Rect *,
 			SDL_Rect *));
 void		ui_display_elem(t_ui_elem *e);
-void		display_elem(t_ui_elem *e);
 void		ui_paint_elem(t_ui_elem *e, int r, int g, int b, int a);
 //blocking
 void	ui_free_wincontent_store(void *to_free);

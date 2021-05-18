@@ -36,7 +36,8 @@ void		ui_checkbox_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 		store->checkbox = ((t_ui_wincontent_store*)(((t_ui_win*)(e->win))->content->store))->error;
 	else
 		store->checkbox = ((t_ui_wincontent_store*)(((t_ui_win*)(e->win))->content->store))->success;
-	ui_display_elem(e);
+	e->display_func(e);
+	SDL_RenderPresent(((t_ui_win*)(e->win))->rend);
 }
 
 t_ui_elem	*ui_create_checkbox_button(t_ui_elem *parent, const char *text, int x, int y)
@@ -61,6 +62,5 @@ t_ui_elem	*ui_create_checkbox_button(t_ui_elem *parent, const char *text, int x,
 	new->sensible_zones_actual_dimensions.h = 30;
 	ui_add_clickable_zones(new, &(store->sensible_zone), ui_checkbox_clicked, 1,
 		ui_resolve_keep_actual_dimensions);
-	ui_display_rect_values(&(new->sensible_zones_actual_dimensions));
 	return new;
 }

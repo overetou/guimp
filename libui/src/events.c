@@ -23,7 +23,7 @@ void ui_handle_click(t_ui *ui, SDL_MouseButtonEvent *ev)
 	t_ui_win    *win = ui_find_win(ui, SDL_GetWindowFromID(ev->windowID));
 	t_ui_elem   *e = win->content;
 
-	printf("Clicked at pos: %d, %d.\n", ev->x, ev->y);//An useful line for debugging.
+	//printf("Clicked at pos: %d, %d.\n", ev->x, ev->y);//An useful line for debugging.
 	while (e)
 	{
 		if (e->sensible)

@@ -82,7 +82,7 @@ void refresh_win(t_ui_win *win)
 	sub_e = win->content->sub_elems;
 	while (sub_e && sub_e->display_priority)
 	{
-		display_elem(sub_e);
+		ui_display_elem(sub_e);
 		sub_e = sub_e->next;
 	}
 	SDL_RenderPresent(win->rend);
