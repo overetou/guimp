@@ -18,8 +18,8 @@ int main(void)
 	win->content->store = malloc(sizeof(t_ui_wincontent_store));
 	win->content->free_store_func = ui_free_wincontent_store;
 	wincontent_store = win->content->store;
-	wincontent_store->success = ui_load_img(win, "assets/checked.png");
-	wincontent_store->error = ui_load_img(win, "assets/checked.png");
+	wincontent_store->success = ui_load_img(win, "assets/unchecked.png");
+	wincontent_store->error = ui_load_img(win, "assets/unchecked.png");
 	if (wincontent_store->success == NULL || wincontent_store->error == NULL)
 	{
 		puts("Loading the image failed.");

@@ -25,7 +25,7 @@ void		ui_display_checkbox_button(t_ui_elem *e)
 
 	printf("dest actual dimensions: %d, %d.\n", dest.w, dest.h);
 	SDL_RenderCopy(UI_EL_REND(e), store->checkbox, NULL, &dest);
-	ui_display_img(e, store->text, 35, 15);
+	ui_display_img(e, store->text, 33, 20);
 }
 
 t_ui_elem	*ui_create_checkbox_button(t_ui_elem *parent, const char *text, int x, int y)
@@ -43,6 +43,6 @@ t_ui_elem	*ui_create_checkbox_button(t_ui_elem *parent, const char *text, int x,
 	new->actual_dimensions.h = 30;
 	store->text = ui_text_to_texture(text, 0, &fg, &bg, new);
 	SDL_QueryTexture(store->text, NULL, NULL, &(new->actual_dimensions.w), NULL);
-	new->actual_dimensions.w += 30 + 5;
+	new->actual_dimensions.w += 30 + 3;
 	return new;
 }
