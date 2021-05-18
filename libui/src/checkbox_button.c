@@ -23,6 +23,7 @@ void		ui_display_checkbox_button(t_ui_elem *e)
 	SDL_Rect dest = {e->actual_dimensions.x, e->actual_dimensions.y, e->actual_dimensions.h,
 	e->actual_dimensions.h};
 
+	printf("dest actual dimensions: %d, %d.\n", dest.w, dest.h);
 	SDL_RenderCopy(UI_EL_REND(e), store->checkbox, NULL, &dest);
 	ui_display_img(e, store->text, 35, 15);
 }

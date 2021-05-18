@@ -9,5 +9,5 @@ libui/*.zip
 libui/blackchancery.zip
 libui/sdl2
 libui/.vscode
-libui/assets/icon-collection1
+libui/assets/*.svg
 libui/windows_demo.dSYM/
