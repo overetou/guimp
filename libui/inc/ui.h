@@ -53,6 +53,7 @@
 #define UI_EL_UI(e) ((t_ui*)(UI_EL_WIN(e)->ui))
 #define UI_EXPAND_COLOR(x) x.r, x.g, x.b, x.a
 #define UI_EXPAND_COLOR_PTR(x) x->r, x->g, x->b, x->a
+#define UI_PX_FORMAT_FROM_EL(x) ((t_ui*)(((t_ui_win*)(x->win))->ui))->default_pixel_format
 
 typedef int t_ui_bool;//Can be set to UI_TRUE or UI_FALSE.
 typedef SDL_Texture t_ui_img;//An image that can be used by the ui.
@@ -151,6 +152,7 @@ typedef struct	s_ui
 	t_ui_bool   keep_going;/*Goes to true when ui_handle_events is called.
 	Set it to false to make the loop stop.*/
 	TTF_Font    *fonts[FONT_NB];//A tab to store your font pointers.
+	Uint32      default_pixel_format;
 }				t_ui;
 
 typedef struct	s_ui_wincontent_store

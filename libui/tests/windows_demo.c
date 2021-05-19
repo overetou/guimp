@@ -14,6 +14,7 @@ int main(void)
 					 UI_WINDOW_RESIZABLE,
 					 UI_RENDERER_ACCELERATED | UI_RENDERER_PRESENTVSYNC,
 					 ui_colorblock_1);
+
 	ui->fonts[0] = ui_load_font("blackchancery/BLKCHCRY.TTF", 15);//TODO: pass the font tank inside the wincontent_store?
 	win->content->store = malloc(sizeof(t_ui_wincontent_store));
 	win->content->free_store_func = ui_free_wincontent_store;

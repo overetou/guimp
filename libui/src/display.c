@@ -17,8 +17,8 @@ void ui_display_img_at_center_of_elem(t_ui_elem *e, t_ui_img *img)
 	SDL_Rect rect;
 
 	ui_sdl_critical_check(
-			SDL_QueryTexture(img, NULL, NULL, &(rect.w), &(rect.h))
-			== 0);
+			SDL_QueryTexture(img, NULL, NULL, &(rect.w),
+			&(rect.h)) == 0);
 	rect.x = e->actual_dimensions.x + (e->actual_dimensions.w - rect.w) / 2;
 	rect.y = e->actual_dimensions.y + (e->actual_dimensions.h - rect.h) / 2;
 	ui_sdl_critical_check(SDL_RenderCopy(UI_EL_REND(e), img, NULL, &rect) == 0);
@@ -70,7 +70,7 @@ t_ui_img *ui_create_colored_texture(t_ui_win *win, int w, int h, t_ui_color
 	t_ui_img *new_img;
 	SDL_Rect dest = {0, 0, w, h};
 
-	new_img = SDL_CreateTexture(win->rend, SDL_PIXELFORMAT_RGBA8888,
+	new_img = SDL_CreateTexture(win->rend, ((t_ui *)(((t_ui_win *)(win))->ui))->default_pixel_format,
 							 SDL_TEXTUREACCESS_TARGET, w, h);
 	SDL_SetRenderTarget(win->rend, new_img);
 	SDL_SetRenderDrawColor(win->rend, UI_EXPAND_COLOR_PTR(color));
