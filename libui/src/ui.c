@@ -42,6 +42,7 @@ static void ui_free_window(void *win)
 
 	while (e->sub_elems)
 		ui_remove_elem(e->sub_elems);
+	e->free_store_func(e->store);
 	free(e);
 	SDL_DestroyRenderer(((t_ui_win*)(win))->rend);
 	SDL_DestroyWindow(((t_ui_win*)(win))->sdl_ptr);
