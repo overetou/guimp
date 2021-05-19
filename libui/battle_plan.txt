@@ -157,7 +157,7 @@ OK-Creer une fonction de boutton
 -Ajouter dans display une fonction qui permet de créer un cercle plein à partir d'une couleur
     et d'un référentiel de taille.
 OK-bouton radio
--bouton checkbox
+OK-bouton checkbox
 -Slider
 -texte éditable en ligne
 -texte éditable en zone.
