@@ -36,7 +36,7 @@ void		ui_checkbox_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 		store->checkbox = ((t_ui_wincontent_store*)(((t_ui_win*)(e->win))->content->store))->error;
 	else
 		store->checkbox = ((t_ui_wincontent_store*)(((t_ui_win*)(e->win))->content->store))->success;
-	e->display_func(e);
+	ui_display_elem(((t_ui_win*)(e->win))->content);
 	SDL_RenderPresent(((t_ui_win*)(e->win))->rend);
 }
 

@@ -30,6 +30,7 @@ t_ui_elem *ui_create_virgin_elem(int x, int y, int w,
 	new->next = NULL;
 	new->prev = NULL;
 	new->store = NULL;
+	new->free_store_func = ui_free_nothing;
 	new->display_func = display_func;
 	new->sensible = UI_TRUE;
 	new->has_sub_hovers = UI_FALSE;
