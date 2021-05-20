@@ -177,12 +177,3 @@ SEMI_BONUS:
 	le w et le h rapport à l'élément.
 
 REFLEXIONS:
-
-Drag_and_drop + timing.
-Nous n'utiliserons pas SDL_WaitEvent mais SDL_PollEvent. De cette facon l'application pourra gerer plusieurs choses liees au
-temps en meme temps et simplement.
-Nos attentes:
-Pouvoir modifier dynamiquementla gestion des evenements. Tout simplement en pouvant remplacer le corps de
-ui_handle_click. Pour cela on aura une nouvelle fonction: ui_change_event_handler_func qui stockera dans ui
-le nouveau handler.
-La fonction ainsi stockee sera appelee a chaque fois qu'un poll est positif.

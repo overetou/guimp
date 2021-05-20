@@ -190,6 +190,12 @@ typedef struct		s_checkbox_button_store
 	t_ui_img		*checkbox;//We will use this to know wether the box is checked.
 }					t_checkbox_button_store;
 
+typedef struct		s_slider_store
+{
+	short			pos_as_percent;
+	SDL_Rect		sensible_zone;
+}					t_slider_store;
+
 //basic stuff
 void	mem_copy(char *dest, const char *src, int len);
 void	add_link_to_list(t_link **list, t_link *new_link);
@@ -214,6 +220,8 @@ void	ui_resolve_keep_actual_dimensions(SDL_Rect *reference_rect, SDL_Rect *relat
 void	ui_resolve_as_square_from_h(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
 *to_fill);
 void	ui_set_x_and_y_from_ref(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
+*to_fill);
+void	ui_resolve_w_as_percentage_keep_actual_h(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
 *to_fill);
 
 //core functions
