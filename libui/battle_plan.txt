@@ -159,6 +159,7 @@ OK-Creer une fonction de boutton
 OK-bouton radio
 OK-bouton checkbox
 -Slider
+	OK-ui_display_rect_in_elem
 -texte éditable en ligne
 -texte éditable en zone.
 -barre de scroll (c'est un bonus)
@@ -177,3 +178,13 @@ SEMI_BONUS:
 	le w et le h rapport à l'élément.
 
 REFLEXIONS:
+Pour l'affichage du slider:
+On connait la largeur en pixel du slider.
+On connait la longueur en pixel du slider.
+
+On affiche un rectangle de couleur subtilement degrade par rapport au fond sur toute la surface du slider
+(la rampe)
+On affiche un petit rectangle de taille fixe centré sur la position stockee dans store.
+
+La longueur logique du slider (qui nous servira a deduire la valeur du slider) = width - cursor_width.
+Il y aura un coussin de longueur: cursor_width / 2 a chaque extremite de la rampe.
