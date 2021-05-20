@@ -44,25 +44,33 @@ void ui_handle_click(t_ui *ui, SDL_MouseButtonEvent *ev)
 	}
 }
 
-void ui_handle_events(t_ui *ui)
+void	ui_default_event_handler(t_ui *ui, SDL_Event *ev)
 {
-	SDL_Event   ev;
+	switch (ev->type)
+	{
+		case SDL_QUIT:
+			ui->keep_going = UI_FALSE;
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			ui_handle_click(ui, (SDL_MouseButtonEvent*)ev);
+			break;
+	}
+}
+
+void	ui_handle_events(t_ui *ui)
+{
+	SDL_Event	ev;
 
 	ui->keep_going = UI_TRUE;
 	while (ui->keep_going)
 	{
-		ui_sdl_critical_check(SDL_WaitEvent(&ev) == 1);//FIXME: SDL_WaitEvent
-		// waits to much between polls and feels laggy. Replace it with
-		// tighter loop and if possible stop the polling when none of the
-		// window are focused.
-		switch (ev.type)
-		{
-			case SDL_QUIT:
-				ui->keep_going = UI_FALSE;
-				break;
-			case SDL_MOUSEBUTTONDOWN:
-				ui_handle_click(ui, (SDL_MouseButtonEvent*)(&ev));
-				break;
-		}
+		if (SDL_PollEvent(&ev))
+			ui->event_handler_func(ui, &ev);
+		SDL_Delay(100);
 	}
+}
+
+void	ui_change_event_handler(t_ui *ui, void(*new_event_handler_func)(t_ui*, SDL_Event*))
+{
+	ui->event_handler_func = new_event_handler_func;
 }

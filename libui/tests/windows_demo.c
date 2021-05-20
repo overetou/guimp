@@ -3,6 +3,32 @@
 //
 #include <ui.h>
 
+void	catch_mouse_held_down_demo(void)
+{
+	int			go = 1;
+	SDL_Event	ev;
+
+	while (go)
+	{
+		SDL_WaitEvent(&ev);
+		switch (ev.type)
+		{
+		case SDL_QUIT:
+			go = 0;
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+		printf("down on %d, %d.\n",
+		((SDL_MouseButtonEvent*)(&ev))->x, ((SDL_MouseButtonEvent*)(&ev))->y);
+		break;
+		case SDL_MOUSEBUTTONUP:
+		printf("Mouse up on %d, %d.\n", 
+		((SDL_MouseButtonEvent*)(&ev))->x, ((SDL_MouseButtonEvent*)(&ev))->y);
+		break;
+		}
+	}
+	
+}
+
 int main(void)
 {
 	t_ui					*ui;
@@ -27,10 +53,10 @@ int main(void)
 		exit(0);
 	}
 
-	ui_create_checkbox_button(win->content, "Check me.", 5, 5);
+	catch_mouse_held_down_demo();
 
-	refresh_win(win);
-	ui_handle_events(ui);
+	//refresh_win(win);
+	//ui_handle_events(ui);
 
 	ui_close_font(ui->fonts[0]);
 	ui_close(ui);

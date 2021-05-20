@@ -21,39 +21,39 @@ Fonctions autorisées:
 Requis de pouvoir:
 -Créer plusieurs fenêtres (pouvoir spécifier une couleur/image de fond)
 -Proposer différents types de fenêtres: générique à élément, modale OK, modale OK/CANCEL.
-    Elements de fenêtre générique:
-    -bouton
-    -menu
-    -texte
-    -image
-    -texte éditable (ligne et zone)
-    -checkbox
-    -radio
-    -slider
-    -liste déroulante
-    -barre de progression
-    -ect... ??
+	Elements de fenêtre générique:
+	-bouton
+	-menu
+	-texte
+	-image
+	-texte éditable (ligne et zone)
+	-checkbox
+	-radio
+	-slider
+	-liste déroulante
+	-barre de progression
+	-ect... ??
 -Chacun des éléments ont des paramètres (de style et de fonctionnalité). En gros on donne
-    du code tout fait à l'utilisateur qu'il pourra appliquer aux différents éléments.
-    Ex: spécifier la police et la couleur pour du texte, la taille, ect...
+	du code tout fait à l'utilisateur qu'il pourra appliquer aux différents éléments.
+	Ex: spécifier la police et la couleur pour du texte, la taille, ect...
 -Placer des éléments dans des éléments qui s'y prètent: un menu dans un menu, image dans
-    un bouton, ect. Plusieurs cascade différentes doivent être présentées.
+	un bouton, ect. Plusieurs cascade différentes doivent être présentées.
 -Utiliser des fonctions pour cacher / révéler les éléments d'interface.
 -Gérer les clicks, le focus, les touches. Pourvoir des callbacks par défaut (par exemple
-    incrémentation ou décrémentation d'un compteur) et pouvoir spécifier des callbacks
-    customs.
+	incrémentation ou décrémentation d'un compteur) et pouvoir spécifier des callbacks
+	customs.
 -Mettre en évidence que l'on gére correctement les évènements dans des éléments imbriqués.
 -Des raccourcis clavier par défaut pour chaque éléments (lorsque cela a un sens.)
-    Ex: Dans un texte éditable, ctrl-x pour couper le texte et le mettre dans le
-    presse papier.
+	Ex: Dans un texte éditable, ctrl-x pour couper le texte et le mettre dans le
+	presse papier.
 -Scrollabilité des éléments lorsque cela est sensé. L'utilisateur peut activer ou
-    désactiver cette propriété sur un élément.
+	désactiver cette propriété sur un élément.
 -Créer des préfabs: des combinaisons toutes prêtes d’éléments composés pour des
-    utilisations courantes, comme par ex une barre d’état avec images et infos,
-    ou encore un menu par défaut avec open/save/quit etc..
+	utilisations courantes, comme par ex une barre d’état avec images et infos,
+	ou encore un menu par défaut avec open/save/quit etc..
 -Préfabs requis:
-    -séléction de fichier.
-    -choix de police de charactère
+	-séléction de fichier.
+	-choix de police de charactère
 -Drag and drop, au moins pour les fenêtres
 -Si toutes ces fonctionalités ne sont pas utilisées pour guimp, faire une démo
 supplémentaire qui prouve leur existence et leur bon fonctionement.
@@ -63,31 +63,31 @@ Bonus:
 -Security mode: Un define qui, lorsqu'il est activé, vérifie que tout ce qui est
 demandé à l'ui est cohérent.
 -Element d'interface supplémentaires:
-    -books (plusieurs onglets qui modifient le contenu d'une sous page)
-    -notifications (semblables à celle de vscode)
-    -popup (comme ce qu'on a dans jetbrain quand on arrête le curseur sur un mot dans le code.)
+	-books (plusieurs onglets qui modifient le contenu d'une sous page)
+	-notifications (semblables à celle de vscode)
+	-popup (comme ce qu'on a dans jetbrain quand on arrête le curseur sur un mot dans le code.)
 -Ctrl-z
 
 Dessin de base, côté utilisateur:
 On a une structure ui, qui sera la première chose donnée à l'utilisateur.
 A partir de cette ui, il peut créer des fenêtres. Celle ci seront aisément accessibles à partir d'un tableau dans ui qui aura une contenance max de 10. La fonction de création de fenêtre renverra
-    également le pointeur de l'objet fenêtre crée.
+	également le pointeur de l'objet fenêtre crée.
 Aucune abstraction pour commencer. Les préfabs demandés seront le plus minimaliste possible. Si l'utilisateur souhaite travailler de façon générique, il devra avoir recours à un framework externe
 ou à une extension.
-    Ex de workflow: créer un menu.
-    -L'utilisateur crée manuellement tous les bouttons qu'il souhaite y mettre (en définissant leur apparence, leur callback et leur zones de sensibilité.
-    -Il crée un menu (en définissant ses éléments d'apparence propre)
-    -Il ajoute chaque bouton dans le menu avec la fonction prévue à cet effet.
+	Ex de workflow: créer un menu.
+	-L'utilisateur crée manuellement tous les bouttons qu'il souhaite y mettre (en définissant leur apparence, leur callback et leur zones de sensibilité.
+	-Il crée un menu (en définissant ses éléments d'apparence propre)
+	-Il ajoute chaque bouton dans le menu avec la fonction prévue à cet effet.
 
 Pour ce qui est du fonctionnement interne de la librairie: Il est essentiel que la librairie sache quoi dessiner lorsque on lui demande un refresh:
 -les fenêtres sont considérées comme l'élément d'interface racine. Elles contiennent toute leur interface, affichée ou pas, sensible ou pas.
-    On peut y ajouter autant d'éléments d'interface que l'on veut. Notons que certains éléments ont une liste limitée de types de contenu acceptés, comme les différents boutons.
+	On peut y ajouter autant d'éléments d'interface que l'on veut. Notons que certains éléments ont une liste limitée de types de contenu acceptés, comme les différents boutons.
 -Lorsque l'on ajoute un élément d'interface quelque part, il faut préciser sa position et sa surface relatives à l'élément qui les contient. Ces paramètres peuvent être modifiés
-    à tout moment.
+	à tout moment.
 -Un changement d'état des propriétés de base d'un élément affecte tout ceux qu'il contient (sans modifier leur valeur). (ex: si on passe la visibilité d'un menu à off, il deviendra
-    invisible, ainsi que tous les boutons qu'il contient. En revanche, si on le remet en visible, les boutons qui étaient en on se réaffichent et ceux en off reste invisibles.)
+	invisible, ainsi que tous les boutons qu'il contient. En revanche, si on le remet en visible, les boutons qui étaient en on se réaffichent et ceux en off reste invisibles.)
 -chaque élément contient également un int qui définie sa priorité d'affichage. Une priorité de 0 signifie que l'on est pas visible. Une priorité de 1 signifie que l'élément s'affichera par
-    dessus tous les autres qui sont en collision avec lui. Tous les éléments visibles doivent avoir une priorité unique.
+	dessus tous les autres qui sont en collision avec lui. Tous les éléments visibles doivent avoir une priorité unique.
 -Chaque élément contiendra une image. (sous forme de surface ou autre je sais pas encore) ou sera transparent. (image à NULL)
 -la librairie affiche tous les sous éléments par dessus l'image de l'élément qui les contient, en fonction de leur priorité.
 -on créera des fonctions pour faciliter la création de surfaces courantes (icone plus intitulé, ect...)
@@ -96,27 +96,27 @@ Pour ce qui est du fonctionnement interne de la librairie: Il est essentiel que 
 peut être NULL, auquel cas il ne sera pas déclenché.) Pareil pour les clics.
 
 Appels de la librairie:
-ui          *ui_init(initialisation params)
-ui_window   *ui_add_window(ui*, win params, renderer params)
-void        ui_add_elem(elem*, sub_elem*)
-void        ui_remove_elem(elem*, sub_elem) //removes the elem from the ui list, and ideally free the elem as well.
-surf        *ui_new_img_surf(img*)
-surf        *ui_new_color_surf(img*)
-surf        *ui_img_new_text_surf(text, text_color*, font, size[if not comprised in font], background_color*)
-button      *ui_new_button(surf*, sensible area, callback, callback_param*)
-surf        *ui_new_iconised_text(surf *icon, surf *text, surf *background) //Pas sur que ce soit pratique, Autant direct faire une fonction pour créer un boutton de ce type.
-slider      *ui_new_slider(step, max_val, min_val, button *selector,  button *slider_track)
-menu        *ui_new_menu(surf *img) //il faudra remplir ce menu manuellement par la suite.
-prog_bar    *ui_new_progress_bar(surf *background)
-void        *update_progress_bar(prog_bar*, new_foreground*)
-void        ui_set_hotkey(uint32 FLAG, callback, void *param) //the shortcuts will be stored in a chained list (with their flags, callback, param).
-char        *run_file_selection(uint32 flags, other needed params)
-void        v_scroll_by_n_percents(elem*, scroll_val)
-void        ui_upload_last_action(ui*, ui_action*) //This will delete all the next actions.
-void        ui_undo_last_action(ui*)
-void        ui_redo_next_action(ui*)
-char        *ui_get_paperpress_content(void)
-void        ui_set_paperpress_content(text*)
+ui			*ui_init(initialisation params)
+ui_window	*ui_add_window(ui*, win params, renderer params)
+void		ui_add_elem(elem*, sub_elem*)
+void		ui_remove_elem(elem*, sub_elem) //removes the elem from the ui list, and ideally free the elem as well.
+surf		*ui_new_img_surf(img*)
+surf		*ui_new_color_surf(img*)
+surf		*ui_img_new_text_surf(text, text_color*, font, size[if not comprised in font], background_color*)
+button		*ui_new_button(surf*, sensible area, callback, callback_param*)
+surf		*ui_new_iconised_text(surf *icon, surf *text, surf *background) //Pas sur que ce soit pratique, Autant direct faire une fonction pour créer un boutton de ce type.
+slider		*ui_new_slider(step, max_val, min_val, button *selector, button *slider_track)
+menu		*ui_new_menu(surf *img) //il faudra remplir ce menu manuellement par la suite.
+prog_bar	*ui_new_progress_bar(surf *background)
+void		*update_progress_bar(prog_bar*, new_foreground*)
+void		ui_set_hotkey(uint32 FLAG, callback, void *param) //the shortcuts will be stored in a chained list (with their flags, callback, param).
+char		*run_file_selection(uint32 flags, other needed params)
+void		v_scroll_by_n_percents(elem*, scroll_val)
+void		ui_upload_last_action(ui*, ui_action*) //This will delete all the next actions.
+void		ui_undo_last_action(ui*)
+void		ui_redo_next_action(ui*)
+char		*ui_get_paperpress_content(void)
+void		ui_set_paperpress_content(text*)
 et ainsi de suite pour tous les éléments d'interface.
 
 button
@@ -137,25 +137,25 @@ OK-Afficher du texte dans un elem et créer des fonctions faciles à manipuler p
 OK-Ne plus utiliser de SDL_Delay et gérer la fermeture de la fenêtre avec des moyens normaux.
 OK-Mettre en place le système de sensibilité aux clics
 OK-fonction refresh_win qui rafraichit intelligement la fenêtre aux seuls endroits qui seront
-    modifiés. Il suffit d'appeller la fonction display de l'élément addoc et de ses subs
-    une fois que la modification est finie.
+	modifiés. Il suffit d'appeller la fonction display de l'élément addoc et de ses subs
+	une fois que la modification est finie.
 -Remplacer la fonction remove_link par une autre qui est spécialisée dans la surpression
-    du premier élément de la liste dans les fonctions de nettoyage massif.
+	du premier élément de la liste dans les fonctions de nettoyage massif.
 -Rajouter une fonction: ui_modify_elem_appearance qui change la fonction display de l'elem et
-    appelle ui_display_elem dessus. Plus d'autres choses si nécessaire.
+	appelle ui_display_elem dessus. Plus d'autres choses si nécessaire.
 -Ajouter le support d'une free_store_func dans win->content au cas ou l'utilisateur veuille
-    utiliser le store de content. Sinon la mémoire leakera au moment ui_free_window supprimera
-    'content'.
+	utiliser le store de content. Sinon la mémoire leakera au moment ui_free_window supprimera
+	'content'.
 -Dans proportions, si w est à 0, on conservera toujours les actual size w et h.
-    De cette on ne fait qu'un test par resolution d'elem pour s'assurer que les proportions
-    doivent être appliquées pour ces deux membres.
+	De cette on ne fait qu'un test par resolution d'elem pour s'assurer que les proportions
+	doivent être appliquées pour ces deux membres.
 -S'assurer de la cohérence des types de chaque texture. Apparemment ça accélère le programme.
 
 BLOCKING:
 
 OK-Creer une fonction de boutton
 -Ajouter dans display une fonction qui permet de créer un cercle plein à partir d'une couleur
-    et d'un référentiel de taille.
+	et d'un référentiel de taille.
 OK-bouton radio
 OK-bouton checkbox
 -Slider
@@ -171,6 +171,18 @@ pour commencer.)
 -Système de scroll (pour du texte pour commencer, mais peut-être le rendre générique pour que ça marche aussi avec des images.)
 
 SEMI_BONUS:
--Remplacer SDL_WaitEvent par quelque chose de plus vif.
+-Creer des fonctions qui modidifient les membres de structure optionnellement modifiables
+	(au lieu que l'utilisateur les modifie directement et casse potentiellement un mecanisme).
 -Eventuellement Faire une fonction: ui_display_img_to_target. Qui permet de préciser le x, le y,
-    le w et le h rapport à l'élément.
+	le w et le h rapport à l'élément.
+
+REFLEXIONS:
+
+Drag_and_drop + timing.
+Nous n'utiliserons pas SDL_WaitEvent mais SDL_PollEvent. De cette facon l'application pourra gerer plusieurs choses liees au
+temps en meme temps et simplement.
+Nos attentes:
+Pouvoir modifier dynamiquementla gestion des evenements. Tout simplement en pouvant remplacer le corps de
+ui_handle_click. Pour cela on aura une nouvelle fonction: ui_change_event_handler_func qui stockera dans ui
+le nouveau handler.
+La fonction ainsi stockee sera appelee a chaque fois qu'un poll est positif.

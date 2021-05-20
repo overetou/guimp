@@ -3,15 +3,16 @@
 //
 #include "ui.h"
 
-t_ui    *ui_init(uint32_t ui_flags, int img_flags)
+t_ui	*ui_init(uint32_t ui_flags, int img_flags)
 {
-	t_ui    *new = ui_secure_malloc(sizeof(t_ui));
+	t_ui	*new = ui_secure_malloc(sizeof(t_ui));
 
 	ui_sdl_critical_check(SDL_Init(ui_flags) == 0);
 	ui_sdl_critical_check(IMG_Init(img_flags) == img_flags);
 	ui_sdl_critical_check(TTF_Init() == 0);
 	new->wins = NULL;
 	new->focused = NULL;
+	new->event_handler_func = ui_default_event_handler;
 	return new;
 }
 
@@ -19,11 +20,11 @@ t_ui    *ui_init(uint32_t ui_flags, int img_flags)
 // function that will be called upon refreshing the interface. It should be
 // created by the user.
 t_ui_win *ui_add_window(t_ui *ui, const char *title, int x, int y, int w, int h,
-                        uint32_t flags, uint32_t render_flags,
-                        void (*display_func)(t_ui_elem *))
+						uint32_t flags, uint32_t render_flags,
+						void (*display_func)(t_ui_elem *))
 {
-	t_ui_win            *win = ui_secure_malloc(sizeof(t_ui_win));
-	SDL_RendererInfo    info;
+	t_ui_win			*win = ui_secure_malloc(sizeof(t_ui_win));
+	SDL_RendererInfo	info;
 
 	add_link_to_list((t_link**)(&(ui->wins)), (t_link*)win);
 	win->sdl_ptr = SDL_CreateWindow(title, x, y, w, h, flags);
@@ -52,7 +53,7 @@ static void ui_free_window(void *win)
 	free(win);
 }
 
-void    ui_remove_win(t_ui *ui, t_ui_win *win)
+void	ui_remove_win(t_ui *ui, t_ui_win *win)
 {
 	remove_link_from_list((t_link**)(&(ui->wins)), (t_link*)win);
 	ui_free_window(win);

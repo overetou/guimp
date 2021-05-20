@@ -15,38 +15,38 @@
 #define UI_TRUE 1
 #define UI_FALSE 0
 
-#define UI_INIT_VIDEO           SDL_INIT_VIDEO
-#define UI_INIT_TIMER           SDL_INIT_TIMER
-#define UI_INIT_AUDIO           SDL_INIT_AUDIO
-#define UI_INIT_VIDEO           SDL_INIT_VIDEO
-#define UI_INIT_JOYSTICK        SDL_INIT_JOYSTICK
-#define UI_INIT_HAPTIC          SDL_INIT_HAPTIC
+#define UI_INIT_VIDEO		   SDL_INIT_VIDEO
+#define UI_INIT_TIMER		   SDL_INIT_TIMER
+#define UI_INIT_AUDIO		   SDL_INIT_AUDIO
+#define UI_INIT_VIDEO		   SDL_INIT_VIDEO
+#define UI_INIT_JOYSTICK		SDL_INIT_JOYSTICK
+#define UI_INIT_HAPTIC		  SDL_INIT_HAPTIC
 #define UI_INIT_GAMECONTROLLER  SDL_INIT_GAMECONTROLLER
-#define UI_INIT_EVENTS          SDL_INIT_EVENTS
-#define UI_INIT_EVERYTHING      SDL_INIT_EVERYTHING
-#define UI_INIT_NOPARACHUT      SDL_INIT_NOPARACHUTE
+#define UI_INIT_EVENTS		  SDL_INIT_EVENTS
+#define UI_INIT_EVERYTHING	  SDL_INIT_EVERYTHING
+#define UI_INIT_NOPARACHUT	  SDL_INIT_NOPARACHUTE
 
-#define UI_RENDERER_SOFTWARE        SDL_RENDERER_SOFTWARE
-#define UI_RENDERER_ACCELERATED     SDL_RENDERER_ACCELERATED
-#define UI_RENDERER_PRESENTVSYNC    SDL_RENDERER_PRESENTVSYNC
+#define UI_RENDERER_SOFTWARE		SDL_RENDERER_SOFTWARE
+#define UI_RENDERER_ACCELERATED	 SDL_RENDERER_ACCELERATED
+#define UI_RENDERER_PRESENTVSYNC	SDL_RENDERER_PRESENTVSYNC
 #define UI_RENDERER_TARGETTEXTURE   SDL_RENDERER_TARGETTEXTURE
 
-#define UI_WINDOW_FULLSCREEN            SDL_WINDOW_FULLSCREEN
-#define UI_WINDOW_FULLSCREEN_DESKTOP    SDL_WINDOW_FULLSCREEN_DESKTOP
-#define UI_WINDOW_OPENGL                SDL_WINDOW_OPENGL
-#define UI_WINDOW_VULKAN                SDL_WINDOW_VULKAN
-#define UI_WINDOW_METAL                 SDL_WINDOW_METAL
-#define UI_WINDOW_HIDDEN                SDL_WINDOW_HIDDEN
-#define UI_WINDOW_SHOWN                 SDL_WINDOW_SHOWN
-#define UI_WINDOW_BORDERLESS            SDL_WINDOW_BORDERLESS
-#define UI_WINDOW_RESIZABLE             SDL_WINDOW_RESIZABLE
-#define UI_WINDOW_MINIMIZED             SDL_WINDOW_MINIMIZED
-#define UI_WINDOW_MAXIMIZED             SDL_WINDOW_MAXIMIZED
-#define UI_WINDOW_INPUT_GRABBED         SDL_WINDOW_INPUT_GRABBED
-#define UI_WINDOW_ALLOW_HIGHDPI         SDL_WINDOW_ALLOW_HIGHDPI
+#define UI_WINDOW_FULLSCREEN			SDL_WINDOW_FULLSCREEN
+#define UI_WINDOW_FULLSCREEN_DESKTOP	SDL_WINDOW_FULLSCREEN_DESKTOP
+#define UI_WINDOW_OPENGL				SDL_WINDOW_OPENGL
+#define UI_WINDOW_VULKAN				SDL_WINDOW_VULKAN
+#define UI_WINDOW_METAL				 SDL_WINDOW_METAL
+#define UI_WINDOW_HIDDEN				SDL_WINDOW_HIDDEN
+#define UI_WINDOW_SHOWN				 SDL_WINDOW_SHOWN
+#define UI_WINDOW_BORDERLESS			SDL_WINDOW_BORDERLESS
+#define UI_WINDOW_RESIZABLE			 SDL_WINDOW_RESIZABLE
+#define UI_WINDOW_MINIMIZED			 SDL_WINDOW_MINIMIZED
+#define UI_WINDOW_MAXIMIZED			 SDL_WINDOW_MAXIMIZED
+#define UI_WINDOW_INPUT_GRABBED		 SDL_WINDOW_INPUT_GRABBED
+#define UI_WINDOW_ALLOW_HIGHDPI		 SDL_WINDOW_ALLOW_HIGHDPI
 
-#define UI_ALPHA_OPAQUE         SDL_ALPHA_OPAQUE
-#define UI_ALPHA_TRANSPARENT    SDL_ALPHA_TRANSPARENT
+#define UI_ALPHA_OPAQUE		 SDL_ALPHA_OPAQUE
+#define UI_ALPHA_TRANSPARENT	SDL_ALPHA_TRANSPARENT
 
 #define UI_EL_WIN(e) ((t_ui_win*)(e->win))
 #define UI_EL_REND(e) UI_EL_WIN(e)->rend
@@ -74,58 +74,58 @@ typedef struct	s_ui_elem
 {
 	/*Other elements in the same containing element. NULL if none. Don't
 	change the order of these two or put something before them.*/
-	struct s_ui_elem    *next;
-	struct s_ui_elem    *prev;
+	struct s_ui_elem	*next;
+	struct s_ui_elem	*prev;
 	//Display info
-	SDL_Rect            relative_dimensions;/*Size of the element in percentages
+	SDL_Rect			relative_dimensions;/*Size of the element in percentages
 	relative to its parent actual size.*/
-	void                (*elem_dimensions_resolution_func)(SDL_Rect *reference,
+	void				(*elem_dimensions_resolution_func)(SDL_Rect *reference,
 							SDL_Rect *values, SDL_Rect *to_fill);
-	SDL_Rect            actual_dimensions;/*The actual estate of the elem on the
+	SDL_Rect			actual_dimensions;/*The actual estate of the elem on the
  * screen, in pixels.*/
-	char                display_priority;/*0 for invisible elem. Must be
+	char				display_priority;/*0 for invisible elem. Must be
 	positive otherwise. Smaller will be displayed on top of bigger
 	display_priority.*/
-	void                (*display_func)(struct s_ui_elem*);/*A pointer to the
+	void				(*display_func)(struct s_ui_elem*);/*A pointer to the
 	function that will be called when the ui prompts the elem to display
 	itself. See such callback examples in src/blocking.c.
 	storing*/
-	void                *store;/*Pointer the disposition of the user. Use it
+	void				*store;/*Pointer the disposition of the user. Use it
 	however you like!*/
-	void                (*free_store_func)(void*);/*This func will be called
+	void				(*free_store_func)(void*);/*This func will be called
  * at the destruction of the element. It is meant to destroy the content of
  * the 'store' member of the elem ('store' will be passed as argument). If you
  * stored nothing, pass ui_do_nothing to it. Not NULL because the function
  * will be called without checking anything.*/
 	//Sensibility
-	t_ui_bool           sensible;/*If set to false, none of the user events
+	t_ui_bool		   sensible;/*If set to false, none of the user events
  * will be transmitted to or through this element.*/
-	SDL_Rect      *sensible_zones_relative_dimensions;/*A table of percent rects that
+	SDL_Rect	  *sensible_zones_relative_dimensions;/*A table of percent rects that
 	represent the sensible zones of the elem.*/
-	void                (*sensible_zones_resolution_func)(SDL_Rect *reference,
+	void				(*sensible_zones_resolution_func)(SDL_Rect *reference,
 							SDL_Rect *values, SDL_Rect *to_fill);
-	SDL_Rect            sensible_zones_actual_dimensions;/*Sensible zones resolved by the ui into
+	SDL_Rect			sensible_zones_actual_dimensions;/*Sensible zones resolved by the ui into
 	actual pixel values. You are not expected to modify this value
 	but you may access it anytime.*/
-	short               nb_sensible_zones;//Number of sensible zones.
+	short			   nb_sensible_zones;//Number of sensible zones.
 	//Hover
-	t_ui_bool           has_sub_hovers;/*True if somewhere in the
+	t_ui_bool		   has_sub_hovers;/*True if somewhere in the
  * sub-hierarchie of this element, one has hover_func set to a callback.*/
-	void                (*hover_func)(struct s_ui_elem*);/*Called when one
+	void				(*hover_func)(struct s_ui_elem*);/*Called when one
  * of the element's sensible zones is hovered.*/
 	//Clicks
-	t_ui_bool           has_sub_clicks;/*Same as before but applied to clicks
+	t_ui_bool		   has_sub_clicks;/*Same as before but applied to clicks
  * . Note that it concerns right click, left click and the middle button upon
  * their button-down event.TODO: transmit button-up events as well.*/
-	void                (*click_func)(struct s_ui_elem*,
+	void				(*click_func)(struct s_ui_elem*,
 			SDL_MouseButtonEvent*);/*Called when any sensible zone of the
  * elem is clicked.*/
 	//sub_elems
-	struct s_ui_elem    *sub_elems;/*Elements contained inside this one.*/
+	struct s_ui_elem	*sub_elems;/*Elements contained inside this one.*/
 	//parent
-	struct s_ui_elem    *parent;/*The element that contains this one.*/
+	struct s_ui_elem	*parent;/*The element that contains this one.*/
 	//win ref
-	void                *win;/*The window that contains this element.*/
+	void				*win;/*The window that contains this element.*/
 }				t_ui_elem;
 
 typedef struct	s_ui_win
@@ -135,24 +135,25 @@ typedef struct	s_ui_win
 	struct s_ui_win *next;//The next window in line.
 	struct s_ui_win *prev;/*Previous window.
 	other content.*/
-	void            *ui;/*Points back to its owning ui. Use this to modify
+	void			*ui;/*Points back to its owning ui. Use this to modify
 	keep_going or access your fonts. Note that elems have a win pointer.*/
-	SDL_Window      *sdl_ptr;
-	SDL_Renderer    *rend;
-	int             width;//Not percentages but the real value in pixels.
-	int             height;
-	t_ui_elem       *content;/*The root elem of the window. Should be used to
+	SDL_Window	  *sdl_ptr;
+	SDL_Renderer	*rend;
+	int			 width;//Not percentages but the real value in pixels.
+	int			 height;
+	t_ui_elem	   *content;/*The root elem of the window. Should be used to
 	set the background color/ image.*/
 }				t_ui_win;
 
 typedef struct	s_ui
 {
-	t_ui_win    *wins; //This list stores all the windows you added to the ui.
-	t_ui_elem   *focused;//TODO: Keep track of the currently focused element.
-	t_ui_bool   keep_going;/*Goes to true when ui_handle_events is called.
+	t_ui_win	*wins; //This list stores all the windows you added to the ui.
+	t_ui_elem	*focused;//TODO: Keep track of the currently focused element.
+	t_ui_bool	keep_going;/*Goes to true when ui_handle_events is called.
 	Set it to false to make the loop stop.*/
-	TTF_Font    *fonts[FONT_NB];//A tab to store your font pointers.
-	Uint32      default_pixel_format;
+	TTF_Font	*fonts[FONT_NB];//A tab to store your font pointers.
+	Uint32		default_pixel_format;
+	void		(*event_handler_func)(struct s_ui*, SDL_Event*);
 }				t_ui;
 
 typedef struct	s_ui_wincontent_store
@@ -169,9 +170,9 @@ typedef struct	s_ui_button_store
 
 typedef struct	s_radio_space_store
 {
-	t_ui_img    *unchecked_img;
-	t_ui_img    *checked_img;
-	short       current_choice;
+	t_ui_img	*unchecked_img;
+	t_ui_img	*checked_img;
+	short	   current_choice;
 }				t_radio_space_store;
 
 typedef struct	s_radio_button_store
@@ -227,12 +228,12 @@ void		ui_update_window_size(t_ui_win *win);
 //elems
 t_ui_img	*ui_load_img(t_ui_win *win, const char *img_path);
 t_ui_elem	*ui_create_virgin_elem(int x, int y, int w,
-                                 int h, t_ui_win *win,
-                                 char display_priority,
-                                 void (*display_func)(t_ui_elem *));
+									int h, t_ui_win *win,
+									char display_priority,
+									void (*display_func)(t_ui_elem *));
 void		ui_remove_elem(t_ui_elem *e);
 void		ui_transfer_elem(t_ui_elem *new_parent, t_ui_elem *e,
-							 char new_disp_priority);
+								char new_disp_priority);
 t_ui_elem *
 ui_add_elem(t_ui_elem *parent, int x, int y, int w,
 			int h, char disp_priority,
@@ -284,16 +285,18 @@ void ui_add_clickable_zones(t_ui_elem *e, SDL_Rect *zones,
 	(SDL_Rect*, SDL_Rect*, SDL_Rect*));
 
 //events
-void    ui_handle_events(t_ui *ui);
+void	ui_handle_events(t_ui *ui);
+void	ui_change_event_handler(t_ui *ui, void(*new_event_handler_func)(t_ui*, SDL_Event*));
 
 //Pre-made callbacks
-void    ui_stop_event_handling(t_ui_elem *e, SDL_MouseButtonEvent *ev);/*Uses
+void	ui_stop_event_handling(t_ui_elem *e, SDL_MouseButtonEvent *ev);/*Uses
  * the element to set 'keep_going' to false.(In its containing ui.)*/
-void    ui_debug_say_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev);
-void    ui_free_nothing(void *unused);
-void    ui_display_nothing(t_ui_elem *e);
+void	ui_debug_say_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev);
+void	ui_free_nothing(void *unused);
+void	ui_display_nothing(t_ui_elem *e);
+void	ui_default_event_handler(t_ui *ui, SDL_Event *ev);
 
 //Data printing
-void    ui_display_rect_values(SDL_Rect *rect);
+void	ui_display_rect_values(SDL_Rect *rect);
 
 #endif //UI
