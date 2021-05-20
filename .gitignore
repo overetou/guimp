@@ -1,4 +1,3 @@
-.idea
 obj
 libui/obj
 libui/libui.a
@@ -11,3 +10,5 @@ libui/sdl2
 libui/.vscode
 libui/assets/*.svg
 libui/windows_demo.dSYM/
+libui/.kdev4/
+libui/libui.kdev4
