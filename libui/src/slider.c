@@ -12,6 +12,8 @@ void	ui_display_slider(t_ui_elem *e)
 
 void	ui_slider_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 {
+    SDL_Color   line_color = {120, 120, 120, UI_ALPHA_OPAQUE};
+    SDL_Color   cursor_color = {100, 100, 100, UI_ALPHA_OPAQUE};
 	SDL_Rect	target_in_elem_percent = {0, 0, e->actual_dimensions.w, e->actual_dimensions.h};
 
 	//Create the colors for the two elements.
