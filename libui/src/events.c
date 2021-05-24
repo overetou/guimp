@@ -59,13 +59,20 @@ void	ui_default_event_handler(t_ui *ui, SDL_Event *ev)
 
 void	ui_handle_events(t_ui *ui)
 {
-	SDL_Event	ev;
+	SDL_Event				ev;
+	t_permanent_func_block	*perma_func;
 
 	ui->keep_going = UI_TRUE;
 	while (ui->keep_going)
 	{
 		if (SDL_PollEvent(&ev))
 			ui->event_handler_func(ui, &ev);
+		perma_func = ui->perma_funcs;
+		while (perma_func)
+		{
+			perma_func->func(ui, perma_func->store);
+			perma_func = perma_func->next;
+		}
 		SDL_Delay(100);
 	}
 }

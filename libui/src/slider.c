@@ -13,11 +13,24 @@ void	ui_display_slider(t_ui_elem *e)
 	ui_display_absoluste_colored_rect(e, &cursor_dimensions, &cursor_color);
 }
 
+void	ui_slider_drag_event_handler(t_ui *ui, SDL_Event *ev)
+{
+	switch (ev->type)
+	{
+		case SDL_QUIT:
+			ui->keep_going = UI_FALSE;
+			break;
+		case SDL_MOUSEBUTTONUP:
+			ui_change_event_handler(ui, ui_default_event_handler);
+			break;
+	}
+}
+
 void	ui_slider_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 {
-	(void)e;
 	(void)ev;
-	puts("clicked");
+	ui_change_event_handler(((t_ui_win*)(e->win))->ui, ui_slider_drag_event_handler);
+	//insert permanent function pointer.
 }
 
 t_ui_elem	*ui_create_slider(t_ui_elem *parent, int x, int y, int w, int current_cursor_val, int max_cursor_val)

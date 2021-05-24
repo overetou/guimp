@@ -189,9 +189,5 @@ On affiche un petit rectangle de taille fixe centré sur la position stockee dan
 La longueur logique du slider (qui nous servira a deduire la valeur du slider) = width - cursor_width.
 Il y aura un coussin de longueur: cursor_width / 2 a chaque extremite de la rampe.
 
-Pour trouver le x du curseur, on prend d'abord le debut de la surface de l'element.
-Ensuite on prend le pourcentage actuel dans le store.
-Ce store represente la valeur du slider entre min et max.
-On va deduire la valeur en pixel de placement du rectangle (le pixel le plus a gauche) a partir de cet
-indice:
-reference->h * dimensions->h / 100;
+Dans ui on cree une liste chainee de pointeur sur fonction qui seront executes a chaque apres chaque
+appel de sdl_poll.

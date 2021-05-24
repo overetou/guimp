@@ -115,15 +115,23 @@ typedef struct	s_ui_win
 	set the background color/ image.*/
 }				t_ui_win;
 
+typedef struct	s_permanent_func_block
+{
+	void								(*func)(t_ui*, void*);
+	void								*store;//note: you can use it as an int with a cast.
+	struct s_permanent_func_bloc		*next;
+}				t_permanent_func_block;
+
 typedef struct	s_ui
 {
-	t_ui_win	*wins; //This list stores all the windows you added to the ui.
-	t_ui_elem	*focused;//TODO: Keep track of the currently focused element.
-	t_ui_bool	keep_going;/*Goes to true when ui_handle_events is called.
+	t_ui_win				*wins; //This list stores all the windows you added to the ui.
+	t_ui_elem				*focused;//TODO: Keep track of the currently focused element.
+	t_ui_bool				keep_going;/*Goes to true when ui_handle_events is called.
 	Set it to false to make the loop stop.*/
-	TTF_Font	*fonts[FONT_NB];//A tab to store your font pointers.
-	Uint32		default_pixel_format;
-	void		(*event_handler_func)(struct s_ui*, SDL_Event*);
+	TTF_Font				*fonts[FONT_NB];//A tab to store your font pointers.
+	Uint32					default_pixel_format;
+	void					(*event_handler_func)(struct s_ui*, SDL_Event*);
+	t_permanent_func_block	*perma_funcs;
 }				t_ui;
 
 typedef struct	s_ui_wincontent_store
