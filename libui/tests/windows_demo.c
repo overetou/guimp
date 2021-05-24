@@ -53,10 +53,10 @@ int main(void)
 		exit(0);
 	}
 
-	catch_mouse_held_down_demo();
+	ui_create_slider(win->content, 10, 10, 50, 50, 100);
 
-	//refresh_win(win);
-	//ui_handle_events(ui);
+	refresh_win(win);
+	ui_handle_events(ui);
 
 	ui_close_font(ui->fonts[0]);
 	ui_close(ui);

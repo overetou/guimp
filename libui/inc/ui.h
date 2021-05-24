@@ -54,7 +54,9 @@
 #define UI_EXPAND_COLOR(x) x.r, x.g, x.b, x.a
 #define UI_EXPAND_COLOR_PTR(x) x->r, x->g, x->b, x->a
 #define UI_PX_FORMAT_FROM_EL(x) ((t_ui*)(((t_ui_win*)(x->win))->ui))->default_pixel_format
+
 #define UI_SLIDER_CURSOR_WIDTH_IN_PX 10
+#define UI_SLIDER_HEIGHT_IN_PX 15
 
 typedef int t_ui_bool;//Can be set to UI_TRUE or UI_FALSE.
 typedef SDL_Texture t_ui_img;//An image that can be used by the ui.
@@ -255,6 +257,7 @@ x, int y, int w, int h);
 t_ui_elem	*ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
 short choice_index);
 t_ui_elem	*ui_create_checkbox_button(t_ui_elem *parent, const char *text, int x, int y);
+t_ui_elem	*ui_create_slider(t_ui_elem *parent, int x, int y, int w, int current_cursor_val, int max_cursor_val);
 
 //Sensibility
 void ui_add_clickable_zones(t_ui_elem *e, SDL_Rect *zones,
