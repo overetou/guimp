@@ -90,15 +90,18 @@ void ui_draw_fullcircle(t_ui_img *img, int w, int h, int size, t_ui_win *win)
 	(void)win;
 }
 
+//TODO:finish this func
 void	ui_display_rect_from_elem_percentage(t_ui_elem *e, SDL_Rect *r, SDL_Color *c)
 {
 	SDL_SetRenderDrawColor(((t_ui_win*)(e->win))->rend, UI_EXPAND_COLOR_PTR(c));
+
 	SDL_RenderFillRect(((t_ui_win*)(e->win))->rend, r);
 }
 
-//TODO: set this func right
+//TODO: finish this func
 void	ui_display_absolute_rect_relative_to_elem(t_ui_elem *e, SDL_Rect *r, SDL_Color *c)
 {
 	SDL_SetRenderDrawColor(((t_ui_win*)(e->win))->rend, UI_EXPAND_COLOR_PTR(c));
+	
 	SDL_RenderFillRect(((t_ui_win*)(e->win))->rend, r);
 }

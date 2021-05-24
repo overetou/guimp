@@ -54,6 +54,7 @@
 #define UI_EXPAND_COLOR(x) x.r, x.g, x.b, x.a
 #define UI_EXPAND_COLOR_PTR(x) x->r, x->g, x->b, x->a
 #define UI_PX_FORMAT_FROM_EL(x) ((t_ui*)(((t_ui_win*)(x->win))->ui))->default_pixel_format
+#define UI_SLIDER_CURSOR_WIDTH_IN_PX 10
 
 typedef int t_ui_bool;//Can be set to UI_TRUE or UI_FALSE.
 typedef SDL_Texture t_ui_img;//An image that can be used by the ui.
@@ -72,76 +73,43 @@ typedef struct	s_link
 
 typedef struct	s_ui_elem
 {
-	/*Other elements in the same containing element. NULL if none. Don't
-	change the order of these two or put something before them.*/
 	struct s_ui_elem	*next;
 	struct s_ui_elem	*prev;
-	//Display info
-	SDL_Rect			relative_dimensions;/*Size of the element in percentages
-	relative to its parent actual size.*/
-	void				(*elem_dimensions_resolution_func)(SDL_Rect *reference,
-							SDL_Rect *values, SDL_Rect *to_fill);
-	SDL_Rect			actual_dimensions;/*The actual estate of the elem on the
- * screen, in pixels.*/
-	char				display_priority;/*0 for invisible elem. Must be
-	positive otherwise. Smaller will be displayed on top of bigger
-	display_priority.*/
-	void				(*display_func)(struct s_ui_elem*);/*A pointer to the
-	function that will be called when the ui prompts the elem to display
-	itself. See such callback examples in src/blocking.c.
-	storing*/
-	void				*store;/*Pointer the disposition of the user. Use it
-	however you like!*/
-	void				(*free_store_func)(void*);/*This func will be called
- * at the destruction of the element. It is meant to destroy the content of
- * the 'store' member of the elem ('store' will be passed as argument). If you
- * stored nothing, pass ui_do_nothing to it. Not NULL because the function
- * will be called without checking anything.*/
-	//Sensibility
-	t_ui_bool		   sensible;/*If set to false, none of the user events
- * will be transmitted to or through this element.*/
-	SDL_Rect	  *sensible_zones_relative_dimensions;/*A table of percent rects that
-	represent the sensible zones of the elem.*/
-	void				(*sensible_zones_resolution_func)(SDL_Rect *reference,
-							SDL_Rect *values, SDL_Rect *to_fill);
-	SDL_Rect			sensible_zones_actual_dimensions;/*Sensible zones resolved by the ui into
-	actual pixel values. You are not expected to modify this value
-	but you may access it anytime.*/
-	short			   nb_sensible_zones;//Number of sensible zones.
-	//Hover
-	t_ui_bool		   has_sub_hovers;/*True if somewhere in the
- * sub-hierarchie of this element, one has hover_func set to a callback.*/
-	void				(*hover_func)(struct s_ui_elem*);/*Called when one
- * of the element's sensible zones is hovered.*/
-	//Clicks
-	t_ui_bool		   has_sub_clicks;/*Same as before but applied to clicks
- * . Note that it concerns right click, left click and the middle button upon
- * their button-down event.TODO: transmit button-up events as well.*/
-	void				(*click_func)(struct s_ui_elem*,
-			SDL_MouseButtonEvent*);/*Called when any sensible zone of the
- * elem is clicked.*/
-	//sub_elems
-	struct s_ui_elem	*sub_elems;/*Elements contained inside this one.*/
-	//parent
-	struct s_ui_elem	*parent;/*The element that contains this one.*/
-	//win ref
-	void				*win;/*The window that contains this element.*/
+	SDL_Rect			relative_dimensions;
+	void				(*elem_dimensions_resolution_func)(SDL_Rect *reference, SDL_Rect *values, SDL_Rect *to_fill);
+	SDL_Rect			actual_dimensions;
+	char				display_priority;
+	void				(*display_func)(struct s_ui_elem*);
+	void				*store;
+	void				(*free_store_func)(void*);
+	t_ui_bool			sensible;
+	SDL_Rect			*sensible_zones_relative_dimensions;
+	void				(*sensible_zones_resolution_func)(SDL_Rect *reference, SDL_Rect *values, SDL_Rect *to_fill);
+	SDL_Rect			sensible_zones_actual_dimensions;
+	short				nb_sensible_zones;
+	t_ui_bool			has_sub_hovers;
+	void				(*hover_func)(struct s_ui_elem*);
+	t_ui_bool			has_sub_clicks;
+	void				(*click_func)(struct s_ui_elem*, SDL_MouseButtonEvent*);
+	struct s_ui_elem	*sub_elems;
+	struct s_ui_elem	*parent;
+	void				*win;
 }				t_ui_elem;
 
 typedef struct	s_ui_win
 {
 	/*Let those as the 2 first members, in the same order, or problems there
 	will be!*/
-	struct s_ui_win *next;//The next window in line.
-	struct s_ui_win *prev;/*Previous window.
+	struct s_ui_win	*next;//The next window in line.
+	struct s_ui_win	*prev;/*Previous window.
 	other content.*/
 	void			*ui;/*Points back to its owning ui. Use this to modify
 	keep_going or access your fonts. Note that elems have a win pointer.*/
-	SDL_Window	  *sdl_ptr;
+	SDL_Window		*sdl_ptr;
 	SDL_Renderer	*rend;
-	int			 width;//Not percentages but the real value in pixels.
-	int			 height;
-	t_ui_elem	   *content;/*The root elem of the window. Should be used to
+	int				width;//Not percentages but the real value in pixels.
+	int				height;
+	t_ui_elem		*content;/*The root elem of the window. Should be used to
 	set the background color/ image.*/
 }				t_ui_win;
 
@@ -272,6 +240,7 @@ t_ui_img	*ui_create_colored_texture(t_ui_win *win, int w, int h, t_ui_color
 void		ui_draw_fullcircle(t_ui_img *img, int w, int h, int size,
 							   t_ui_win *win);
 void		ui_display_rect_from_elem_percentage(t_ui_elem *e, SDL_Rect *r, SDL_Color *c);
+void		ui_display_absolute_rect_relative_to_elem(t_ui_elem *e, SDL_Rect *r, SDL_Color *c);
 
 //Interface elements
 t_ui_elem	*ui_create_button(t_ui_elem *parent, int x,

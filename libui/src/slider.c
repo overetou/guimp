@@ -12,13 +12,15 @@ void	ui_display_slider(t_ui_elem *e)
 
 void	ui_slider_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 {
-    SDL_Color   line_color = {120, 120, 120, UI_ALPHA_OPAQUE};
-    SDL_Color   cursor_color = {100, 100, 100, UI_ALPHA_OPAQUE};
-	SDL_Rect	target_in_elem_percent = {0, 0, e->actual_dimensions.w, e->actual_dimensions.h};
+	SDL_Color	line_color = {120, 120, 120, UI_ALPHA_OPAQUE};
+	SDL_Color	cursor_color = {100, 100, 100, UI_ALPHA_OPAQUE};
+	SDL_Rect	cursor = {e->actual_dimensions.x,
+	 0, UI_SLIDER_CURSOR_WIDTH_IN_PX, e->actual_dimensions.h};
 
-	//Create the colors for the two elements.
 	//display that background rect.
+	ui_colorize_elem(e, UI_EXPAND_COLOR(line_color));
 	//create another rect with absolute size for the cursor and display it.
+
 }
 
 t_ui_elem	*ui_create_slider(t_ui_elem *parent, int x, int y, int w)

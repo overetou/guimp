@@ -188,3 +188,5 @@ On affiche un petit rectangle de taille fixe centré sur la position stockee dan
 
 La longueur logique du slider (qui nous servira a deduire la valeur du slider) = width - cursor_width.
 Il y aura un coussin de longueur: cursor_width / 2 a chaque extremite de la rampe.
+
+Pour trouver le x du curseur, on prend d'abord le debut de la surface de l'element.
