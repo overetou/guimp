@@ -184,6 +184,8 @@ void	init_list(t_link **list, t_link *new_link);
 void	list_add_link_at_start(t_link **list, t_link *new_link);
 void	list_add_link_at_end(t_link *last_link, t_link *new_link);
 void	list_add_link_in_the_middle(t_link *next_link_to_be, t_link *new_link);
+void	ui_add_perma_func(t_ui *ui, void (*func)(t_ui*, void*), void *store);
+void	ui_remove_permafunc(t_ui *ui, t_permanent_func_block *to_delete);
 
 //security
 void	ui_sdl_critical_check(int val);
