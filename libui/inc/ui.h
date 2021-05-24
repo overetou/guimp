@@ -160,7 +160,8 @@ typedef struct		s_checkbox_button_store
 
 typedef struct		s_slider_store
 {
-	short			pos_as_relative_px;
+	int				max_val;
+	int				current_val;
 	SDL_Rect		sensible_zone;
 }					t_slider_store;
 
@@ -241,6 +242,7 @@ void		ui_draw_fullcircle(t_ui_img *img, int w, int h, int size,
 							   t_ui_win *win);
 void		ui_display_rect_from_elem_percentage(t_ui_elem *e, SDL_Rect *r, SDL_Color *c);
 void		ui_display_absolute_rect_relative_to_elem(t_ui_elem *e, SDL_Rect *r, SDL_Color *c);
+void		ui_display_absoluste_colored_rect(t_ui_elem *e, SDL_Rect *r, SDL_Color *c);
 
 //Interface elements
 t_ui_elem	*ui_create_button(t_ui_elem *parent, int x,
