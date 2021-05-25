@@ -21,13 +21,14 @@ void	ui_add_perma_func(t_ui *ui, void (*func)(t_ui*, void*), void *store)
 void	ui_remove_permafunc(t_ui *ui, t_permanent_func_block *to_delete)
 {
 	t_permanent_func_block	*block = ui->perma_funcs;
+    void                    *to_free = to_delete->next;
 
 	if (to_delete->next)
 	{
 		to_delete->func = to_delete->next->func;
 		to_delete->store = to_delete->next->store;
 		to_delete->next = to_delete->next->next;
-		free(to_delete->next);
+		free(to_free);
 	}
 	else
 	{

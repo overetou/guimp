@@ -117,7 +117,7 @@ typedef struct	s_ui_win
 
 typedef struct	s_permanent_func_block
 {
-	void								(*func)(t_ui*, void*);
+	void								(*func)(void* ui, void* store);
 	void								*store;//note: you can use it as an int with a cast.
 	struct s_permanent_func_bloc		*next;
 }				t_permanent_func_block;
