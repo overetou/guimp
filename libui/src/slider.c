@@ -22,15 +22,43 @@ void	ui_slider_drag_event_handler(t_ui *ui, SDL_Event *ev)
 			break;
 		case SDL_MOUSEBUTTONUP:
 			ui_change_event_handler(ui, ui_default_event_handler);
+            //TODO: Remove the slider's perma func.
 			break;
 	}
 }
 
+void    ui_slider_perma_func(t_ui *ui, void *store)
+{
+    int             new_slider_pos, x, y;
+    t_ui_elem       *e = store;
+    t_slider_store  *e_store = e->store;
+
+    SDL_GetMouseState(&x, &y);
+    //On calcule la position du boutton du slider.
+    if (x < e->actual_dimensions.x + UI_SLIDER_CURSOR_WIDTH_IN_PX / 2)
+    {
+        new_slider_pos = e->actual_dimensions.x;
+        e_store->current_val = 0;
+    }
+    else if (x > e->actual_dimensions.x + e->actual_dimensions.w - UI_SLIDER_CURSOR_WIDTH_IN_PX / 2)
+    {
+        new_slider_pos = e->actual_dimensions.x + e->actual_dimensions.w - UI_SLIDER_CURSOR_WIDTH_IN_PX / 2;
+        e_store->current_val = 100;
+    }
+    else
+    {
+        new_slider_pos = x;
+        x -= e->actual_dimensions.x;
+        //Ici on veut déduire la jauge par rapport au max. Sachant que l'on ne peut manipuler que des entiers.
+        e_store->current_val = x;
+    }
+    //Ensuite on replace le slider dans l'élément qui est dans store.
+}
+
 void	ui_slider_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 {
-	(void)ev;
 	ui_change_event_handler(((t_ui_win*)(e->win))->ui, ui_slider_drag_event_handler);
-	//insert permanent function pointer.
+    ui_add_perma_func(((t_ui_win*)(e->win))->ui, ui_slider_perma_func, e);
 }
 
 t_ui_elem	*ui_create_slider(t_ui_elem *parent, int x, int y, int w, int current_cursor_val, int max_cursor_val)
