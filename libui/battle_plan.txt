@@ -176,18 +176,10 @@ SEMI_BONUS:
 	(au lieu que l'utilisateur les modifie directement et casse potentiellement un mecanisme).
 -Eventuellement Faire une fonction: ui_display_img_to_target. Qui permet de préciser le x, le y,
 	le w et le h rapport à l'élément.
+-Créer 1 liste de fonctions d'event handling cruciale. Ces fonctions seront executées à chaque event. Possiblement les séparer par types d'event par soucis d'opti mais on en est pas encore là. Les autres fonctions d'event handling seront dites mascables et ignorées ou gardées selon la fonction qui passera par dessus. A voir si on laissera à l'utilisateur la tâche de gérer les fonctions d'event handling par lui même.
 
 REFLEXIONS:
-Pour l'affichage du slider:
-On connait la largeur en pixel du slider.
-On connait la longueur en pixel du slider.
 
-On affiche un rectangle de couleur subtilement degrade par rapport au fond sur toute la surface du slider
-(la rampe)
-On affiche un petit rectangle de taille fixe centré sur la position stockee dans store.
-
-La longueur logique du slider (qui nous servira a deduire la valeur du slider) = width - cursor_width.
-Il y aura un coussin de longueur: cursor_width / 2 a chaque extremite de la rampe.
-
-Dans ui on cree une liste chainee de pointeur sur fonction qui seront executes a chaque apres chaque
-appel de sdl_poll.
+LA SUITE:
+-Relire le code du slider et de la gestion d'event.
+-tester et corriger jusqu'à ce que ça fonctionne.
