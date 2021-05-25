@@ -131,6 +131,7 @@ typedef struct	s_ui
 	TTF_Font				*fonts[FONT_NB];//A tab to store your font pointers.
 	Uint32					default_pixel_format;
 	void					(*event_handler_func)(struct s_ui*, SDL_Event*);
+    void                    *event_handling_store;
 	t_permanent_func_block	*perma_funcs;
 }				t_ui;
 
@@ -173,19 +174,21 @@ typedef struct		s_slider_store
 	int				max_val;
 	int				current_val;
 	SDL_Rect		sensible_zone;
+    void            *drag_perma_func;
+    void            *previous_event_handling_func;
 }					t_slider_store;
 
 //basic stuff
-void	mem_copy(char *dest, const char *src, int len);
-void	add_link_to_list(t_link **list, t_link *new_link);
-void	remove_link_from_list(t_link **list, t_link *to_remove);
-void	free_list(t_link *list, void(*free_func)(void*));
-void	init_list(t_link **list, t_link *new_link);
-void	list_add_link_at_start(t_link **list, t_link *new_link);
-void	list_add_link_at_end(t_link *last_link, t_link *new_link);
-void	list_add_link_in_the_middle(t_link *next_link_to_be, t_link *new_link);
-void	ui_add_perma_func(t_ui *ui, void (*func)(t_ui*, void*), void *store);
-void	ui_remove_permafunc(t_ui *ui, t_permanent_func_block *to_delete);
+void	                mem_copy(char *dest, const char *src, int len);
+void	                add_link_to_list(t_link **list, t_link *new_link);
+void	                remove_link_from_list(t_link **list, t_link *to_remove);
+void	                free_list(t_link *list, void(*free_func)(void*));
+void	                init_list(t_link **list, t_link *new_link);
+void	                list_add_link_at_start(t_link **list, t_link *new_link);
+void	                list_add_link_at_end(t_link *last_link, t_link *new_link);
+void	                list_add_link_in_the_middle(t_link *next_link_to_be, t_link *new_link);
+t_permanent_func_block  *ui_add_perma_func(t_ui *ui, void (*func)(t_ui*, void*), void *store);
+void	                ui_remove_permafunc(t_ui *ui, t_permanent_func_block *to_delete);
 
 //security
 void	ui_sdl_critical_check(int val);
