@@ -53,8 +53,8 @@ int main(void)
 		exit(0);
 	}
 
-	t_ui_elem *slider = ui_create_slider(win->content, 10, 10, 50, 50, 100);
-	ui_create_slider(win->content, 10, 15, 50, 50, 100);
+	t_ui_elem *slider = ui_create_slider(win->content, 10, 10, 30, 50, 100);
+	ui_create_slider(win->content, 10, 15, 30, 50, 100);
 
 	refresh_win(win);
 	ui_handle_events(ui);

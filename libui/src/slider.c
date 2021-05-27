@@ -32,9 +32,9 @@ void	ui_slider_perma_func(void *store)
 	t_slider_store	*e_store = e->store;
 
 	SDL_GetMouseState(&x, &y);
-	if (x <= e->actual_dimensions.x + UI_SLIDER_CURSOR_WIDTH_IN_PX / 2)
+	if (x <= e->actual_dimensions.x)
 		e_store->current_val = 0;
-	else if (x >= e->actual_dimensions.x + e->actual_dimensions.w - UI_SLIDER_CURSOR_WIDTH_IN_PX / 2)
+	else if (x >= e->actual_dimensions.x + e->actual_dimensions.w)
 		e_store->current_val = 100;
 	else
 		e_store->current_val = e_store->max_val * (x - e->actual_dimensions.x) / e->actual_dimensions.w;
