@@ -178,6 +178,14 @@ typedef struct		s_slider_store
 	void			*previous_event_handling_func;
 }					t_slider_store;
 
+typedef	struct		s_text_space_store
+{
+	int				sub_w;
+	int				sub_h;
+	int				police_font;
+	SDL_Rect		sensible_zone;
+}					t_text_space_store;
+
 //basic stuff
 void					mem_copy(char *dest, const char *src, int len);
 void					add_link_to_list(t_link **list, t_link *new_link);
@@ -189,6 +197,9 @@ void					list_add_link_at_end(t_link *last_link, t_link *new_link);
 void					list_add_link_in_the_middle(t_link *next_link_to_be, t_link *new_link);
 t_permanent_func_block  *ui_add_perma_func(t_ui *ui, void (*func)(void*), void *store);
 void					ui_remove_permafunc(t_ui *ui, t_permanent_func_block *to_delete);
+
+//Int manipulation
+int	ui_get_percentage_of_int(int reference, int percentage);
 
 //security
 void	ui_sdl_critical_check(int val);

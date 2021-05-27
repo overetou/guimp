@@ -157,7 +157,18 @@ OK-Creer une fonction de boutton
 OK-bouton radio
 OK-bouton checkbox
 OK-Slider
--texte éditable en ligne
+-Texte éditable en ligne
+	OK-L'utilisateur definie la taille (w et h) de la ligne de texte editable (en valeur absolue),
+	OK-la police, la taille reelle ou on pourra afficher du texte (rectangle dans le rectangle)
+		histoire de ne pas avoir les caracteres colles au bord (en pourcentage de la surface de l'element)
+	-Lorsque l'on clique dessus, on passe en mode edition de texte:
+		-l'utilisateur entre du text = on affiche le texte ajoute.
+		-Si l'utilisateur clique ailleurs que sur la zone editee, on sort du mode edition de texte.
+	-On aura un nombre maximum de caracteres dans la zone de saisie pour simplifier les choses.
+	-On a un curseur de texte qui se deplace avec les fleches. Ce sera le point d'insertion.
+	-On a un index qui represente le caractere a partir duquel commence l'affichage.
+	-Si l'on veut ajouter un caractere mais qu'il y en a trop, on augmente l'index debut jusqu'a ce que
+		ca passe.
 -texte éditable en zone.
 -barre de scroll (c'est un bonus)
 
@@ -180,3 +191,4 @@ SEMI_BONUS:
 REFLEXIONS:
 
 LA SUITE:
+-Valgrind.

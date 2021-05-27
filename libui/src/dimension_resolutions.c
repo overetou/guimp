@@ -14,17 +14,15 @@ void ui_resolve_win_content_actual_size(t_ui_win *win)
 void	ui_set_x_and_y_from_ref(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
 *to_fill)
 {
-	to_fill->x = reference_rect->x + reference_rect->w
-									 * relative_dimensions->x / 100;
-	to_fill->y = reference_rect->y + reference_rect->h
-									 * relative_dimensions->y / 100;
+	to_fill->x = reference_rect->x + ui_get_percentage_of_int(reference_rect->w, relative_dimensions->x);
+	to_fill->y = reference_rect->y + ui_get_percentage_of_int(reference_rect->h, relative_dimensions->y);
 }
 
 void ui_resolve_as_percentages(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
 *to_fill)
 {
-	to_fill->w = reference_rect->w * relative_dimensions->w / 100;
-	to_fill->h = reference_rect->h * relative_dimensions->h / 100;
+	to_fill->w = ui_get_percentage_of_int(reference_rect->w, relative_dimensions->w);
+	to_fill->h = ui_get_percentage_of_int(reference_rect->h, relative_dimensions->h);;
 }
 
 void	ui_resolve_keep_actual_dimensions(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
@@ -38,12 +36,12 @@ void	ui_resolve_keep_actual_dimensions(SDL_Rect *reference_rect, SDL_Rect *relat
 void	ui_resolve_as_square_from_h(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
 *to_fill)
 {
-	to_fill->h = reference_rect->h * relative_dimensions->h / 100;
+	to_fill->h = ui_get_percentage_of_int(reference_rect->h, relative_dimensions->h);
 	to_fill->w = to_fill->h;
 }
 
 void	ui_resolve_w_as_percentage_keep_actual_h(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
 *to_fill)
 {
-	to_fill->w = reference_rect->w * relative_dimensions->w / 100;
+	to_fill->w = ui_get_percentage_of_int(reference_rect->w, relative_dimensions->w);
 }
