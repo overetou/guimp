@@ -4,12 +4,10 @@ void	ui_display_slider(t_ui_elem *e)
 {
 	t_slider_store	*store = e->store;
 	SDL_Color		line_color = {160, 120, 120, UI_ALPHA_OPAQUE};
-	SDL_Color		cursor_color = {70, 70, 70, UI_ALPHA_OPAQUE};
-	SDL_Rect		cursor_dimensions = {e->actual_dimensions.x + (e->actual_dimensions.w * store->current_val / store->max_val) - (UI_SLIDER_CURSOR_WIDTH_IN_PX / 2), e->actual_dimensions.y, UI_SLIDER_CURSOR_WIDTH_IN_PX, e->actual_dimensions.h};
+	SDL_Color		cursor_color = {140, 100, 100, UI_ALPHA_OPAQUE};
+	SDL_Rect		cursor_dimensions = {e->actual_dimensions.x + ((e->actual_dimensions.w - UI_SLIDER_CURSOR_WIDTH_IN_PX) * store->current_val / store->max_val), e->actual_dimensions.y, UI_SLIDER_CURSOR_WIDTH_IN_PX, e->actual_dimensions.h};
 
-	//display that background rect.
 	ui_colorize_elem(e, UI_EXPAND_COLOR(line_color));
-	//create another rect with absolute size for the cursor and display it.
 	ui_display_absoluste_colored_rect(e, &cursor_dimensions, &cursor_color);
 }
 
@@ -34,13 +32,13 @@ void	ui_slider_perma_func(void *store)
 	t_slider_store	*e_store = e->store;
 
 	SDL_GetMouseState(&x, &y);
-	printf("Moved slider to val %d.\n", x);
 	if (x <= e->actual_dimensions.x + UI_SLIDER_CURSOR_WIDTH_IN_PX / 2)
 		e_store->current_val = 0;
 	else if (x >= e->actual_dimensions.x + e->actual_dimensions.w - UI_SLIDER_CURSOR_WIDTH_IN_PX / 2)
 		e_store->current_val = 100;
 	else
 		e_store->current_val = e_store->max_val * (x - e->actual_dimensions.x) / e->actual_dimensions.w;
+	printf("Moved slider to val %d.\n", e_store->current_val);
 	ui_display_slider(e);
 	ui_display_elem(((t_ui_win*)(e->win))->content);
 	SDL_RenderPresent(((t_ui_win*)(e->win))->rend);
@@ -53,7 +51,6 @@ void	ui_slider_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 	t_slider_store			*store = e->store;
 
 	(void)ev;
-	puts("clicked");
 	store->previous_event_handling_func = ui->event_handler_func;
 	ui_change_event_handler(ui, ui_slider_drag_event_handler);
 	new = ui_add_perma_func(ui, ui_slider_perma_func, e);
