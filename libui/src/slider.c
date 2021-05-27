@@ -53,6 +53,7 @@ void	ui_slider_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 	t_slider_store			*store = e->store;
 
 	(void)ev;
+	puts("clicked");
 	store->previous_event_handling_func = ui->event_handler_func;
 	ui_change_event_handler(ui, ui_slider_drag_event_handler);
 	new = ui_add_perma_func(ui, ui_slider_perma_func, e);
