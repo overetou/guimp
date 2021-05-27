@@ -15,10 +15,10 @@
 #define UI_TRUE 1
 #define UI_FALSE 0
 
-#define UI_INIT_VIDEO		   SDL_INIT_VIDEO
-#define UI_INIT_TIMER		   SDL_INIT_TIMER
-#define UI_INIT_AUDIO		   SDL_INIT_AUDIO
-#define UI_INIT_VIDEO		   SDL_INIT_VIDEO
+#define UI_INIT_VIDEO			SDL_INIT_VIDEO
+#define UI_INIT_TIMER			SDL_INIT_TIMER
+#define UI_INIT_AUDIO			SDL_INIT_AUDIO
+#define UI_INIT_VIDEO			SDL_INIT_VIDEO
 #define UI_INIT_JOYSTICK		SDL_INIT_JOYSTICK
 #define UI_INIT_HAPTIC		  SDL_INIT_HAPTIC
 #define UI_INIT_GAMECONTROLLER  SDL_INIT_GAMECONTROLLER
@@ -29,7 +29,7 @@
 #define UI_RENDERER_SOFTWARE		SDL_RENDERER_SOFTWARE
 #define UI_RENDERER_ACCELERATED	 SDL_RENDERER_ACCELERATED
 #define UI_RENDERER_PRESENTVSYNC	SDL_RENDERER_PRESENTVSYNC
-#define UI_RENDERER_TARGETTEXTURE   SDL_RENDERER_TARGETTEXTURE
+#define UI_RENDERER_TARGETTEXTURE	SDL_RENDERER_TARGETTEXTURE
 
 #define UI_WINDOW_FULLSCREEN			SDL_WINDOW_FULLSCREEN
 #define UI_WINDOW_FULLSCREEN_DESKTOP	SDL_WINDOW_FULLSCREEN_DESKTOP
@@ -69,8 +69,8 @@ typedef SDL_Color t_ui_color;/*A color. r = red, g = green, b = blue, a =
 generic code.*/
 typedef struct	s_link
 {
-	struct s_link   *next;
-	struct s_link   *prev;
+	struct s_link	*next;
+	struct s_link	*prev;
 }				t_link;
 
 typedef struct	s_ui_elem
@@ -117,9 +117,9 @@ typedef struct	s_ui_win
 
 typedef struct	s_permanent_func_block
 {
-	void								(*func)(void* ui, void* store);
-	void								*store;//note: you can use it as an int with a cast.
-	struct s_permanent_func_bloc		*next;
+	void							(*func)(void* store);
+	void							*store;//note: you can use it as an int with a cast.
+	struct s_permanent_func_block	*next;
 }				t_permanent_func_block;
 
 typedef struct	s_ui
@@ -131,7 +131,7 @@ typedef struct	s_ui
 	TTF_Font				*fonts[FONT_NB];//A tab to store your font pointers.
 	Uint32					default_pixel_format;
 	void					(*event_handler_func)(struct s_ui*, SDL_Event*);
-    void                    *event_handling_store;
+	void					*event_handling_store;
 	t_permanent_func_block	*perma_funcs;
 }				t_ui;
 
@@ -151,7 +151,7 @@ typedef struct	s_radio_space_store
 {
 	t_ui_img	*unchecked_img;
 	t_ui_img	*checked_img;
-	short	   current_choice;
+	short		current_choice;
 }				t_radio_space_store;
 
 typedef struct	s_radio_button_store
@@ -174,21 +174,21 @@ typedef struct		s_slider_store
 	int				max_val;
 	int				current_val;
 	SDL_Rect		sensible_zone;
-    void            *drag_perma_func;
-    void            *previous_event_handling_func;
+	void			*drag_perma_func;
+	void			*previous_event_handling_func;
 }					t_slider_store;
 
 //basic stuff
-void	                mem_copy(char *dest, const char *src, int len);
-void	                add_link_to_list(t_link **list, t_link *new_link);
-void	                remove_link_from_list(t_link **list, t_link *to_remove);
-void	                free_list(t_link *list, void(*free_func)(void*));
-void	                init_list(t_link **list, t_link *new_link);
-void	                list_add_link_at_start(t_link **list, t_link *new_link);
-void	                list_add_link_at_end(t_link *last_link, t_link *new_link);
-void	                list_add_link_in_the_middle(t_link *next_link_to_be, t_link *new_link);
-t_permanent_func_block  *ui_add_perma_func(t_ui *ui, void (*func)(t_ui*, void*), void *store);
-void	                ui_remove_permafunc(t_ui *ui, t_permanent_func_block *to_delete);
+void					mem_copy(char *dest, const char *src, int len);
+void					add_link_to_list(t_link **list, t_link *new_link);
+void					remove_link_from_list(t_link **list, t_link *to_remove);
+void					free_list(t_link *list, void(*free_func)(void*));
+void					init_list(t_link **list, t_link *new_link);
+void					list_add_link_at_start(t_link **list, t_link *new_link);
+void					list_add_link_at_end(t_link *last_link, t_link *new_link);
+void					list_add_link_in_the_middle(t_link *next_link_to_be, t_link *new_link);
+t_permanent_func_block  *ui_add_perma_func(t_ui *ui, void (*func)(void*), void *store);
+void					ui_remove_permafunc(t_ui *ui, t_permanent_func_block *to_delete);
 
 //security
 void	ui_sdl_critical_check(int val);
@@ -254,7 +254,7 @@ void		ui_display_img(t_ui_elem *e, t_ui_img *img, int x,
 t_ui_img	*ui_create_colored_texture(t_ui_win *win, int w, int h, t_ui_color
 *color);
 void		ui_draw_fullcircle(t_ui_img *img, int w, int h, int size,
-							   t_ui_win *win);
+								t_ui_win *win);
 void		ui_display_rect_from_elem_percentage(t_ui_elem *e, SDL_Rect *r, SDL_Color *c);
 void		ui_display_absolute_rect_relative_to_elem(t_ui_elem *e, SDL_Rect *r, SDL_Color *c);
 void		ui_display_absoluste_colored_rect(t_ui_elem *e, SDL_Rect *r, SDL_Color *c);

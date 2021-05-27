@@ -70,7 +70,7 @@ void	ui_handle_events(t_ui *ui)
 		perma_func = ui->perma_funcs;
 		while (perma_func)
 		{
-			perma_func->func(ui, perma_func->store);
+			perma_func->func(perma_func->store);
 			perma_func = perma_func->next;
 		}
 		SDL_Delay(100);

@@ -1,6 +1,6 @@
 #include "ui.h"
 
-t_permanent_func_block	*ui_add_perma_func(t_ui *ui, void (*func)(t_ui*, void*), void *store)
+t_permanent_func_block	*ui_add_perma_func(t_ui *ui, void (*func)(void*), void *store)
 {
 	t_permanent_func_block	*block = ui->perma_funcs;
 	t_permanent_func_block	*new_block = malloc(sizeof(t_permanent_func_block));
@@ -16,13 +16,13 @@ t_permanent_func_block	*ui_add_perma_func(t_ui *ui, void (*func)(t_ui*, void*), 
 	}
 	else
 		ui->perma_funcs = new_block;
-    return new_block;
+	return new_block;
 }
 
 void	ui_remove_permafunc(t_ui *ui, t_permanent_func_block *to_delete)
 {
 	t_permanent_func_block	*block = ui->perma_funcs;
-    void                    *to_free = to_delete->next;
+	void					*to_free = to_delete->next;
 
 	if (to_delete->next)
 	{

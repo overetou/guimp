@@ -22,38 +22,42 @@ void	ui_slider_drag_event_handler(t_ui *ui, SDL_Event *ev)
 			break;
 		case SDL_MOUSEBUTTONUP:
 			ui_change_event_handler(ui, ((t_slider_store*)(ui->event_handling_store))->previous_event_handling_func);
-            ui_remove_permafunc(ui, ((t_slider_store*)(ui->event_handling_store))->drag_perma_func);
+			ui_remove_permafunc(ui, ((t_slider_store*)(ui->event_handling_store))->drag_perma_func);
 			break;
 	}
 }
 
-void    ui_slider_perma_func(t_ui *ui, void *store)
+void	ui_slider_perma_func(void *store)
 {
-    int             new_slider_pos, x, y;
-    t_ui_elem       *e = store;
-    t_slider_store  *e_store = e->store;
+	int				x, y;
+	t_ui_elem		*e = store;
+	t_slider_store	*e_store = e->store;
 
-    SDL_GetMouseState(&x, &y);
-    if (x <= e->actual_dimensions.x + UI_SLIDER_CURSOR_WIDTH_IN_PX / 2)
-        e_store->current_val = 0;
-    else if (x >= e->actual_dimensions.x + e->actual_dimensions.w - UI_SLIDER_CURSOR_WIDTH_IN_PX / 2)
-        e_store->current_val = 100;
-    else
-        e_store->current_val = e_store->max_val * (x - e->actual_dimensions.x) / e->actual_dimensions.w;
-    ui_display_slider(e);
+	SDL_GetMouseState(&x, &y);
+	printf("Moved slider to val %d.\n", x);
+	if (x <= e->actual_dimensions.x + UI_SLIDER_CURSOR_WIDTH_IN_PX / 2)
+		e_store->current_val = 0;
+	else if (x >= e->actual_dimensions.x + e->actual_dimensions.w - UI_SLIDER_CURSOR_WIDTH_IN_PX / 2)
+		e_store->current_val = 100;
+	else
+		e_store->current_val = e_store->max_val * (x - e->actual_dimensions.x) / e->actual_dimensions.w;
+	ui_display_slider(e);
+	ui_display_elem(((t_ui_win*)(e->win))->content);
+	SDL_RenderPresent(((t_ui_win*)(e->win))->rend);
 }
 
 void	ui_slider_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 {
-    t_permanent_func_block  *new;
-    t_ui                    *ui = ((t_ui_win*)(e->win))->ui;
-    t_slider_store          *store = e->store;
+	t_permanent_func_block	*new;
+	t_ui					*ui = ((t_ui_win*)(e->win))->ui;
+	t_slider_store			*store = e->store;
 
-    store->previous_event_handling_func = ui->event_handler_func;
+	(void)ev;
+	store->previous_event_handling_func = ui->event_handler_func;
 	ui_change_event_handler(ui, ui_slider_drag_event_handler);
-    new = ui_add_perma_func(ui, ui_slider_perma_func, e);
-    store->drag_perma_func = new;
-    ui->event_handling_store = e->store;
+	new = ui_add_perma_func(ui, ui_slider_perma_func, e);
+	store->drag_perma_func = new;
+	ui->event_handling_store = e->store;
 }
 
 t_ui_elem	*ui_create_slider(t_ui_elem *parent, int x, int y, int w, int current_cursor_val, int max_cursor_val)
