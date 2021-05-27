@@ -146,10 +146,6 @@ OK-fonction refresh_win qui rafraichit intelligement la fenêtre aux seuls endro
 -Ajouter le support d'une free_store_func dans win->content au cas ou l'utilisateur veuille
 	utiliser le store de content. Sinon la mémoire leakera au moment ui_free_window supprimera
 	'content'.
--Dans proportions, si w est à 0, on conservera toujours les actual size w et h.
-	De cette on ne fait qu'un test par resolution d'elem pour s'assurer que les proportions
-	doivent être appliquées pour ces deux membres.
--S'assurer de la cohérence des types de chaque texture. Apparemment ça accélère le programme.
 -Revoir le systeme de passage d'evenement de clic: les elements les plus visibles doivent repondre a la
 	sensibilite en premier.
 
@@ -160,8 +156,7 @@ OK-Creer une fonction de boutton
 	et d'un référentiel de taille.
 OK-bouton radio
 OK-bouton checkbox
--Slider
-	OK-ui_display_rect_in_elem
+OK-Slider
 -texte éditable en ligne
 -texte éditable en zone.
 -barre de scroll (c'est un bonus)
@@ -185,5 +180,3 @@ SEMI_BONUS:
 REFLEXIONS:
 
 LA SUITE:
--Relire le code du slider et de la gestion d'event.
--tester et corriger jusqu'à ce que ça fonctionne.

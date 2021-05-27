@@ -53,13 +53,11 @@ int main(void)
 		exit(0);
 	}
 
-	t_ui_elem *slider = ui_create_slider(win->content, 10, 10, 30, 50, 100);
-	ui_create_slider(win->content, 10, 15, 30, 50, 100);
+	
 
 	refresh_win(win);
 	ui_handle_events(ui);
 
-	printf("Slider value = %d.\n", ((t_slider_store*)(slider->store))->current_val);
 
 	ui_close_font(ui->fonts[0]);
 	ui_close(ui);

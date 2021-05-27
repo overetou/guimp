@@ -38,7 +38,7 @@ void	ui_slider_perma_func(void *store)
 		e_store->current_val = 100;
 	else
 		e_store->current_val = e_store->max_val * (x - e->actual_dimensions.x) / e->actual_dimensions.w;
-	printf("Moved slider to val %d.\n", e_store->current_val);
+	//printf("Moved slider to val %d.\n", e_store->current_val);
 	ui_display_slider(e);
 	ui_display_elem(((t_ui_win*)(e->win))->content);
 	SDL_RenderPresent(((t_ui_win*)(e->win))->rend);
