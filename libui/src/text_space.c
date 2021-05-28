@@ -28,7 +28,8 @@ t_ui_elem	*ui_create_text_space(t_ui_elem *parent, int x, int y, int w, int h)
 	new->actual_dimensions.h = h;
 	store = new->store;
 	store->police_font = 0;
-	store->sub_w = ;
+	store->sub_w = 80;//TODO: center the sub rectangle.
+	store->sub_h = 80;
 	store->sensible_zone.x = 0;
 	store->sensible_zone.y = 0;
 	store->sensible_zone.w = w;

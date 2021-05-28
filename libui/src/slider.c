@@ -5,7 +5,10 @@ void	ui_display_slider(t_ui_elem *e)
 	t_slider_store	*store = e->store;
 	SDL_Color		line_color = {160, 120, 120, UI_ALPHA_OPAQUE};
 	SDL_Color		cursor_color = {140, 100, 100, UI_ALPHA_OPAQUE};
-	SDL_Rect		cursor_dimensions = {e->actual_dimensions.x + ((e->actual_dimensions.w - UI_SLIDER_CURSOR_WIDTH_IN_PX) * store->current_val / store->max_val), e->actual_dimensions.y, UI_SLIDER_CURSOR_WIDTH_IN_PX, e->actual_dimensions.h};
+	SDL_Rect		cursor_dimensions = {e->actual_dimensions.x +
+		((e->actual_dimensions.w - UI_SLIDER_CURSOR_WIDTH_IN_PX) *
+	 	store->current_val / store->max_val), e->actual_dimensions.y,
+		UI_SLIDER_CURSOR_WIDTH_IN_PX, e->actual_dimensions.h};
 
 	ui_colorize_elem(e, UI_EXPAND_COLOR(line_color));
 	ui_display_absoluste_colored_rect(e, &cursor_dimensions, &cursor_color);
@@ -19,8 +22,10 @@ void	ui_slider_drag_event_handler(t_ui *ui, SDL_Event *ev)
 			ui->keep_going = UI_FALSE;
 			break;
 		case SDL_MOUSEBUTTONUP:
-			ui_change_event_handler(ui, ((t_slider_store*)(ui->event_handling_store))->previous_event_handling_func);
-			ui_remove_permafunc(ui, ((t_slider_store*)(ui->event_handling_store))->drag_perma_func);
+			ui_change_event_handler(ui,
+			((t_slider_store*)(ui->event_handling_store))->previous_event_handling_func);
+			ui_remove_permafunc(ui,
+			((t_slider_store*)(ui->event_handling_store))->drag_perma_func);
 			break;
 	}
 }
@@ -37,7 +42,7 @@ void	ui_slider_perma_func(void *store)
 	else if (x >= e->actual_dimensions.x + e->actual_dimensions.w)
 		e_store->current_val = 100;
 	else
-		e_store->current_val = e_store->max_val * (x - e->actual_dimensions.x) / e->actual_dimensions.w;
+		e_store->current_val = ui_get_subset_proportionnal_to_proportion(e_store->max_val, e->actual_dimensions.w, x - e->actual_dimensions.x);
 	//printf("Moved slider to val %d.\n", e_store->current_val);
 	ui_display_slider(e);
 	ui_display_elem(((t_ui_win*)(e->win))->content);

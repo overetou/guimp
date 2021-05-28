@@ -187,6 +187,7 @@ SEMI_BONUS:
 -Créer 1 liste de fonctions d'event handling cruciale. Ces fonctions seront executées à chaque event. Possiblement les séparer par types d'event par soucis d'opti mais on en est pas encore là. Les autres fonctions d'event handling seront dites mascables et ignorées ou gardées selon la fonction qui passera par dessus. A voir si on laissera à l'utilisateur la tâche de gérer les fonctions d'event handling par lui même.
 -Remplacer le delay dans la boucle des events par un cronometre qui n'attends que le reste a attendre pour que l'on rafraichisse a interval regulier.
 -Faire gerer l'ajout de masc permafunc et de crucial funcs par la librairie. (le code dans ui_slider_clicked)
+-Raffraichir l'écran uniquement lorsque nécessaire en créant une liste d'objets à raffraichir sur le second buffer.
 
 REFLEXIONS:
 

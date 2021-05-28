@@ -200,6 +200,7 @@ void					ui_remove_permafunc(t_ui *ui, t_permanent_func_block *to_delete);
 
 //Int manipulation
 int	ui_get_percentage_of_int(int reference, int percentage);
+int	ui_get_subset_proportionnal_to_proportion(int actual_max, int reference_max, int reference_subset);
 
 //security
 void	ui_sdl_critical_check(int val);
