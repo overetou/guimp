@@ -22,10 +22,10 @@ void	ui_slider_drag_event_handler(t_ui *ui, SDL_Event *ev)
 			ui->keep_going = UI_FALSE;
 			break;
 		case SDL_MOUSEBUTTONUP:
-			ui_change_event_handler(ui,
-			((t_slider_store*)(ui->event_handling_store))->previous_event_handling_func);
 			ui_remove_permafunc(ui,
 			((t_slider_store*)(ui->event_handling_store))->drag_perma_func);
+			ui_change_event_handler(ui,
+			((t_slider_store*)(ui->event_handling_store))->previous_event_handling_func);
 			break;
 	}
 }

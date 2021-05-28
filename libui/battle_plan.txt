@@ -192,4 +192,5 @@ SEMI_BONUS:
 REFLEXIONS:
 
 LA SUITE:
+-Remonter les commits jusqu'à en trouver un qui ne fait pas ralentir à fond le programme.
 -Valgrind.

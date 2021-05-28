@@ -3,32 +3,6 @@
 //
 #include <ui.h>
 
-void	catch_mouse_held_down_demo(void)
-{
-	int			go = 1;
-	SDL_Event	ev;
-
-	while (go)
-	{
-		SDL_WaitEvent(&ev);
-		switch (ev.type)
-		{
-		case SDL_QUIT:
-			go = 0;
-			break;
-		case SDL_MOUSEBUTTONDOWN:
-		printf("down on %d, %d.\n",
-		((SDL_MouseButtonEvent*)(&ev))->x, ((SDL_MouseButtonEvent*)(&ev))->y);
-		break;
-		case SDL_MOUSEBUTTONUP:
-		printf("Mouse up on %d, %d.\n", 
-		((SDL_MouseButtonEvent*)(&ev))->x, ((SDL_MouseButtonEvent*)(&ev))->y);
-		break;
-		}
-	}
-	
-}
-
 int main(void)
 {
 	t_ui					*ui;
@@ -53,7 +27,7 @@ int main(void)
 		exit(0);
 	}
 
-	
+	ui_create_slider(win->content, 10, 10, 50, 50, 100);
 
 	refresh_win(win);
 	ui_handle_events(ui);
@@ -64,9 +38,3 @@ int main(void)
 	puts("Finished.");
 	return 0;
 }
-
-/*
- * Petite fourberie: Si le code est plus simple que pour celui du boutton
- * précédent, il y en a plusieurs ici. Il faudra donc que l'ordre d'affichage
- * soit bien géré (et qu'il ai lieu.).
-*/

@@ -11,7 +11,7 @@ LIB_DIRS=$(LIBUI_DIR)
 #Compilation related indications
 CC=clang
 CFLAGS=-Wall -Wextra -Werror
-LIBS=m ui#m stands for mathlib
+LIBS=m ui SDL2 SDL2_image SDL2_ttf#m stands for mathlib
 
 #From there we use the info to compile everything.
 SRC_FILE_NAMES = main.c
