@@ -55,7 +55,7 @@ t_ui_elem	*ui_create_checkbox_button(t_ui_elem *parent, const char *text, int x,
 	new->actual_dimensions.h = 30;
 	store->text = ui_text_to_texture(text, 0, &fg, &bg, new);
 	SDL_QueryTexture(store->text, NULL, NULL,
-	                 &(new->actual_dimensions.w), NULL);
+					&(new->actual_dimensions.w), NULL);
 	new->actual_dimensions.w += 30 + 3;
 	store->sensible_zone.x = 0;
 	store->sensible_zone.y = 0;

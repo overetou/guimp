@@ -181,6 +181,7 @@ pour commencer.)
 -Système de scroll (pour du texte pour commencer, mais peut-être le rendre générique pour que ça marche aussi avec des images.)
 
 SEMI_BONUS:
+-utiliser ui_text_to_texture a l'interieur de ui_create_simple_button.
 -Creer des fonctions qui modidifient les membres de structure optionnellement modifiables
 	(au lieu que l'utilisateur les modifie directement et casse potentiellement un mecanisme).
 -Eventuellement Faire une fonction: ui_display_img_to_target. Qui permet de préciser le x, le y,

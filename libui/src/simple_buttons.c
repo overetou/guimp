@@ -3,17 +3,16 @@
 //
 #include "ui.h"
 
-void        ui_free_button_store(void *to_free)
+void		ui_free_button_store(void *to_free)
 {
 	SDL_DestroyTexture(((t_ui_button_store*)(to_free))->text_img);
 	free(to_free);
 }
 
-t_ui_elem   *ui_create_button(t_ui_elem *parent, int x,
-							  int y, int w, int h,
-							  const char *text,
-							  void (*click_func)(t_ui_elem*,
-							  		SDL_MouseButtonEvent*))
+t_ui_elem	*ui_create_button(t_ui_elem *parent, int x,
+								int y, int w, int h,
+								const char *text,
+								void (*click_func)(t_ui_elem*, SDL_MouseButtonEvent*))
 {
 	t_ui_elem *new;
 	t_ui_color fg = {200, 200, 200, UI_ALPHA_OPAQUE};

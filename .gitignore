@@ -10,3 +10,4 @@ libui/sdl2
 libui/.vscode
 libui/assets/*.svg
 libui/libui.geany
+libui/windows_demo.dSYM

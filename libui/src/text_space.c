@@ -5,7 +5,6 @@
 	(void)to_free;
 } */
 
-//TODO
 void	ui_display_text_space(t_ui_elem *e)
 {
 	t_text_space_store	*store = e->store;
@@ -13,8 +12,14 @@ void	ui_display_text_space(t_ui_elem *e)
 	SDL_Color	fg = {250, 210, 210, UI_ALPHA_OPAQUE};
 
 	ui_colorize_elem(e, UI_EXPAND_COLOR(bg));
-	store->text_img = TTF_RenderText_Shaded(((t_ui*)(((t_ui_win*)(e->win))->ui))->fonts[store->police_font],
-	store->text, fg, bg);
+	store->text_img = ui_text_to_texture(store->text, store->police_font, &fg, &bg, e);
+	ui_display_img(e, store->text_img, store->sub_rect.x, store->sub_rect.y);
+	//TODO: verifier que l'image n'est pas trop grande. Sinon n'afficher qu'une partie de l'image.
+	if (store->pos >= 0)
+	{
+		//Find the x of the cursor by getting the size of the relevant section of text.
+		//place the cursor (a colored rect perhaps clearer than the fg)
+	}
 }
 
 //TODO
