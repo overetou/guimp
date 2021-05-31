@@ -120,7 +120,7 @@ typedef struct	s_permanent_func_block
 	void							(*func)(void* store);
 	void							*store;//note: you can use it as an int with a cast.
 	struct s_permanent_func_block	*next;
-}				t_permanent_func_block;
+}				t_perma_func_block;
 
 typedef struct	s_ui
 {
@@ -132,7 +132,7 @@ typedef struct	s_ui
 	Uint32					default_pixel_format;
 	void					(*event_handler_func)(struct s_ui*, SDL_Event*);
 	void					*event_handling_store;
-	t_permanent_func_block	*perma_funcs;
+	t_perma_func_block	*perma_funcs;
 }				t_ui;
 
 typedef struct	s_ui_wincontent_store
@@ -180,23 +180,27 @@ typedef struct		s_slider_store
 
 typedef	struct		s_text_space_store
 {
-	int				sub_w;
-	int				sub_h;
 	int				police_font;
+	char			*text;
+	int				text_len;
+	unsigned int	pos;
+	t_ui_img		*text_img;
+	SDL_Rect		sub_rect;
 	SDL_Rect		sensible_zone;
 }					t_text_space_store;
 
 //basic stuff
-void					mem_copy(char *dest, const char *src, int len);
-void					add_link_to_list(t_link **list, t_link *new_link);
-void					remove_link_from_list(t_link **list, t_link *to_remove);
-void					free_list(t_link *list, void(*free_func)(void*));
-void					init_list(t_link **list, t_link *new_link);
-void					list_add_link_at_start(t_link **list, t_link *new_link);
-void					list_add_link_at_end(t_link *last_link, t_link *new_link);
-void					list_add_link_in_the_middle(t_link *next_link_to_be, t_link *new_link);
-t_permanent_func_block  *ui_add_perma_func(t_ui *ui, void (*func)(void*), void *store);
-void					ui_remove_permafunc(t_ui *ui, t_permanent_func_block *to_delete);
+void				mem_copy(char *dest, const char *src, int len);
+void				add_link_to_list(t_link **list, t_link *new_link);
+void				remove_link_from_list(t_link **list, t_link *to_remove);
+void				free_list(t_link *list, void(*free_func)(void*));
+void				init_list(t_link **list, t_link *new_link);
+void				list_add_link_at_start(t_link **list, t_link *new_link);
+void				list_add_link_at_end(t_link *last_link, t_link *new_link);
+void				list_add_link_in_the_middle(t_link *next_link_to_be, t_link *new_link);
+t_perma_func_block	*ui_add_perma_func(t_ui *ui, void (*func)(void*), void *store);
+void				ui_remove_permafunc(t_ui *ui, t_perma_func_block *to_delete);
+void				ui_insert_str_in_str(char *to_modify, int tm_len, const char *to_insert, int ti_len, int pos);
 
 //Int manipulation
 int	ui_get_percentage_of_int(int reference, int percentage);
@@ -206,6 +210,7 @@ int	ui_get_subset_proportionnal_to_proportion(int actual_max, int reference_max,
 void	ui_sdl_critical_check(int val);
 void	ui_critical_check(t_ui_bool val, const char *msg);
 void	*ui_secure_malloc(size_t  len);
+void	ui_secure_realloc(void **to_realloc, size_t len);
 
 //calculus
 void	ui_resolve_win_content_actual_size(t_ui_win *win);
@@ -293,8 +298,9 @@ void ui_add_clickable_zones(t_ui_elem *e, SDL_Rect *zones,
 	(SDL_Rect*, SDL_Rect*, SDL_Rect*));
 
 //events
-void	ui_handle_events(t_ui *ui);
-void	ui_change_event_handler(t_ui *ui, void(*new_event_handler_func)(t_ui*, SDL_Event*));
+t_ui_bool	ui_is_point_in_rect(Sint32 x, Sint32 y, SDL_Rect *rect);
+void		ui_handle_events(t_ui *ui);
+void		ui_change_event_handler(t_ui *ui, void(*new_event_handler_func)(t_ui*, SDL_Event*));
 
 //Pre-made callbacks
 void	ui_stop_event_handling(t_ui_elem *e, SDL_MouseButtonEvent *ev);/*Uses
