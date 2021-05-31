@@ -51,7 +51,7 @@ void	ui_slider_perma_func(void *store)
 
 void	ui_slider_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 {
-	t_permanent_func_block	*new;
+	t_perma_func_block	*new;
 	t_ui					*ui = ((t_ui_win*)(e->win))->ui;
 	t_slider_store			*store = e->store;
 

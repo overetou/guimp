@@ -80,3 +80,16 @@ void free_list(t_link *list, void(*free_func)(void*))
 		list = next;
 	}
 }
+
+void	ui_insert_str_in_str(char *to_modify, int tm_len, const char *to_insert, int ti_len, int pos)
+{
+	int		remainer_len = tm_len - (tm_len - pos);
+	char	remainer[remainer_len];
+
+	printf("tm_len = %d. ti_len = %d, remainer len = %d", tm_len, ti_len, remainer_len);
+	ui_secure_realloc(&to_modify, tm_len + ti_len);
+	mem_copy(remainer, to_modify + pos, remainer_len);
+	mem_copy(to_modify + pos, to_insert, ti_len);
+	mem_copy(to_modify + pos + ti_len, remainer, remainer_len);
+	to_modify[pos + ti_len + remainer_len] = '\0';
+}

@@ -60,7 +60,7 @@ void	ui_default_event_handler(t_ui *ui, SDL_Event *ev)
 void	ui_handle_events(t_ui *ui)
 {
 	SDL_Event				ev;
-	t_permanent_func_block	*perma_func;
+	t_perma_func_block	*perma_func;
 
 	ui->keep_going = UI_TRUE;
 	while (ui->keep_going)

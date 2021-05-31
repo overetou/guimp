@@ -163,6 +163,7 @@ OK-Slider
 		histoire de ne pas avoir les caracteres colles au bord (en pourcentage de la surface de l'element)
 	-Lorsque l'on clique dessus, on passe en mode edition de texte:
 		-l'utilisateur entre du text = on affiche le texte ajoute.
+			-Bourinage: A chaque fois que le texte est modifie, on le reaffiche en entier.
 		-Si l'utilisateur clique ailleurs que sur la zone editee, on sort du mode edition de texte.
 	-On aura un nombre maximum de caracteres dans la zone de saisie pour simplifier les choses.
 	-On a un curseur de texte qui se deplace avec les fleches. Ce sera le point d'insertion.

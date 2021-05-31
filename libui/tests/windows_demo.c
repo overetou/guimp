@@ -27,7 +27,7 @@ int main(void)
 		exit(0);
 	}
 
-	ui_create_slider(win->content, 10, 10, 50, 50, 100);
+	ui_create_button(win->content, 20, 20, 20, 20, "Viens mon beau chat", NULL);
 
 	refresh_win(win);
 	ui_handle_events(ui);
