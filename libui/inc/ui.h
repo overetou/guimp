@@ -54,6 +54,7 @@
 #define UI_EXPAND_COLOR(x) x.r, x.g, x.b, x.a
 #define UI_EXPAND_COLOR_PTR(x) x->r, x->g, x->b, x->a
 #define UI_PX_FORMAT_FROM_EL(x) ((t_ui*)(((t_ui_win*)(x->win))->ui))->default_pixel_format
+#define UI_FONT(e, x)  (t_ui*)(((t_ui_win*)(e->win))->ui)->fonts[x]
 
 #define UI_SLIDER_CURSOR_WIDTH_IN_PX 10
 #define UI_SLIDER_HEIGHT_IN_PX 15

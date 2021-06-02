@@ -10,6 +10,9 @@ void	ui_display_text_space(t_ui_elem *e)
 	t_text_space_store	*store = e->store;
 	SDL_Color	bg = {100, 60, 60, UI_ALPHA_OPAQUE};
 	SDL_Color	fg = {250, 210, 210, UI_ALPHA_OPAQUE};
+	char		tmp[store->pos + 1];
+	int			text_size;
+	SDL_Rect	cursor_rect = {0, 0, e->actual_dimensions.h, 3};
 
 	ui_colorize_elem(e, UI_EXPAND_COLOR(bg));
 	store->text_img = ui_text_to_texture(store->text, store->police_font, &fg, &bg, e);
@@ -17,22 +20,28 @@ void	ui_display_text_space(t_ui_elem *e)
 	//TODO: verifier que l'image n'est pas trop grande. Sinon n'afficher qu'une partie de l'image.
 	if (store->pos >= 0)
 	{
-		//Find the x of the cursor by getting the size of the relevant section of text.
-		//place the cursor (a colored rect perhaps clearer than the fg)
+		mem_copy(tmp, store->text, store->pos);
+		tmp[store->pos] = '\0';
+		text_size = TTF_SizeText(UI_FONT(e, store->police_font), tmp, &text_size, NULL);
+		cursor_rect.x = text_size;
+		ui_display_absolute_rect_relative_to_elem(e, &cursor_rect, &fg);
 	}
 }
 
-//TODO
 void	ui_text_line_unfocus(t_ui_elem *line)
 {
-	(void)line;
+	t_text_space_store	*store = line->store;
+	
+	store->pos = -1;
+	ui_display_text_space(line);
 }
 
-//TODO
-void	ui_text_line_put_cursor_at_pos(t_ui_elem *line, int x)
+void	ui_text_line_put_cursor_at_pos(t_ui_elem *line, int pos)
 {
-	(void)line;
-	(void)x;
+	t_text_space_store	*store = line->store;
+
+	store->pos = pos;
+	ui_display_text_space(line);
 }
 
 void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
