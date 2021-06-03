@@ -64,6 +64,7 @@ void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
 			}				
 			break;
 		case SDL_TEXTINPUT:
+			puts(((SDL_TextInputEvent*)ev)->text);
 			break;
 	}
 }
@@ -75,7 +76,7 @@ void	ui_text_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 	ui_text_line_put_cursor_at_pos(e, ev->x);
 }
 
-t_ui_elem	*ui_create_text_space(t_ui_elem *parent, int x, int y, int w, int h)
+t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, int x, int y, int w, int h)
 {
 	t_ui_elem			*new;
 	t_text_space_store	*store;
@@ -84,6 +85,7 @@ t_ui_elem	*ui_create_text_space(t_ui_elem *parent, int x, int y, int w, int h)
 	free, ui_resolve_keep_actual_dimensions);
 	new->actual_dimensions.w = w;
 	new->actual_dimensions.h = h;
+	new->store = ui_secure_malloc(sizeof(t_text_space_store));
 	store = new->store;
 	store->police_font = 0;
 	store->sub_rect.x = ui_get_percentage_of_int(new->actual_dimensions.x, 10);

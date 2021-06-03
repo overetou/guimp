@@ -27,7 +27,7 @@ int main(void)
 		exit(0);
 	}
 
-	ui_create_button(win->content, 20, 20, 20, 20, "Viens mon beau chat", NULL);
+	ui_create_text_line_input(win->content, 10, 10, 100, 20);
 
 	refresh_win(win);
 	ui_handle_events(ui);
