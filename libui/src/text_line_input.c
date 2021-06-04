@@ -15,24 +15,19 @@ void	ui_display_text_space(t_ui_elem *e)
 	SDL_Rect	cursor_rect = {0, 0, e->actual_dimensions.h, 3};
 
 	ui_colorize_elem(e, UI_EXPAND_COLOR(bg));
-	puts("Salut");
 	store->text_img = ui_text_to_texture(store->text, store->police_font, &fg, &bg, e);
 	ui_display_img(e, store->text_img, store->sub_rect.x, store->sub_rect.y);
-	puts("Salut2");
 	//TODO: verifier que l'image n'est pas trop grande. Sinon n'afficher qu'une partie de l'image.
 	SDL_DestroyTexture(store->text_img);
 	printf("pos = %d.\n", store->pos);
 	if (store->pos >= 0)
 	{
-		puts("Still alive");
 		mem_copy(tmp, store->text, store->pos);
 		tmp[store->pos] = '\0';
 		text_size = TTF_SizeText(UI_FONT(e, store->police_font), tmp, &text_size, NULL);
 		cursor_rect.x = text_size;
 		ui_display_absolute_rect_relative_to_elem(e, &cursor_rect, &fg);
-		puts("Salut3");
 	}
-		puts("Salut4");
 }
 
 void	ui_text_line_unfocus(t_ui_elem *line)
@@ -79,6 +74,7 @@ void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
 void	ui_text_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 {
 	(void)ev;
+	puts("text input was just clicked.");
 	ui_change_event_handler(((t_ui_win*)(e->win))->ui, ui_text_linefocused_event_handler);
 	ui_text_line_put_cursor_at_pos(e, ev->x);
 }
@@ -101,11 +97,13 @@ t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, char *text, int x, int y
 	store->sub_rect.y = ui_get_percentage_of_int(new->actual_dimensions.y, 10);
 	store->sub_rect.w = ui_get_percentage_of_int(new->actual_dimensions.w, 80);
 	store->sub_rect.h = ui_get_percentage_of_int(new->actual_dimensions.h, 80);
-	store->sensible_zone.x = 0;
-	store->sensible_zone.y = 0;
+	store->sensible_zone.x = new->actual_dimensions.x;
+	store->sensible_zone.y = new->actual_dimensions.y;
 	store->sensible_zone.w = w;
 	store->sensible_zone.h = h;
 	ui_add_clickable_zones(new, &(store->sensible_zone), ui_text_space_clicked, 1,
 	ui_resolve_keep_actual_dimensions);
+	puts("In the end, actual dimensions of sensible_zone:");//TMP
+	ui_display_rect_values(&(store->sensible_zone));//TMP
 	return new;
 }

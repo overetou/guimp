@@ -23,11 +23,22 @@ void ui_handle_click(t_ui *ui, SDL_MouseButtonEvent *ev)
 	t_ui_win    *win = ui_find_win(ui, SDL_GetWindowFromID(ev->windowID));
 	t_ui_elem   *e = win->content;
 
-	//printf("Clicked at pos: %d, %d.\n", ev->x, ev->y);//An useful line for debugging.
+	printf("Clicked at pos: %d, %d.\n", ev->x, ev->y);//TMP
 	while (e)
 	{
 		if (e->sensible)
 		{
+			printf("New elem candidate for click.");//TMP
+			if (e->click_func)
+			{
+				puts("has click func.");//TMP
+				ui_display_rect_values(&(e->actual_dimensions));//TMP
+			}
+			else if (e->has_sub_clicks)
+			{
+				puts("has sub-clicks");//TMP
+				ui_display_rect_values(&(e->sensible_zones_actual_dimensions));//TMP
+			}
 			if (e->has_sub_clicks && ui_is_point_in_rect(ev->x, ev->y, &(e->actual_dimensions)))
 				e = e->sub_elems;
 			else if (e->click_func && ui_is_point_in_rect(ev->x, ev->y,
@@ -37,7 +48,10 @@ void ui_handle_click(t_ui *ui, SDL_MouseButtonEvent *ev)
 				break;
 			}
 			else
+			{
+				puts("Element was found to not match the click.");//TMP
 				e = e->next;
+			}
 		}
 		else
 			e = e->next;
