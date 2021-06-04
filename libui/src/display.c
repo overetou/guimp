@@ -42,15 +42,10 @@ t_ui_img *ui_text_to_texture(const char *text, int font_index, t_ui_color
 	SDL_Surface *surface;
 	t_ui_img    *to_return;
 
-	printf("%p, %s, %p, %p\n", UI_EL_UI(e)->fonts[font_index], text, foreground,
-								 background);
 	surface = TTF_RenderText_Shaded(UI_EL_UI(e)->fonts[font_index], text, *foreground,
 								 *background);
-	puts("Texture1");
 	ui_sdl_critical_check(surface != NULL);
-	puts("Texture verified");
 	to_return = SDL_CreateTextureFromSurface(UI_EL_REND(e), surface);
-	puts("Texture2");
 	ui_sdl_critical_check(to_return != NULL);
 	SDL_FreeSurface(surface);
 	return to_return;

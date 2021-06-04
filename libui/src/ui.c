@@ -13,6 +13,7 @@ t_ui	*ui_init(uint32_t ui_flags, int img_flags)
 	new->wins = NULL;
 	new->focused = NULL;
 	new->event_handler_func = ui_default_event_handler;
+	new->perma_funcs = NULL;
 	return new;
 }
 

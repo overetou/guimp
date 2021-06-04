@@ -20,15 +20,18 @@ void	ui_display_text_space(t_ui_elem *e)
 	ui_display_img(e, store->text_img, store->sub_rect.x, store->sub_rect.y);
 	puts("Salut2");
 	//TODO: verifier que l'image n'est pas trop grande. Sinon n'afficher qu'une partie de l'image.
+	printf("pos = %d.\n", store->pos);
 	if (store->pos >= 0)
 	{
+		puts("Still alive");
 		mem_copy(tmp, store->text, store->pos);
 		tmp[store->pos] = '\0';
 		text_size = TTF_SizeText(UI_FONT(e, store->police_font), tmp, &text_size, NULL);
 		cursor_rect.x = text_size;
 		ui_display_absolute_rect_relative_to_elem(e, &cursor_rect, &fg);
-		puts("Salut2");
+		puts("Salut3");
 	}
+		puts("Salut4");
 }
 
 void	ui_text_line_unfocus(t_ui_elem *line)
@@ -91,6 +94,7 @@ t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, char *text, int x, int y
 	new->store = ui_secure_malloc(sizeof(t_text_space_store));
 	store = new->store;
 	store->text = text;
+	store->pos = -1;
 	store->police_font = 0;
 	store->sub_rect.x = ui_get_percentage_of_int(new->actual_dimensions.x, 10);
 	store->sub_rect.y = ui_get_percentage_of_int(new->actual_dimensions.y, 10);

@@ -184,7 +184,7 @@ typedef	struct		s_text_space_store
 	int				police_font;
 	char			*text;
 	int				text_len;
-	unsigned int	pos;
+	int	pos;
 	t_ui_img		*text_img;
 	SDL_Rect		sub_rect;
 	SDL_Rect		sensible_zone;
