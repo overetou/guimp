@@ -35,6 +35,7 @@ int main(void)
 	ui_handle_events(ui);
 
 
+	free(text);
 	ui_close_font(ui->fonts[0]);
 	ui_close(ui);
 	puts("Finished.");

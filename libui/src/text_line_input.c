@@ -20,6 +20,7 @@ void	ui_display_text_space(t_ui_elem *e)
 	ui_display_img(e, store->text_img, store->sub_rect.x, store->sub_rect.y);
 	puts("Salut2");
 	//TODO: verifier que l'image n'est pas trop grande. Sinon n'afficher qu'une partie de l'image.
+	SDL_DestroyTexture(store->text_img);
 	printf("pos = %d.\n", store->pos);
 	if (store->pos >= 0)
 	{
