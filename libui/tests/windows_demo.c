@@ -8,13 +8,13 @@ int main(void)
 	t_ui					*ui;
 	t_ui_win				*win;
 	t_ui_wincontent_store 	*wincontent_store;
-
+	
 	ui = ui_init(UI_INIT_VIDEO, IMG_INIT_JPG | IMG_INIT_PNG);
 	win = ui_add_window(ui, "Pak", 100, 100, 1000, 1000,
 					 UI_WINDOW_RESIZABLE,
 					 UI_RENDERER_ACCELERATED | UI_RENDERER_PRESENTVSYNC,
 					 ui_colorblock_1);
-
+	
 	ui->fonts[0] = ui_load_font("blackchancery/BLKCHCRY.TTF", 15);//TODO: pass the font tank inside the wincontent_store?
 	win->content->store = malloc(sizeof(t_ui_wincontent_store));
 	win->content->free_store_func = ui_free_wincontent_store;
@@ -26,16 +26,16 @@ int main(void)
 		puts("Loading the image failed.");
 		exit(0);
 	}
-
-	char	*text = ui_secure_malloc(5);
-	mem_copy(text, "bobo\0", 5);
-	ui_create_text_line_input(win->content, text, 10, 10, 100, 20);
-
+	
+		char	*text = ui_secure_malloc(5);
+		mem_copy(text, "bobo\0", 5);
+		ui_create_text_line_input(win->content, text, 10, 10, 100, 20);
+	
 	refresh_win(win);
 	ui_handle_events(ui);
-
-
+	
 	free(text);
+	
 	ui_close_font(ui->fonts[0]);
 	ui_close(ui);
 	puts("Finished.");
