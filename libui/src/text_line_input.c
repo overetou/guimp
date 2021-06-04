@@ -15,8 +15,10 @@ void	ui_display_text_space(t_ui_elem *e)
 	SDL_Rect	cursor_rect = {0, 0, e->actual_dimensions.h, 3};
 
 	ui_colorize_elem(e, UI_EXPAND_COLOR(bg));
+	puts("Salut");
 	store->text_img = ui_text_to_texture(store->text, store->police_font, &fg, &bg, e);
 	ui_display_img(e, store->text_img, store->sub_rect.x, store->sub_rect.y);
+	puts("Salut2");
 	//TODO: verifier que l'image n'est pas trop grande. Sinon n'afficher qu'une partie de l'image.
 	if (store->pos >= 0)
 	{
@@ -25,6 +27,7 @@ void	ui_display_text_space(t_ui_elem *e)
 		text_size = TTF_SizeText(UI_FONT(e, store->police_font), tmp, &text_size, NULL);
 		cursor_rect.x = text_size;
 		ui_display_absolute_rect_relative_to_elem(e, &cursor_rect, &fg);
+		puts("Salut2");
 	}
 }
 
@@ -76,7 +79,7 @@ void	ui_text_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 	ui_text_line_put_cursor_at_pos(e, ev->x);
 }
 
-t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, int x, int y, int w, int h)
+t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, char *text, int x, int y, int w, int h)
 {
 	t_ui_elem			*new;
 	t_text_space_store	*store;
@@ -87,6 +90,7 @@ t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, int x, int y, int w, int
 	new->actual_dimensions.h = h;
 	new->store = ui_secure_malloc(sizeof(t_text_space_store));
 	store = new->store;
+	store->text = text;
 	store->police_font = 0;
 	store->sub_rect.x = ui_get_percentage_of_int(new->actual_dimensions.x, 10);
 	store->sub_rect.y = ui_get_percentage_of_int(new->actual_dimensions.y, 10);
