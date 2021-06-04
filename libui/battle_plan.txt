@@ -194,9 +194,6 @@ SEMI_BONUS:
 REFLEXIONS:
 
 LA SUITE:
--Voir si la zone de text input est sensible.
-	-On a 2 problemes importants: les valeurs de dimension de la fenetre sont erronnees(non initialisees ou autre), on considere que des points sont
-		dans des rectangles alors qu'ils n'y sont pas.
--Si c'est le cas, Imprimer a quelle position le programme pense placer le curseur. Afficher aussi le x du text input.
+-Imprimer a quelle position le programme pense placer le curseur. Afficher aussi le x du text input. Faire en sorte que les valeurs soient correctes.
 -Une fois que tout Fonctionne bien, afficher les les dimensions du curseur et les corriger si elles sont fausses.
 -Valgrind.

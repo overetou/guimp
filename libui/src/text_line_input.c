@@ -97,13 +97,14 @@ t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, char *text, int x, int y
 	store->sub_rect.y = ui_get_percentage_of_int(new->actual_dimensions.y, 10);
 	store->sub_rect.w = ui_get_percentage_of_int(new->actual_dimensions.w, 80);
 	store->sub_rect.h = ui_get_percentage_of_int(new->actual_dimensions.h, 80);
-	store->sensible_zone.x = new->actual_dimensions.x;
-	store->sensible_zone.y = new->actual_dimensions.y;
+	store->sensible_zone.x = 0;
+	store->sensible_zone.y = 0;
 	store->sensible_zone.w = w;
 	store->sensible_zone.h = h;
 	ui_add_clickable_zones(new, &(store->sensible_zone), ui_text_space_clicked, 1,
-	ui_resolve_keep_actual_dimensions);
-	puts("In the end, actual dimensions of sensible_zone:");//TMP
+	ui_resolve_keep_fixed_dimensions);
+	puts("In the end, sensible_zone and actual dimensions of sensible_zone:");//TMP
 	ui_display_rect_values(&(store->sensible_zone));//TMP
+	ui_display_rect_values(&(new->sensible_zones_actual_dimensions));//TMP
 	return new;
 }

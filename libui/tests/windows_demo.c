@@ -14,10 +14,6 @@ int main(void)
 					 UI_WINDOW_RESIZABLE,
 					 UI_RENDERER_ACCELERATED | UI_RENDERER_PRESENTVSYNC,
 					 ui_colorblock_1);
-	
-	puts("Window actual dimensions and sensible dimensions:");
-	ui_display_rect_values(&(win->content->actual_dimensions));
-
 	ui->fonts[0] = ui_load_font("blackchancery/BLKCHCRY.TTF", 15);//TODO: pass the font tank inside the wincontent_store?
 	win->content->store = malloc(sizeof(t_ui_wincontent_store));
 	win->content->free_store_func = ui_free_wincontent_store;
@@ -30,19 +26,11 @@ int main(void)
 		exit(0);
 	}
 	
-	puts("Window actual dimensions and sensible dimensions:");
-	ui_display_rect_values(&(win->content->actual_dimensions));
-
 	char	*text = ui_secure_malloc(5);
 	mem_copy(text, "bobo\0", 5);
 	ui_create_text_line_input(win->content, text, 10, 10, 100, 20);
 
-	puts("Window actual dimensions and sensible dimensions:");
-	ui_display_rect_values(&(win->content->actual_dimensions));
-	
 	refresh_win(win);
-	puts("Window actual dimensions and sensible dimensions:");
-	ui_display_rect_values(&(win->content->actual_dimensions));
 	ui_handle_events(ui);
 	
 	free(text);

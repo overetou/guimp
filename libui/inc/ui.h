@@ -219,6 +219,7 @@ void	ui_resolve_as_percentages(SDL_Rect *reference_rect, SDL_Rect *relative_dime
 *to_fill);
 void	ui_resolve_keep_actual_dimensions(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
 *to_fill);
+void	ui_resolve_keep_fixed_dimensions(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect *to_fill);
 void	ui_resolve_as_square_from_h(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
 *to_fill);
 void	ui_set_x_and_y_from_ref(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
