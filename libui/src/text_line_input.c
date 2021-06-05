@@ -41,14 +41,21 @@ void	ui_text_line_unfocus(t_ui_elem *line)
 void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 {
 	t_text_space_store	*store = line->store;
+	int					text_img_width;
 
 	//If text len <= store->sub_rect.x, pos = 0;
-	//Else get the length of the current texture.
-	//if x is superior to that size, set pos to store->text_len
-	//else we calculate the size of each caracter starting from the beginning and add 1 to a total 
-	//And the length to another total until that total exceeds x. We have the new pos = incremental count - 1.
-	//TODO: Set the pixel pos of the cursor in the line in this func (and in ui_create_text_line_input)
-	ui_display_text_space(line);
+	if (x <= store->sub_rect.x)
+		store->pos = 0;
+	else//Else get the length of the current texture.
+	{
+		SDL_QueryTexture(store->text_img, NULL, NULL, &text_img_width, NULL);
+		printf("Text has a size of %d pixels.\n", text_img_width);
+		//if x is superior to that size, set pos to store->text_len
+		//else we calculate the size of each caracter starting from the beginning and add 1 to a total 
+		//And the length to another total until that total exceeds x. We have the new pos = incremental count - 1.
+		//TODO: Set the pixel pos of the cursor in the line in this func (and in ui_create_text_line_input)
+	}
+	//ui_display_text_space(line);
 }
 
 void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
