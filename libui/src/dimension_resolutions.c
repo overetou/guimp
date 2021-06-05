@@ -33,8 +33,7 @@ void	ui_resolve_keep_actual_dimensions(SDL_Rect *reference_rect, SDL_Rect *relat
 	(void)to_fill;
 }
 
-void	ui_resolve_keep_fixed_dimensions(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
-*to_fill)
+void	ui_resolve_keep_fixed_dimensions(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect *to_fill)
 {
 	(void)reference_rect;
 	to_fill->w = relative_dimensions->w;
