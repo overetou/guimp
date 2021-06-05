@@ -38,11 +38,16 @@ void	ui_text_line_unfocus(t_ui_elem *line)
 	ui_display_text_space(line);
 }
 
-void	ui_text_line_put_cursor_at_pos(t_ui_elem *line, int pos)
+void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 {
 	t_text_space_store	*store = line->store;
 
-	store->pos = pos;
+	//If text len <= store->sub_rect.x, pos = 0;
+	//Else get the length of the current texture.
+	//if x is superior to that size, set pos to store->text_len
+	//else we calculate the size of each caracter starting from the beginning and add 1 to a total 
+	//And the length to another total until that total exceeds x. We have the new pos = incremental count - 1.
+	//TODO: Set the pixel pos of the cursor in the line in this func (and in ui_create_text_line_input)
 	ui_display_text_space(line);
 }
 
@@ -56,7 +61,7 @@ void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
 		case SDL_MOUSEBUTTONDOWN:
 			if (ui_is_point_in_rect(((SDL_MouseButtonEvent*)ev)->x, ((SDL_MouseButtonEvent*)ev)->y,
 				&(((t_ui_elem*)(ui->event_handling_store))->actual_dimensions)))
-				ui_text_line_put_cursor_at_pos(ui->event_handling_store, ((SDL_MouseButtonEvent*)ev)->x);
+				ui_text_line_put_cursor_at_new_pos_from_x(ui->event_handling_store, ((SDL_MouseButtonEvent*)ev)->x);
 			else
 			{
 				ui_text_line_unfocus(ui->event_handling_store);
@@ -74,9 +79,8 @@ void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
 void	ui_text_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 {
 	(void)ev;
-	puts("text input was just clicked.");
-	ui_change_event_handler(((t_ui_win*)(e->win))->ui, ui_text_linefocused_event_handler);
-	ui_text_line_put_cursor_at_pos(e, ev->x);
+//	ui_change_event_handler(((t_ui_win*)(e->win))->ui, ui_text_linefocused_event_handler);
+	ui_text_line_put_cursor_at_new_pos_from_x(e, ev->x);
 }
 
 t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, char *text, int x, int y, int w, int h)
