@@ -19,13 +19,12 @@ void	ui_display_text_space(t_ui_elem *e)
 	ui_display_img(e, store->text_img, store->sub_rect.x, store->sub_rect.y);
 	//TODO: verifier que l'image n'est pas trop grande. Sinon n'afficher qu'une partie de l'image.
 	SDL_DestroyTexture(store->text_img);
-	printf("pos = %d.\n", store->pos);
 	if (store->pos >= 0)
 	{
 		mem_copy(tmp, store->text, store->pos);
 		tmp[store->pos] = '\0';
 		text_size = TTF_SizeText(UI_FONT(e, store->police_font), tmp, &text_size, NULL);
-		cursor_rect.x = text_size;
+		cursor_rect.x = store->cursor_pixel_pos;
 		ui_display_absolute_rect_relative_to_elem(e, &cursor_rect, &fg);
 	}
 }
@@ -45,31 +44,40 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 	int					current_char_pos = 0;
 	int					current_pixel_pos = 0;
 	int					tmp;
+	char				dummy_text[] = "x\0";
 
 	printf("x considered to be the start of the subrect: %d. Sould be 110.\n x straight from args = %d.\n",
 			line->actual_dimensions.x + store->sub_rect.x, x);
 	if (x <= store->sub_rect.x + line->actual_dimensions.x)
+	{
+		puts("Deducted pos of the curor is 0.");exit(0);
 		store->pos = 0;
+	}
 	else
 	{
-		x -= line->actual_dimensions.x;
 		SDL_QueryTexture(store->text_img, NULL, NULL, &text_img_width, NULL);
-		printf("Text has a size of %d pixels. x = %d.\n", text_img_width, x);
-		if (x >= store->sub_rect.w)
+		x -= line->actual_dimensions.x + store->sub_rect.x;
+		printf("x = %d after removal of the start of the sub rect.\n", x);
+		if (x >= text_img_width)
+		{
 			store->pos = store->text_len;
+			printf("Clicked after the text. pos = %d.\n", store->pos);exit(0);
+		}
 		else
 		{
-			while (current_pixel_pos < x)
+			puts("Clicked on the text. Need to calculate the pos.");exit(0);
+			while (current_pixel_pos <= x)
 			{
+				dummy_text[0] = store->text[current_char_pos];
+				TTF_SizeText(UI_FONT(line, store->police_font), dummy_text, &tmp, NULL);
 				current_char_pos++;
-				current_pixel_pos += 
+				current_pixel_pos += tmp;
 			}
+			store->cursor_pixel_pos = current_pixel_pos - tmp;
+			store->pos = current_char_pos - 1;
 		}
-		//else we calculate the size of each caracter starting from the beginning and add 1 to a total 
-		//And the length to another total until that total exceeds x. We have the new pos = incremental count - 1.
-		//TODO: Set the pixel pos of the cursor in the line in this func (and in ui_create_text_line_input)
 	}
-	//ui_display_text_space(line);
+	ui_display_text_space(line);
 }
 
 void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
@@ -116,6 +124,8 @@ t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, char *text, int x, int y
 	new->store = ui_secure_malloc(sizeof(t_text_space_store));
 	store = new->store;
 	store->text = text;
+	store->text_len = ui_strlen(text);
+	printf("text_len = %d\n", store->text_len);
 	store->pos = -1;
 	store->police_font = 0;
 	store->sub_rect.x = ui_get_percentage_of_int(new->actual_dimensions.x, 10);

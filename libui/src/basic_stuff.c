@@ -93,3 +93,12 @@ void	ui_insert_str_in_str(char *to_modify, int tm_len, const char *to_insert, in
 	mem_copy(to_modify + pos + ti_len, remainer, remainer_len);
 	to_modify[pos + ti_len + remainer_len] = '\0';
 }
+
+int	ui_strlen(const char *s)
+{
+	int	i = 0;
+
+	while (s[i])
+		i++;
+	return i;
+}

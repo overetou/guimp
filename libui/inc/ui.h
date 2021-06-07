@@ -184,7 +184,8 @@ typedef	struct		s_text_space_store
 	int				police_font;
 	char			*text;
 	int				text_len;
-	int	pos;
+	int				pos;
+	int				cursor_pixel_pos;
 	t_ui_img		*text_img;
 	SDL_Rect		sub_rect;
 	SDL_Rect		sensible_zone;
@@ -202,6 +203,7 @@ void				list_add_link_in_the_middle(t_link *next_link_to_be, t_link *new_link);
 t_perma_func_block	*ui_add_perma_func(t_ui *ui, void (*func)(void*), void *store);
 void				ui_remove_permafunc(t_ui *ui, t_perma_func_block *to_delete);
 void				ui_insert_str_in_str(char *to_modify, int tm_len, const char *to_insert, int ti_len, int pos);
+int					ui_strlen(const char *s);
 
 //Int manipulation
 int	ui_get_percentage_of_int(int reference, int percentage);
