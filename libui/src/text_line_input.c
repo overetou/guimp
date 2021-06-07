@@ -8,15 +8,15 @@
 void	ui_display_text_space(t_ui_elem *e)
 {
 	t_text_space_store	*store = e->store;
-	SDL_Color	bg = {100, 60, 60, UI_ALPHA_OPAQUE};
-	SDL_Color	fg = {250, 210, 210, UI_ALPHA_OPAQUE};
-	char		tmp[store->pos + 1];
-	int			text_size;
-	SDL_Rect	cursor_rect = {0, 0, e->actual_dimensions.h, 3};
+	SDL_Color			bg = {100, 60, 60, UI_ALPHA_OPAQUE};
+	SDL_Color			fg = {250, 210, 210, UI_ALPHA_OPAQUE};
+	char				tmp[store->pos + 1];
+	int					text_size;
+	SDL_Rect			cursor_rect = {0, 0, e->actual_dimensions.h, 3};
 
 	ui_colorize_elem(e, UI_EXPAND_COLOR(bg));
 	store->text_img = ui_text_to_texture(store->text, store->police_font, &fg, &bg, e);
-	ui_display_img(e, store->text_img, store->sub_rect.x, store->sub_rect.y);
+	ui_display_img_at_absolute_pos(e, store->text_img, store->sub_rect.x, store->sub_rect.y);
 	//TODO: verifier que l'image n'est pas trop grande. Sinon n'afficher qu'une partie de l'image.
 	SDL_DestroyTexture(store->text_img);
 	if (store->pos >= 0)
@@ -50,7 +50,7 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 			line->actual_dimensions.x + store->sub_rect.x, x);
 	if (x <= store->sub_rect.x + line->actual_dimensions.x)
 	{
-		puts("Deducted pos of the curor is 0.");exit(0);
+		puts("Deducted pos of the curor is 0.");
 		store->pos = 0;
 	}
 	else
@@ -61,11 +61,11 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 		if (x >= text_img_width)
 		{
 			store->pos = store->text_len;
-			printf("Clicked after the text. pos = %d.\n", store->pos);exit(0);
+			printf("Clicked after the text. pos = %d.\n", store->pos);
 		}
 		else
 		{
-			puts("Clicked on the text. Need to calculate the pos.");exit(0);
+			puts("Clicked on the text. Need to calculate the pos.");
 			while (current_pixel_pos <= x)
 			{
 				dummy_text[0] = store->text[current_char_pos];
@@ -75,6 +75,7 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 			}
 			store->cursor_pixel_pos = current_pixel_pos - tmp;
 			store->pos = current_char_pos - 1;
+			printf("Calculated pos = %d.\n", store->pos);
 		}
 	}
 	ui_display_text_space(line);
@@ -128,8 +129,8 @@ t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, char *text, int x, int y
 	printf("text_len = %d\n", store->text_len);
 	store->pos = -1;
 	store->police_font = 0;
-	store->sub_rect.x = ui_get_percentage_of_int(new->actual_dimensions.x, 10);
-	store->sub_rect.y = ui_get_percentage_of_int(new->actual_dimensions.y, 10);
+	store->sub_rect.x = ui_get_percentage_of_int(new->actual_dimensions.w, 10);
+	store->sub_rect.y = ui_get_percentage_of_int(new->actual_dimensions.h, 10);
 	store->sub_rect.w = ui_get_percentage_of_int(new->actual_dimensions.w, 80);
 	store->sub_rect.h = ui_get_percentage_of_int(new->actual_dimensions.h, 80);
 	store->sensible_zone.x = 0;

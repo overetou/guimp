@@ -272,6 +272,7 @@ t_ui_img	*ui_text_to_texture(const char *text, int font_index, t_ui_color
 void		ui_display_img_at_center_of_elem(t_ui_elem *e, t_ui_img *img);
 void		ui_display_img(t_ui_elem *e, t_ui_img *img, int x,
 							int y);
+void		ui_display_img_at_absolute_pos(t_ui_elem *e, t_ui_img *img, int x, int y);
 t_ui_img	*ui_create_colored_texture(t_ui_win *win, int w, int h, t_ui_color
 *color);
 void		ui_draw_fullcircle(t_ui_img *img, int w, int h, int size,

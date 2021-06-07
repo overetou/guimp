@@ -31,8 +31,20 @@ void ui_display_img(t_ui_elem *e, t_ui_img *img, int x, int y)
 	ui_sdl_critical_check(
 			SDL_QueryTexture(img, NULL, NULL, &(rect.w), &(rect.h))
 			== 0);
-	rect.x = e->actual_dimensions.x + ((e->actual_dimensions.w * x) / 100);
-	rect.y = e->actual_dimensions.y + ((e->actual_dimensions.h * y) / 100);
+	rect.x = e->actual_dimensions.x + ui_get_percentage_of_int(e->actual_dimensions.w, x);
+	rect.y = e->actual_dimensions.y + ui_get_percentage_of_int(e->actual_dimensions.h, y);
+	ui_sdl_critical_check(SDL_RenderCopy(UI_EL_REND(e), img, NULL, &rect) == 0);
+}
+
+void ui_display_img_at_absolute_pos(t_ui_elem *e, t_ui_img *img, int x, int y)
+{
+	SDL_Rect rect;
+
+	ui_sdl_critical_check(
+			SDL_QueryTexture(img, NULL, NULL, &(rect.w), &(rect.h))
+			== 0);
+	rect.x = e->actual_dimensions.x + x;
+	rect.y = e->actual_dimensions.y + y;
 	ui_sdl_critical_check(SDL_RenderCopy(UI_EL_REND(e), img, NULL, &rect) == 0);
 }
 
