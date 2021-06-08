@@ -116,6 +116,7 @@ void	ui_display_absolute_rect_relative_to_elem(t_ui_elem *e, SDL_Rect *r, SDL_Co
 	SDL_SetRenderDrawColor(((t_ui_win*)(e->win))->rend, UI_EXPAND_COLOR_PTR(c));
 
 	r->x += e->actual_dimensions.x;
+	printf("r->x = %d\n", r->x);
 	r->y += e->actual_dimensions.y;
 	SDL_RenderFillRect(((t_ui_win*)(e->win))->rend, r);
 }
