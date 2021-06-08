@@ -194,6 +194,15 @@ SEMI_BONUS:
 REFLEXIONS:
 
 LA SUITE:
--Imprimer a quelle position le programme pense placer le curseur. Afficher aussi le x du text input. Faire en sorte que les valeurs soient correctes.
--Une fois que tout Fonctionne bien, afficher les les dimensions du curseur et les corriger si elles sont fausses.
+-Si la width du texte est superieure a la width du subrect, On affiche autant de caractere que possible a partir de visible_text_start.
+	-On fait la meme chose que pour trouver le curseur pour trouver le nombre de lettres acceptees. Concerver cet indicateur pour ne chercher qu'a partir de ce dernier et n'avoir qu'a reajuster.
+-Creer une fonction deduce_text_px_len.
+-creer une fonction modify_text(line, new_text) -> met a jour text, text_len et visible_text_start. Egalement pos?
+-Ajouter les fonctions de typing:
+	-Lors d'un text input, on a le text de base, la pos du curseur et le text qui doit etre ajouter.
+	-Faire une fonction qui assemble ce texte et utilise la fonction d'avant pour mettre a jour le text dans store. Ajouter la taille du text_input a pos.
+	-Quand on a un backspace, enlever la lettre derriere pos (sauf si pos = 0). Meme tralala que la ligne precedente.
+	Ca suffira comme option d'input essentielles pour le moment.
+-Faire l'element d'interface "afficheur d'image"
+-Gerer les fenetres multiples
 -Valgrind.

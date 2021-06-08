@@ -186,7 +186,9 @@ typedef	struct		s_text_space_store
 	int				text_len;
 	int				pos;
 	int				cursor_pixel_pos;
+	int				visible_text_start;
 	t_ui_img		*text_img;
+	int				text_px_len;
 	SDL_Rect		sub_rect;
 	SDL_Rect		sensible_zone;
 }					t_text_space_store;

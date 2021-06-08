@@ -135,6 +135,7 @@ t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, char *text, int x, int y
 	store->sensible_zone.y = 0;
 	store->sensible_zone.w = w;
 	store->sensible_zone.h = h;
+	store->visible_text_start = 0;
 	ui_add_clickable_zones(new, &(store->sensible_zone), ui_text_space_clicked, 1,
 	ui_resolve_keep_fixed_dimensions);
 	puts("In the end, sensible_zone and actual dimensions of sensible_zone:");//TMP

@@ -1,3 +1,4 @@
 Things not to forget when creating a new interface element:
 - Use the element generation script. It will do some typing for you.
+- when you add a variable to the store of the elem, don't forget to set its initial value if relevant (most of the time it will be in the generator).
 - In function that refresh the appearance of the widget, you must call SDL_RenderPresent() at some point if you want the change to appear on screen.
