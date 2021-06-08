@@ -46,8 +46,7 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 	int					tmp;
 	char				dummy_text[] = "x\0";
 
-	printf("x considered to be the start of the subrect: %d. Sould be 110.\n x straight from args = %d.\n",
-			line->actual_dimensions.x + store->sub_rect.x, x);
+	printf("x straight from args = %d.\n", x);
 	if (x <= store->sub_rect.x + line->actual_dimensions.x)
 	{
 		puts("Deducted pos of the curor is 0.");
@@ -55,9 +54,9 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 	}
 	else
 	{
-		SDL_QueryTexture(store->text_img, NULL, NULL, &text_img_width, NULL);
+		TTF_SizeText(UI_FONT(line, store->police_font), store->text, &text_img_width, NULL);
 		x -= line->actual_dimensions.x + store->sub_rect.x;
-		printf("x = %d after removal of the start of the sub rect.\n", x);
+		printf("x = %d after removal of the start of the sub rect.\nText width: %d.\n", x, text_img_width);
 		if (x >= text_img_width)
 		{
 			store->pos = store->text_len;
