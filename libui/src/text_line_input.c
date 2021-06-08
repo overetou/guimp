@@ -29,7 +29,7 @@ void	ui_text_line_unfocus(t_ui_elem *line)
 	t_text_space_store	*store = line->store;
 	
 	store->pos = -1;
-	ui_display_text_space(line);
+	refresh_win(UI_EL_WIN(line));
 }
 
 void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
@@ -46,6 +46,7 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 	{
 		puts("Deducted pos of the curor is 0.");
 		store->pos = 0;
+		store->cursor_pixel_pos = 0;
 	}
 	else
 	{
@@ -54,7 +55,8 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 		printf("x = %d after removal of the start of the sub rect.\nText width: %d.\n", x, text_img_width);
 		if (x >= text_img_width)
 		{
-			store->pos = store->text_len;
+			store->pos = store->text_len + 1;
+			store->cursor_pixel_pos = text_img_width;
 			printf("Clicked after the text. pos = %d.\n", store->pos);
 		}
 		else
