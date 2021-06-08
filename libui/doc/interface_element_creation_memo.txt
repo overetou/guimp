@@ -1,0 +1,3 @@
+Things not to forget when creating a new interface element:
+- Use the element generation script. It will do some typing for you.
+- In function that refresh the appearance of the widget, you must call SDL_RenderPresent() at some point if you want the change to appear on screen.

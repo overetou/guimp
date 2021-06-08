@@ -10,7 +10,7 @@ void	ui_display_text_space(t_ui_elem *line)
 	t_text_space_store	*store = line->store;
 	SDL_Color			bg = {100, 60, 60, UI_ALPHA_OPAQUE};
 	SDL_Color			fg = {250, 210, 210, UI_ALPHA_OPAQUE};
-	SDL_Rect			cursor_rect = {0, store->sub_rect.y, 10, line->actual_dimensions.h};
+	SDL_Rect			cursor_rect = {0, 0, 1, line->actual_dimensions.h};
 
 	ui_colorize_elem(line, UI_EXPAND_COLOR(bg));
 	store->text_img = ui_text_to_texture(store->text, store->police_font, &fg, &bg, line);
@@ -67,13 +67,14 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 				current_char_pos++;
 				current_pixel_pos += tmp;
 			}
-			store->cursor_pixel_pos = current_pixel_pos;
+			store->cursor_pixel_pos = current_pixel_pos - tmp;
 			printf("current_pixel_pos = %d.\n", current_pixel_pos);
-			store->pos = current_char_pos;
+			store->pos = current_char_pos - 1;
 			printf("Calculated pos = %d.\n", store->pos);
 		}
 	}
-	ui_display_text_space(line);
+	refresh_win(UI_EL_WIN(line));
+	//SDL_RenderPresent(UI_EL_REND(line));
 }
 
 void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)

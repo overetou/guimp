@@ -28,7 +28,7 @@ int main(void)
 	
 	char	*text = ui_secure_malloc(5);
 	mem_copy(text, "bobo\0", 5);
-	ui_create_text_line_input(win->content, text, 10, 10, 100, 40);
+	ui_create_text_line_input(win->content, text, 10, 10, 100, 25);
 
 	refresh_win(win);
 	ui_handle_events(ui);
