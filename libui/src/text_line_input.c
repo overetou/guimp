@@ -72,8 +72,8 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 				current_char_pos++;
 				current_pixel_pos += tmp;
 			}
-			store->cursor_pixel_pos = current_pixel_pos - tmp;
-			store->pos = current_char_pos - 1;
+			store->cursor_pixel_pos = current_pixel_pos;
+			store->pos = current_char_pos;
 			printf("Calculated pos = %d.\n", store->pos);
 		}
 	}
