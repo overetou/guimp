@@ -196,6 +196,7 @@ REFLEXIONS:
 LA SUITE:
 -Si la width du texte est superieure a la width du subrect, On affiche autant de caractere que possible a partir de visible_text_start.
 	-On fait la meme chose que pour trouver le curseur pour trouver le nombre de lettres acceptees. Concerver cet indicateur pour ne chercher qu'a partir de ce dernier et n'avoir qu'a reajuster.
+	-Relire le code et tester.
 -Creer une fonction deduce_text_px_len.
 -creer une fonction modify_text(line, new_text) -> met a jour text, text_len et visible_text_start. Egalement pos?
 -Ajouter les fonctions de typing:
