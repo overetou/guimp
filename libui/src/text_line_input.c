@@ -5,7 +5,7 @@
 	(void)to_free;
 } */
 
-int		max_len_from_visible_start(t_ui_elem *line, t_text_space_store *store)
+int		max_width_from_visible_start(t_ui_elem *line, t_text_space_store *store)
 {
 	int		fit_in = 0;
 	int		added;
@@ -19,6 +19,7 @@ int		max_len_from_visible_start(t_ui_elem *line, t_text_space_store *store)
 		fit_in += added;
 		traveler++;
 	}
+	return fit_in - added;
 }
 
 void	ui_display_text_space(t_ui_elem *line)
@@ -28,20 +29,26 @@ void	ui_display_text_space(t_ui_elem *line)
 	SDL_Color			fg = {250, 210, 210, UI_ALPHA_OPAQUE};
 	SDL_Rect			cursor_rect = {0, 0, 1, line->actual_dimensions.h};
 	SDL_Rect			dest_rect;
+	SDL_Rect			src_rect;
 	int					tmp;
+	int					height;
 
 	ui_colorize_elem(line, UI_EXPAND_COLOR(bg));
-	TTF_SizeText(UI_FONT(line, store->police_font), store->text + store->visible_text_start, &tmp, NULL);
+	TTF_SizeText(UI_FONT(line, store->police_font), store->text + store->visible_text_start, &tmp, &height);
 	store->text_img = ui_text_to_texture(store->text + store->visible_text_start, store->police_font, &fg, &bg, line);
 	if (tmp > store->sub_rect.w)
 	{
 		//calculate max visible len from visible_text_start.
-		tmp = max_len_from_visible_start(line, store);
+		tmp = max_width_from_visible_start(line, store);
+		src_rect.x = starting_pos_of_visible_start(line, store);
+		src_rect.y = 0;
+		src_rect.w = tmp;
+		src_rect.h = height;
 		dest_rect.x = store->sub_rect.x;
-		dest_rect.h = store->sub_rect.h;
-		dest_rect.w = max_visible_len;
-		dest_rect.h = text_height;
-		SDL_RenderCopy(UI_EL_REND(line), store->text_img, ?, dest_rect);
+		dest_rect.y = store->sub_rect.y;
+		dest_rect.w = tmp;
+		dest_rect.h = height;
+		SDL_RenderCopy(UI_EL_REND(line), store->text_img, &src_rect, &dest_rect);
 	}
 	else
 		ui_display_img_at_absolute_pos(line, store->text_img, store->sub_rect.x, store->sub_rect.y);
