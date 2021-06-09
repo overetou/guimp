@@ -5,17 +5,46 @@
 	(void)to_free;
 } */
 
+int		max_len_from_visible_start(t_ui_elem *line, t_text_space_store *store)
+{
+	int		fit_in = 0;
+	int		added;
+	char	candidate_string = "x\0";
+	char	*traveler = store->text + store->visible_text_start;
+
+	while (fit_in <= store->sub_rect.w)
+	{
+		candidate_string[0] = *traveler;
+		TTF_SizeText(UI_FONT(line, store->police_font), candidate_string, &added, NULL);
+		fit_in += added;
+		traveler++;
+	}
+}
+
 void	ui_display_text_space(t_ui_elem *line)
 {
 	t_text_space_store	*store = line->store;
 	SDL_Color			bg = {100, 60, 60, UI_ALPHA_OPAQUE};
 	SDL_Color			fg = {250, 210, 210, UI_ALPHA_OPAQUE};
 	SDL_Rect			cursor_rect = {0, 0, 1, line->actual_dimensions.h};
+	SDL_Rect			dest_rect;
+	int					tmp;
 
 	ui_colorize_elem(line, UI_EXPAND_COLOR(bg));
-	store->text_img = ui_text_to_texture(store->text, store->police_font, &fg, &bg, line);
-	ui_display_img_at_absolute_pos(line, store->text_img, store->sub_rect.x, store->sub_rect.y);
-	//TODO: verifier que l'image n'est pas trop grande. Sinon n'afficher qu'une partie de l'image.
+	TTF_SizeText(UI_FONT(line, store->police_font), store->text + store->visible_text_start, &tmp, NULL);
+	store->text_img = ui_text_to_texture(store->text + store->visible_text_start, store->police_font, &fg, &bg, line);
+	if (tmp > store->sub_rect.w)
+	{
+		//calculate max visible len from visible_text_start.
+		tmp = max_len_from_visible_start(line, store);
+		dest_rect.x = store->sub_rect.x;
+		dest_rect.h = store->sub_rect.h;
+		dest_rect.w = max_visible_len;
+		dest_rect.h = text_height;
+		SDL_RenderCopy(UI_EL_REND(line), store->text_img, ?, dest_rect);
+	}
+	else
+		ui_display_img_at_absolute_pos(line, store->text_img, store->sub_rect.x, store->sub_rect.y);
 	SDL_DestroyTexture(store->text_img);
 	if (store->pos >= 0)
 	{
