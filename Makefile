@@ -22,13 +22,16 @@ LIBIDR_FLAGS=$(addprefix -L,$(LIB_DIRS))
 CFLAGS+=$(INC_FLAGS)
 LIBS_FLAGS=$(addprefix -l,$(LIBS))
 VPATH=$(SRC_DIR)
+LIBBINPATH=$(LIBUI_DIR)libui.a
 
 .phony: $(TARGET) clean re
 
 all: $(TARGET)
 
-$(TARGET): $(OBJS) inc/guimp.h
+$(LIBBINPATH):
 	@make -j -C $(LIBUI_DIR)
+
+$(TARGET): $(LIBBINPATH) $(OBJS) inc/guimp.h
 	@$(CC) $(CFLAGS) $(OBJS) -o $(TARGET) $(LIBIDR_FLAGS) $(LIBS_FLAGS)
 	@echo "Compilation succeeded."
 
