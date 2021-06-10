@@ -5,11 +5,22 @@
 	(void)to_free;
 } */
 
+int		starting_pos_of_visible_start(t_ui_elem *line, t_text_space_store *store)
+{
+	char	s[store->visible_text_start + 1];
+	int		starting_pos_in_px;
+
+	mem_copy(s, store->text, store->visible_text_start);
+	s[store->visible_text_start] = '\0';
+	TTF_SizeText(UI_FONT(line, store->police_font), s, &starting_pos_in_px, NULL);
+	return starting_pos_in_px;
+}
+
 int		max_width_from_visible_start(t_ui_elem *line, t_text_space_store *store)
 {
 	int		fit_in = 0;
 	int		added;
-	char	candidate_string = "x\0";
+	char	candidate_string[] = "x\0";
 	char	*traveler = store->text + store->visible_text_start;
 
 	while (fit_in <= store->sub_rect.w)
@@ -34,8 +45,8 @@ void	ui_display_text_space(t_ui_elem *line)
 	int					height;
 
 	ui_colorize_elem(line, UI_EXPAND_COLOR(bg));
-	TTF_SizeText(UI_FONT(line, store->police_font), store->text + store->visible_text_start, &tmp, &height);
 	store->text_img = ui_text_to_texture(store->text + store->visible_text_start, store->police_font, &fg, &bg, line);
+	TTF_SizeText(UI_FONT(line, store->police_font), store->text + store->visible_text_start, &tmp, &height);
 	if (tmp > store->sub_rect.w)
 	{
 		//calculate max visible len from visible_text_start.
@@ -44,8 +55,8 @@ void	ui_display_text_space(t_ui_elem *line)
 		src_rect.y = 0;
 		src_rect.w = tmp;
 		src_rect.h = height;
-		dest_rect.x = store->sub_rect.x;
-		dest_rect.y = store->sub_rect.y;
+		dest_rect.x = line->actual_dimensions.x + store->sub_rect.x;
+		dest_rect.y = line->actual_dimensions.y + store->sub_rect.y;
 		dest_rect.w = tmp;
 		dest_rect.h = height;
 		SDL_RenderCopy(UI_EL_REND(line), store->text_img, &src_rect, &dest_rect);
