@@ -26,7 +26,7 @@ int main(void)
 		exit(0);
 	}
 	
-	char	*text = ui_secure_malloc(5);
+	char	*text = ui_secure_malloc(89);
 	mem_copy(text, "bobo le babouin est un sacre luron. il se roule dans la terre et dans les flaques d'eau.\0", 89);
 	ui_create_text_line_input(win->content, text, 10, 10, 100, 25);
 
