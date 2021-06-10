@@ -33,19 +33,8 @@ CUR_DIR = $(shell pwd)
 all: $(TEST_OUT)
 
 $(SDL_DIR):#This installation script is meant to be used during my scool corrections involving this lib.
-	mkdir $(SDL_DIR)
-	git clone https://github.com/libsdl-org/SDL.git $(SDL_DIR)/SDL
-	cd $(SDL_DIR)/SDL/ && mkdir build && cd build && ../configure --prefix=$(CUR_DIR)/$(SDL_DIR)/libs && make && make install
-	git clone https://gitlab.freedesktop.org/freetype/freetype.git $(SDL_DIR)/freetype
-	cd $(SDL_DIR)/freetype && sh autogen.sh && ./configure --prefix=$(CUR_DIR)/$(SDL_DIR)/libs  && make && make install
-	cd $(SDL_DIR) && curl https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.15.zip --output SDL2_ttf-2.0.15.zip \
-	&& unzip SDL2_ttf-2.0.15.zip && cd SDL2_ttf-2.0.15 && \
-	./configure --prefix=$(CUR_DIR)/$(SDL_DIR)/libs FT2_CONFIG=$(CUR_DIR)/$(SDL_DIR)/freetype/builds/unix/freetype-config SDL2_CONFIG=$(CUR_DIR)/$(SDL_DIR)/libs/bin/sdl2-config \
-	&& make && make install
-	cd $(SDL_DIR) && curl https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.5.zip --output SDL2_image-2.0.5.zip \
-	&& unzip SDL2_image-2.0.5.zip && cd SDL2_image-2.0.5 && \
-	./configure --prefix=$(CUR_DIR)/$(SDL_DIR)/libs SDL2_CONFIG=$(CUR_DIR)/$(SDL_DIR)/libs/bin/sdl2-config \
-	&& make && make install
+	@sudo apt-get install autotools-dev automake libtool m4 libfreetype6-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev
+	@mkdir $(SDL_DIR)
 
 $(TARGET): $(OBJS) inc/ui.h
 	@ar rcs $@ $(OBJS)
@@ -64,3 +53,17 @@ $(TEST_OUT): $(TARGET) tests/windows_demo.c
 	@echo 'Test compiled.'
 
 re: clean $(TARGET)
+
+#mkdir $(SDL_DIR)
+#git clone https://github.com/libsdl-org/SDL.git $(SDL_DIR)/SDL
+#cd $(SDL_DIR)/SDL/ && mkdir build && cd build && ../configure --prefix=$(CUR_DIR)/$(SDL_DIR)/libs && make && make install
+#git clone https://gitlab.freedesktop.org/freetype/freetype.git $(SDL_DIR)/freetype
+#cd $(SDL_DIR)/freetype && sh autogen.sh && ./configure --prefix=$(CUR_DIR)/$(SDL_DIR)/libs  && make && make install
+#cd $(SDL_DIR) && curl https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.15.zip --output SDL2_ttf-2.0.15.zip \
+	&& unzip SDL2_ttf-2.0.15.zip && cd SDL2_ttf-2.0.15 && \
+	./configure --prefix=$(CUR_DIR)/$(SDL_DIR)/libs FT2_CONFIG=$(CUR_DIR)/$(SDL_DIR)/freetype/builds/unix/freetype-config SDL2_CONFIG=$(CUR_DIR)/$(SDL_DIR)/libs/bin/sdl2-config \
+	&& make && make install
+#cd $(SDL_DIR) && curl https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.5.zip --output SDL2_image-2.0.5.zip \
+	&& unzip SDL2_image-2.0.5.zip && cd SDL2_image-2.0.5 && \
+	./configure --prefix=$(CUR_DIR)/$(SDL_DIR)/libs SDL2_CONFIG=$(CUR_DIR)/$(SDL_DIR)/libs/bin/sdl2-config \
+	&& make && make install
