@@ -151,20 +151,27 @@ void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
 	}
 }
 
+int		cursor_visible_from_visible_start(t_text_space_store *line_store)
+{
+	return ;
+}
+
 void	insert_text(t_ui_elem *line, const char *to_insert)
 {
 	t_text_space_store	*store = line->store;
-	int	full_size = store->text_len + str_len(to_insert);
+	int					to_insert_len = str_len(to_insert);
+	int					full_size = store->text_len + to_insert_len;
+	char				*new_text = ui_secure_malloc(full_size);
 
-	//1 reallouer la bonne taille de texte
-	ui_secure_realloc(&(store->text), full_size);
-	//2 copier le debut du texte de line
-	//3 copier l'integralite du texte de to_insert
-	//4 copier la fin du texte de line
-	//4.4 mettre a jour text_len
-	//5 ajouter la taille de to_insert a pos
-	//6 Il faut que le curseur soit toujours en vue depuis start. Faire une fonction qui dit si le curseur est visible depuis start.
-	//	Tant que ca n'est pas le cas on incremente start.
+	mem_copy(new_text, store->text, store->pos);
+	mem_copy(new_text + store->pos, to_insert, to_insert_len);
+	mem_copy(new_text + store->pos + to_insert_len, store->text + store->pos, store->text_len - store->pos);
+	free(store->text);
+	store->text = new_text;
+	store->text_len = full_size;
+	pos += to_insert_len;
+	while (cursor_visible_from_visible_start(store) == UI_FALSE)
+		(store->visible_text_start)++;
 }
 
 void	ui_text_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
