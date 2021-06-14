@@ -151,9 +151,24 @@ void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
 	}
 }
 
-int		cursor_visible_from_visible_start(t_text_space_store *line_store)
+void	get_text_pixel_size(t_ui_elem *e, int police_index, const char *text)
 {
-	return ;
+	int	result;
+
+	TTF_SizeText(UI_FONT(e, police_index), text, &result, NULL);
+	return result;
+}
+
+//TODO: Make sure that we can never get here with a negative pos.
+void	cursor_visible_from_visible_start(t_ui_elem *line, t_text_space_store *store)
+{
+	//calculer la taille du texte jusqu'a pos. Tant que cette taille est superieure a sub_rect->width, incrementer visible_text_start.
+	char	saved = store->text[store->pos];
+	store->text[store->pos] = '\0';
+
+	while (get_text_pixel_size(line, store->police_font, store->text + store->visible_text_start) > store->sub_rect.w)
+		(store->visible_text_start)++;
+	store->text[store->pos] = saved;
 }
 
 void	insert_text(t_ui_elem *line, const char *to_insert)
@@ -171,7 +186,6 @@ void	insert_text(t_ui_elem *line, const char *to_insert)
 	store->text_len = full_size;
 	pos += to_insert_len;
 	while (cursor_visible_from_visible_start(store) == UI_FALSE)
-		(store->visible_text_start)++;
 }
 
 void	ui_text_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
