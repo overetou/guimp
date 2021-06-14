@@ -83,7 +83,7 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 {
 	t_text_space_store	*store = line->store;
 	int					text_img_width;
-	int					current_char_pos = 0;
+	int					current_char_pos = store->visible_text_start;
 	int					current_pixel_pos = 0;
 	int					tmp;
 	char				dummy_text[] = "x\0";
