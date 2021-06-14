@@ -202,6 +202,10 @@ OK-Creer une fonction deduce_text_px_len.
 OK-creer une fonction modify_text(line, new_text) -> met a jour text, text_len et visible_text_start. Egalement pos?
 OK-creer fonction remove_text(line, int count)
 OK-Tenir compte du fait que lors du calcul de pos apres un click de souris on commence de visible_text_start et pas de 0.
+-Compiler
+-tester que l'on a pas casse le display et le positionement du curseur sur les clics
+-Regarder si le texte que l'on tape une fois que l'on a clique sur la ligne de texte est affiche dans le terminal
+-verifier (et faire en sorte si ca n'est pas le cas) que l'on ne prend plus le text input dans le terminal une fois que l'on a clique ailleurs.
 -Ajouter les fonctions de typing:
 	-Lors d'un text input, on a le text de base, la pos du curseur et le text qui doit etre ajouter.
 	-Faire une fonction qui assemble ce texte et utilise la fonction d'avant pour mettre a jour le text dans store. Ajouter la taille du text_input a pos.
