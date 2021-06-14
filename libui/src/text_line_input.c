@@ -160,7 +160,7 @@ void	get_text_pixel_size(t_ui_elem *e, int police_index, const char *text)
 }
 
 //TODO: Make sure that we can never get here with a negative pos.
-void	cursor_visible_from_visible_start(t_ui_elem *line, t_text_space_store *store)
+void	update_visible_start(t_ui_elem *line, t_text_space_store *store)
 {
 	//calculer la taille du texte jusqu'a pos. Tant que cette taille est superieure a sub_rect->width, incrementer visible_text_start.
 	char	saved = store->text[store->pos];
@@ -185,7 +185,27 @@ void	insert_text(t_ui_elem *line, const char *to_insert)
 	store->text = new_text;
 	store->text_len = full_size;
 	pos += to_insert_len;
-	while (cursor_visible_from_visible_start(store) == UI_FALSE)
+	update_visible_start(line, store);
+}
+
+//Removes count chars from line text, starting from pos and going back. No checks but put a print to quickly identify the problem.
+//TODO: Perhaps call display line at this func end and the previous.
+void	remove_text(t_ui_elem *line, int count)
+{
+	t_text_space_store	*store = line->store;
+
+	if (count > store->visible_text_start)
+		puts("ALERT mein gueneral: about to segfault in remove_text.");
+	int	new_len = store->text_len - count;
+	char	*new_text = ui_secure_malloc(new_len);
+	mem_copy(new_text, store->text, store->pos - count);
+	mem_copy(new_text + store->pos - count, store->text + store->pos, store->text_len - store->pos);
+	free(store->text);
+	store->text = new_text;
+	store->text_len = new_len;
+	store->pos -= count;
+	if (store->visible_text_start > store->text_len)
+		store->visible_text_start = store->text_len;
 }
 
 void	ui_text_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
