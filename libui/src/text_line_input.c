@@ -88,10 +88,10 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 	int					tmp;
 	char				dummy_text[] = "x\0";
 
-	printf("x straight from args = %d.\n", x);
+	//printf("x straight from args = %d.\n", x);
 	if (x <= store->sub_rect.x + line->actual_dimensions.x)
 	{
-		puts("Deducted pos of the curor is 0.");
+		//puts("Deducted pos of the curor is 0.");
 		store->pos = 0;
 		store->cursor_pixel_pos = 0;
 	}
@@ -99,16 +99,16 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 	{
 		TTF_SizeText(UI_FONT(line, store->police_font), store->text, &text_img_width, NULL);
 		x -= line->actual_dimensions.x + store->sub_rect.x;
-		printf("x = %d after removal of the start of the sub rect.\nText width: %d.\n", x, text_img_width);
+		//printf("x = %d after removal of the start of the sub rect.\nText width: %d.\n", x, text_img_width);
 		if (x >= text_img_width)
 		{
 			store->pos = store->text_len + 1;
 			store->cursor_pixel_pos = text_img_width;
-			printf("Clicked after the text. pos = %d.\n", store->pos);
+			//printf("Clicked after the text. pos = %d.\n", store->pos);
 		}
 		else
 		{
-			puts("Clicked on the text. Need to calculate the pos.");
+			//puts("Clicked on the text. Need to calculate the pos.");
 			while (current_pixel_pos <= x)
 			{
 				dummy_text[0] = store->text[current_char_pos];
@@ -117,9 +117,9 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 				current_pixel_pos += tmp;
 			}
 			store->cursor_pixel_pos = current_pixel_pos - tmp;
-			printf("current_pixel_pos = %d.\n", current_pixel_pos);
+			//printf("current_pixel_pos = %d.\n", current_pixel_pos);
 			store->pos = current_char_pos - 1;
-			printf("Calculated pos = %d.\n", store->pos);
+			//printf("Calculated pos = %d.\n", store->pos);
 		}
 	}
 	refresh_win(UI_EL_WIN(line));
@@ -151,7 +151,7 @@ void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
 	}
 }
 
-void	get_text_pixel_size(t_ui_elem *e, int police_index, const char *text)
+int		get_text_pixel_size(t_ui_elem *e, int police_index, const char *text)
 {
 	int	result;
 
@@ -174,7 +174,7 @@ void	update_visible_start(t_ui_elem *line, t_text_space_store *store)
 void	insert_text(t_ui_elem *line, const char *to_insert)
 {
 	t_text_space_store	*store = line->store;
-	int					to_insert_len = str_len(to_insert);
+	int					to_insert_len = ui_strlen(to_insert);
 	int					full_size = store->text_len + to_insert_len;
 	char				*new_text = ui_secure_malloc(full_size);
 
@@ -184,7 +184,7 @@ void	insert_text(t_ui_elem *line, const char *to_insert)
 	free(store->text);
 	store->text = new_text;
 	store->text_len = full_size;
-	pos += to_insert_len;
+	store->pos += to_insert_len;
 	update_visible_start(line, store);
 }
 
