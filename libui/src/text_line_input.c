@@ -20,13 +20,11 @@ int		max_width_from_visible_start(t_ui_elem *line, t_text_space_store *store)
 {
 	int		fit_in = 0;
 	int		added;
-	char	candidate_string[] = "x\0";
 	char	*traveler = store->text + store->visible_text_start;
 
 	while (fit_in <= store->sub_rect.w)
 	{
-		candidate_string[0] = *traveler;
-		TTF_SizeText(UI_FONT(line, store->police_font), candidate_string, &added, NULL);
+		TTF_GlyphMetrics(UI_FONT(line, store->police_font), *traveler, NULL, NULL, NULL, NULL, &added);
 		fit_in += added;
 		traveler++;
 	}
@@ -49,7 +47,6 @@ void	ui_display_text_space(t_ui_elem *line)
 	TTF_SizeText(UI_FONT(line, store->police_font), store->text + store->visible_text_start, &tmp, &height);
 	if (tmp > store->sub_rect.w)
 	{
-		//calculate max visible len from visible_text_start.
 		tmp = max_width_from_visible_start(line, store);
 		src_rect.x = starting_pos_of_visible_start(line, store);
 		src_rect.y = 0;
@@ -86,7 +83,6 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 	int					current_char_pos = store->visible_text_start;
 	int					current_pixel_pos = 0;
 	int					tmp;
-	char				dummy_text[] = "x\0";
 
 	//printf("x straight from args = %d.\n", x);
 	if (x <= store->sub_rect.x + line->actual_dimensions.x)
@@ -111,8 +107,7 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 			//puts("Clicked on the text. Need to calculate the pos.");
 			while (current_pixel_pos <= x)
 			{
-				dummy_text[0] = store->text[current_char_pos];
-				TTF_SizeText(UI_FONT(line, store->police_font), dummy_text, &tmp, NULL);
+				TTF_GlyphMetrics(UI_FONT(line, store->police_font), store->text[current_char_pos], NULL, NULL, NULL, NULL, &tmp);
 				current_char_pos++;
 				current_pixel_pos += tmp;
 			}

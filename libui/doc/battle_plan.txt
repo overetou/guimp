@@ -203,7 +203,8 @@ OK-creer une fonction modify_text(line, new_text) -> met a jour text, text_len e
 OK-creer fonction remove_text(line, int count)
 OK-Tenir compte du fait que lors du calcul de pos apres un click de souris on commence de visible_text_start et pas de 0.
 OK-Compiler
--tester que l'on a pas casse le display et le positionement du curseur sur les clics
+OK-tester que l'on a pas casse le display et le positionement du curseur sur les clics
+- Problem: le dernier char n'est pas affiche en entier.
 -Regarder si le texte que l'on tape une fois que l'on a clique sur la ligne de texte est affiche dans le terminal
 -verifier (et faire en sorte si ca n'est pas le cas) que l'on ne prend plus le text input dans le terminal une fois que l'on a clique ailleurs.
 -Ajouter les fonctions de typing:
