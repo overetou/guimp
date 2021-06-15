@@ -28,6 +28,7 @@ int		max_width_from_visible_start(t_ui_elem *line, t_text_space_store *store)
 		fit_in += added;
 		traveler++;
 	}
+	store->visible_text_end = traveler;
 	return fit_in - added;
 }
 
@@ -79,6 +80,7 @@ void	ui_text_line_unfocus(t_ui_elem *line)
 void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 {
 	t_text_space_store	*store = line->store;
+	char				save = *(store->visible_text_end);
 	int					text_img_width;
 	int					current_char_pos = store->visible_text_start;
 	int					current_pixel_pos = 0;
@@ -93,7 +95,9 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 	}
 	else
 	{
+		*(store->visible_text_end) = '\0';
 		TTF_SizeText(UI_FONT(line, store->police_font), store->text, &text_img_width, NULL);
+		*(store->visible_text_end) = save;
 		x -= line->actual_dimensions.x + store->sub_rect.x;
 		//printf("x = %d after removal of the start of the sub rect.\nText width: %d.\n", x, text_img_width);
 		if (x >= text_img_width)
