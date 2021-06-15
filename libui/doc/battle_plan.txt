@@ -208,6 +208,7 @@ OK-Lorsque l'on calcul tmp avec max_width..., mettre dans une nouvelle zone de m
 OK-dans ui_text_line_put_cursor_at_new_pos_from_x, sauvegarder le caractere a l'index de limite, le remplacer par \0, faire un size_text dessus et normalement ca marche.
 OK-Tester a nouveau le comportement du clic/ curseur. Si ca ne marche pas mettre des prints des valeurs de visible_text_end et voir si c'est la que ca coince.
 OK-Attention dans certains cas visible_text_end n'est pas initialise. Dans ces cas le mettre a store->text + store->text_len
+-Critical failure on empty text. Add a check in display_text for text_len. Check all of the places where text_img is called or assigned. The cursor still has to appear correctly.
 -Activer le nouvel event handler dans handle click
 -Regarder si le texte que l'on tape une fois que l'on a clique sur la ligne de texte est affiche dans le terminal
 -verifier (et faire en sorte si ca n'est pas le cas) que l'on ne prend plus le text input dans le terminal une fois que l'on a clique ailleurs.

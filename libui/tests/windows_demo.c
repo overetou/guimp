@@ -26,8 +26,8 @@ int main(void)
 		exit(0);
 	}
 	
-	char	*text = ui_secure_malloc(89);
-	mem_copy(text, "Gagagabubububbb_est_un sacre luron. il se roule dans la terre et dans les flaques d'eau.\0", 89);
+	char	*text = ui_secure_malloc(1);
+	mem_copy(text, "\0", 1);
 	ui_create_text_line_input(win->content, text, 10, 10, 100, 25);
 	//ui_create_button(win->content, 10, 10, 50, 50, "42_puts", ui_debug_say_clicked);
 
