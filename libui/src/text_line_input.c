@@ -60,7 +60,10 @@ void	ui_display_text_space(t_ui_elem *line)
 		SDL_RenderCopy(UI_EL_REND(line), store->text_img, &src_rect, &dest_rect);
 	}
 	else
+	{
+		store->visible_text_end = store->text + store->text_len;
 		ui_display_img_at_absolute_pos(line, store->text_img, store->sub_rect.x, store->sub_rect.y);
+	}
 	SDL_DestroyTexture(store->text_img);
 	if (store->pos >= 0)
 	{
