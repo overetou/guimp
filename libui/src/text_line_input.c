@@ -1,9 +1,11 @@
 #include "ui.h"
 
-/* void	ui_free_text_space_store(void *to_free)
+void	ui_free_text_space_store(void *to_free)
 {
-	(void)to_free;
-} */
+	t_text_space_store *store = to_free;
+	free(store->text);
+	free(to_free);
+}
 
 int		starting_pos_of_visible_start(t_ui_elem *line, t_text_space_store *store)
 {
@@ -134,30 +136,6 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 	//SDL_RenderPresent(UI_EL_REND(line));
 }
 
-void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
-{
-	switch (ev->type)
-	{
-		case SDL_QUIT:
-			ui->keep_going = UI_FALSE;
-			break;
-		case SDL_MOUSEBUTTONDOWN:
-			if (ui_is_point_in_rect(((SDL_MouseButtonEvent*)ev)->x, ((SDL_MouseButtonEvent*)ev)->y,
-				&(((t_ui_elem*)(ui->event_handling_store))->actual_dimensions)))
-				ui_text_line_put_cursor_at_new_pos_from_x(ui->event_handling_store, ((SDL_MouseButtonEvent*)ev)->x);
-			else
-			{
-				ui_text_line_unfocus(ui->event_handling_store);
-				ui_change_event_handler(ui, ui_default_event_handler);
-				ui->event_handler_func(ui, ev);
-			}				
-			break;
-		case SDL_TEXTINPUT:
-			puts(((SDL_TextInputEvent*)ev)->text);
-			break;
-	}
-}
-
 int		get_text_pixel_size(t_ui_elem *e, int police_index, const char *text)
 {
 	int	result;
@@ -181,18 +159,23 @@ void	update_visible_start(t_ui_elem *line, t_text_space_store *store)
 void	insert_text(t_ui_elem *line, const char *to_insert)
 {
 	t_text_space_store	*store = line->store;
-	int					to_insert_len = ui_strlen(to_insert);
-	int					full_size = store->text_len + to_insert_len;
-	char				*new_text = ui_secure_malloc(full_size);
+	int									to_insert_len = ui_strlen(to_insert);
+	//printf("to_insert_len = %d\n", to_insert_len);
+	int									full_size = store->text_len + to_insert_len;
+	//printf("full_size = %d\n", full_size);
+	char								*new_text = ui_secure_malloc(full_size + 1);
 
 	mem_copy(new_text, store->text, store->pos);
 	mem_copy(new_text + store->pos, to_insert, to_insert_len);
 	mem_copy(new_text + store->pos + to_insert_len, store->text + store->pos, store->text_len - store->pos);
+	new_text[full_size] = '\0';
 	free(store->text);
 	store->text = new_text;
 	store->text_len = full_size;
 	store->pos += to_insert_len;
 	update_visible_start(line, store);
+	ui_display_text_space(line);
+	refresh_win(UI_EL_WIN(line));
 }
 
 //Removes count chars from line text, starting from pos and going back. No checks but put a print to quickly identify the problem.
@@ -213,6 +196,31 @@ void	remove_text(t_ui_elem *line, int count)
 	store->pos -= count;
 	if (store->visible_text_start > store->text_len)
 		store->visible_text_start = store->text_len;
+	refresh_win(UI_EL_WIN(line));
+}
+
+void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
+{
+	switch (ev->type)
+	{
+		case SDL_QUIT:
+			ui->keep_going = UI_FALSE;
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			if (ui_is_point_in_rect(((SDL_MouseButtonEvent*)ev)->x, ((SDL_MouseButtonEvent*)ev)->y,
+				&(((t_ui_elem*)(ui->event_handling_store))->actual_dimensions)))
+				ui_text_line_put_cursor_at_new_pos_from_x(ui->event_handling_store, ((SDL_MouseButtonEvent*)ev)->x);
+			else
+			{
+				ui_text_line_unfocus(ui->event_handling_store);
+				ui_change_event_handler(ui, ui_default_event_handler);
+				ui->event_handler_func(ui, ev);
+			}				
+			break;
+		case SDL_TEXTINPUT:
+			insert_text(ui->event_handling_store, ((SDL_TextInputEvent*)ev)->text);
+			break;
+	}
 }
 
 void	ui_text_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
@@ -232,7 +240,7 @@ t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, char *text, int x, int y
 	t_text_space_store	*store;
 
 	new = ui_add_elem(parent, x, y, 0, 0, 1, ui_display_text_space, UI_TRUE,
-	free, ui_resolve_keep_actual_dimensions);
+	ui_free_text_space_store, ui_resolve_keep_actual_dimensions);
 	new->actual_dimensions.w = w;
 	new->actual_dimensions.h = h;
 	new->store = ui_secure_malloc(sizeof(t_text_space_store));

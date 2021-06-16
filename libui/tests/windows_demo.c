@@ -14,7 +14,7 @@ int main(void)
 					 UI_WINDOW_RESIZABLE,
 					 UI_RENDERER_ACCELERATED | UI_RENDERER_PRESENTVSYNC,
 					 ui_colorblock_1);
-	ui->fonts[0] = ui_load_font("open-sans/OpenSans-Semibold.ttf", 15);//TODO: pass the font tank inside the wincontent_store?
+	ui->fonts[0] = ui_load_font("open-sans/OpenSans-Semibold.ttf", 13);//TODO: pass the font tank inside the wincontent_store?
 	win->content->store = malloc(sizeof(t_ui_wincontent_store));
 	win->content->free_store_func = ui_free_wincontent_store;
 	wincontent_store = win->content->store;
@@ -33,8 +33,6 @@ int main(void)
 
 	refresh_win(win);
 	ui_handle_events(ui);
-	
-	free(text);
 	
 	ui_close_font(ui->fonts[0]);
 	ui_close(ui);

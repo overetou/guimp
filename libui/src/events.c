@@ -23,34 +23,34 @@ void ui_handle_click(t_ui *ui, SDL_MouseButtonEvent *ev)
 	//printf("Clicked at pos: %d, %d.\n", ev->x, ev->y);//TMP
 	while (e)
 	{
-		puts("Testing an element.");
+		//puts("Testing an element.");
 		if (e->sensible)
 		{
 			if (e->has_sub_clicks && ui_is_point_in_rect(ev->x, ev->y, &(e->actual_dimensions)))
 			{
-				puts("Sub click activated.");
+				//puts("Sub click activated.");
 				e = e->sub_elems;
 			}
 			else if (e->click_func && ui_is_point_in_rect(ev->x, ev->y,
 												 &(e->sensible_zones_actual_dimensions)))
 			{
-				puts("Click func activated.");
+				//puts("Click func activated.");
 				e->click_func(e, ev);
 				break;
 			}
 			else
 			{
-				puts("Nothing to with the elem. Passing to the next.");
+				//puts("Nothing to with the elem. Passing to the next.");
 				e = e->next;
 			}
 		}
 		else
 		{
-			puts("Element is not sensible. Ignoring it and going next.");
+			//puts("Element is not sensible. Ignoring it and going next.");
 			e = e->next;
 		}
 	}
-	puts("There is no next element");
+	//puts("The search ended!");
 }
 
 void	ui_default_event_handler(t_ui *ui, SDL_Event *ev)
