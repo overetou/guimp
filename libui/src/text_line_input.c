@@ -44,27 +44,30 @@ void	ui_display_text_space(t_ui_elem *line)
 	int					height;
 
 	ui_colorize_elem(line, UI_EXPAND_COLOR(bg));
-	store->text_img = ui_text_to_texture(store->text + store->visible_text_start, store->police_font, &fg, &bg, line);
-	TTF_SizeText(UI_FONT(line, store->police_font), store->text + store->visible_text_start, &tmp, &height);
-	if (tmp > store->sub_rect.w)
+	if (store->text_len > 0)
 	{
-		tmp = max_width_from_visible_start(line, store);
-		src_rect.x = starting_pos_of_visible_start(line, store);
-		src_rect.y = 0;
-		src_rect.w = tmp;
-		src_rect.h = height;
-		dest_rect.x = line->actual_dimensions.x + store->sub_rect.x;
-		dest_rect.y = line->actual_dimensions.y + store->sub_rect.y;
-		dest_rect.w = tmp;
-		dest_rect.h = height;
-		SDL_RenderCopy(UI_EL_REND(line), store->text_img, &src_rect, &dest_rect);
+		store->text_img = ui_text_to_texture(store->text + store->visible_text_start, store->police_font, &fg, &bg, line);
+		TTF_SizeText(UI_FONT(line, store->police_font), store->text + store->visible_text_start, &tmp, &height);
+		if (tmp > store->sub_rect.w)
+		{
+			tmp = max_width_from_visible_start(line, store);
+			src_rect.x = starting_pos_of_visible_start(line, store);
+			src_rect.y = 0;
+			src_rect.w = tmp;
+			src_rect.h = height;
+			dest_rect.x = line->actual_dimensions.x + store->sub_rect.x;
+			dest_rect.y = line->actual_dimensions.y + store->sub_rect.y;
+			dest_rect.w = tmp;
+			dest_rect.h = height;
+			SDL_RenderCopy(UI_EL_REND(line), store->text_img, &src_rect, &dest_rect);
+		}
+		else
+		{
+			store->visible_text_end = store->text + store->text_len;
+			ui_display_img_at_absolute_pos(line, store->text_img, store->sub_rect.x, store->sub_rect.y);
+		}
+		SDL_DestroyTexture(store->text_img);
 	}
-	else
-	{
-		store->visible_text_end = store->text + store->text_len;
-		ui_display_img_at_absolute_pos(line, store->text_img, store->sub_rect.x, store->sub_rect.y);
-	}
-	SDL_DestroyTexture(store->text_img);
 	if (store->pos >= 0)
 	{
 		cursor_rect.x = store->sub_rect.x + store->cursor_pixel_pos;
@@ -83,14 +86,14 @@ void	ui_text_line_unfocus(t_ui_elem *line)
 void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 {
 	t_text_space_store	*store = line->store;
-	char				save = *(store->visible_text_end);
+	char				save;
 	int					text_img_width;
 	int					current_char_pos = store->visible_text_start;
 	int					current_pixel_pos = 0;
 	int					tmp;
 
 	//printf("x straight from args = %d.\n", x);
-	if (x <= store->sub_rect.x + line->actual_dimensions.x)
+	if (x <= store->sub_rect.x + line->actual_dimensions.x || store->text_len == 0)
 	{
 		//puts("Deducted pos of the curor is 0.");
 		store->pos = 0;
@@ -98,9 +101,10 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 	}
 	else
 	{
-		printf("visible_text_end index = %ld\n", store->visible_text_end - store->text);
+		save = *(store->visible_text_end);
+		//printf("visible_text_end index = %ld\n", store->visible_text_end - store->text);
 		*(store->visible_text_end) = '\0';
-		printf("evaluated text = %s\n", store->text + store->visible_text_start);
+		//printf("evaluated text = %s\n", store->text + store->visible_text_start);
 		TTF_SizeText(UI_FONT(line, store->police_font), store->text, &text_img_width, NULL);
 		*(store->visible_text_end) = save;
 		x -= line->actual_dimensions.x + store->sub_rect.x;
