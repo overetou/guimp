@@ -54,6 +54,12 @@ $(TEST_OUT): $(TARGET) tests/windows_demo.c
 
 re: clean $(TARGET)
 
+exec: all
+	./windows_demo
+
+valg_exec: all
+	valgrind ./windows_demo
+
 #mkdir $(SDL_DIR)
 #git clone https://github.com/libsdl-org/SDL.git $(SDL_DIR)/SDL
 #cd $(SDL_DIR)/SDL/ && mkdir build && cd build && ../configure --prefix=$(CUR_DIR)/$(SDL_DIR)/libs && make && make install

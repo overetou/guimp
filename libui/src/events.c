@@ -1,6 +1,3 @@
-//
-// Created by osc on 28/04/2021.
-//
 #include "ui.h"
 
 static t_ui_win *ui_find_win(t_ui *ui, SDL_Window *wanted)
@@ -26,36 +23,34 @@ void ui_handle_click(t_ui *ui, SDL_MouseButtonEvent *ev)
 	//printf("Clicked at pos: %d, %d.\n", ev->x, ev->y);//TMP
 	while (e)
 	{
+		puts("Testing an element.");
 		if (e->sensible)
 		{
-			//printf("New elem candidate for click.");//TMP
-			//if (e->click_func)
-			//{
-				//puts("has click func.");//TMP
-				//ui_display_rect_values(&(e->sensible_zones_actual_dimensions));//TMP
-			//}
-			//else if (e->has_sub_clicks)
-			//{
-				//puts("has sub-clicks");//TMP
-				//ui_display_rect_values(&(e->actual_dimensions));//TMP
-			//}
 			if (e->has_sub_clicks && ui_is_point_in_rect(ev->x, ev->y, &(e->actual_dimensions)))
+			{
+				puts("Sub click activated.");
 				e = e->sub_elems;
+			}
 			else if (e->click_func && ui_is_point_in_rect(ev->x, ev->y,
 												 &(e->sensible_zones_actual_dimensions)))
 			{
+				puts("Click func activated.");
 				e->click_func(e, ev);
 				break;
 			}
 			else
 			{
-				//puts("Element was found to not match the click.");//TMP
+				puts("Nothing to with the elem. Passing to the next.");
 				e = e->next;
 			}
 		}
 		else
+		{
+			puts("Element is not sensible. Ignoring it and going next.");
 			e = e->next;
+		}
 	}
+	puts("There is no next element");
 }
 
 void	ui_default_event_handler(t_ui *ui, SDL_Event *ev)

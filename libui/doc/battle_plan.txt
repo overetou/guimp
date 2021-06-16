@@ -210,7 +210,10 @@ OK-Tester a nouveau le comportement du clic/ curseur. Si ca ne marche pas mettre
 OK-Attention dans certains cas visible_text_end n'est pas initialise. Dans ces cas le mettre a store->text + store->text_len
 OK-Critical failure on empty text. Add a check in display_text for text_len. Check all of the places where text_img is called or assigned. The cursor still has to appear correctly.
 OK-Valgrind detecte des erreurs. Les corriger.
--Activer le nouvel event handler dans handle click
+OK-Activer le nouvel event handler dans handle click
+OK-Allouer et assigner un event_handler_store lors de la reassignation de event_handler_func.
+OK-Lors du changement d'event_handler_func pour le default, free le store.
+-Erreur lors de l'appel de event_handler_func depuis ui_text_linefocused_event_handler.
 -Regarder si le texte que l'on tape une fois que l'on a clique sur la ligne de texte est affiche dans le terminal
 -verifier (et faire en sorte si ca n'est pas le cas) que l'on ne prend plus le text input dans le terminal une fois que l'on a clique ailleurs.
 -Decomposer les fonctions trop longues en plusieurs partie afin de bien segmenter la logique.
