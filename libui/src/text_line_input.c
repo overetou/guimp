@@ -149,7 +149,6 @@ void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
 			{
 				ui_text_line_unfocus(ui->event_handling_store);
 				ui_change_event_handler(ui, ui_default_event_handler);
-				free(ui->event_handling_store);
 				ui->event_handler_func(ui, ev);
 			}				
 			break;
@@ -222,7 +221,6 @@ void	ui_text_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 
 	(void)ev;
 	//((t_slider_store*)(ui->event_handling_store))->previous_event_handling_func = ui->event_handler_func;
-	ui->event_handling_store = ui_secure_malloc(sizeof(t_ui_elem*));
 	ui->event_handling_store = e;
 	ui_change_event_handler(ui, ui_text_linefocused_event_handler);
 	ui_text_line_put_cursor_at_new_pos_from_x(e, ev->x);
