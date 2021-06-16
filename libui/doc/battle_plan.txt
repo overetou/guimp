@@ -216,8 +216,8 @@ OK-Lors du changement d'event_handler_func pour le default, free le store.
 OK-Erreur lors de l'appel de event_handler_func depuis ui_text_linefocused_event_handler.
 OK-Regarder si le texte que l'on tape une fois que l'on a clique sur la ligne de texte est affiche dans le terminal
 OK-verifier (et faire en sorte si ca n'est pas le cas) que l'on ne prend plus le text input dans le terminal une fois que l'on a clique ailleurs.
--Ajouter l'advance du caractere tape dans insert text ou une fonction
-	qui deduit la position du curseur en px a partir de la pos en char.
+OK-Ajouter une fonction qui deduit la position du curseur en px a partir
+	de la pos en char.
 -Egalement mettre a jour remove_text.
 -Decomposer les fonctions trop longues en plusieurs partie afin de bien segmenter la logique.
 -Ajouter les fonctions de typing:

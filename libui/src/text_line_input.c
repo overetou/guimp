@@ -157,6 +157,16 @@ void	update_visible_start(t_ui_elem *line, t_text_space_store *store)
 	store->text[store->pos] = saved;
 }
 
+void		update_cursor_px_pos_from_chr_pos(t_ui_elem *line)
+{
+	t_text_space_store	*store = line->store;
+	char saved = store->text[store->pos];
+	store->text[store->pos]	= '\0';
+	TTF_SizeText(UI_FONT(line, store->police_font), store->text + store->visible_text_start,
+			&(store->cursor_pixel_pos), NULL);
+	store->text[store->pos]	= saved;
+}
+
 void	insert_text(t_ui_elem *line, const char *to_insert)
 {
 	t_text_space_store	*store = line->store;
@@ -175,6 +185,7 @@ void	insert_text(t_ui_elem *line, const char *to_insert)
 	store->text_len = full_size;
 	store->pos += to_insert_len;
 	update_visible_start(line, store);
+	update_cursor_px_pos_from_chr_pos(line);
 	refresh_win(UI_EL_WIN(line));
 }
 
@@ -196,6 +207,7 @@ void	remove_text(t_ui_elem *line, int count)
 	store->pos -= count;
 	if (store->visible_text_start > store->text_len)
 		store->visible_text_start = store->text_len;
+	update_cursor_px_pos_from_chr_pos(line);
 	refresh_win(UI_EL_WIN(line));
 }
 
