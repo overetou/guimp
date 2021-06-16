@@ -37,7 +37,7 @@ int		max_width_from_visible_start(t_ui_elem *line, t_text_space_store *store)
 void	ui_display_text_space(t_ui_elem *line)
 {
 	t_text_space_store	*store = line->store;
-	SDL_Color			bg = {100, 60, 60, UI_ALPHA_OPAQUE};
+	SDL_Color			bg = {100, 100, 100, UI_ALPHA_OPAQUE};
 	SDL_Color			fg = {250, 210, 210, UI_ALPHA_OPAQUE};
 	SDL_Rect			cursor_rect = {0, 0, 1, line->actual_dimensions.h};
 	SDL_Rect			dest_rect;
@@ -72,6 +72,7 @@ void	ui_display_text_space(t_ui_elem *line)
 	}
 	if (store->pos >= 0)
 	{
+		puts("store->pos is indeed >= 0");
 		cursor_rect.x = store->sub_rect.x + store->cursor_pixel_pos;
 		ui_display_absolute_rect_relative_to_elem(line, &cursor_rect, &fg);
 	}
@@ -174,7 +175,6 @@ void	insert_text(t_ui_elem *line, const char *to_insert)
 	store->text_len = full_size;
 	store->pos += to_insert_len;
 	update_visible_start(line, store);
-	ui_display_text_space(line);
 	refresh_win(UI_EL_WIN(line));
 }
 
