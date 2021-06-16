@@ -13,3 +13,4 @@ libui/windows_demo.dSYM
 libui/tags
 libui/cscope.out
 .DS_Store
+libui/tests/a.out
