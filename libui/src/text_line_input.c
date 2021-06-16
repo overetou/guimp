@@ -190,7 +190,6 @@ void	insert_text(t_ui_elem *line, const char *to_insert)
 }
 
 //Removes count chars from line text, starting from pos and going back. No checks but put a print to quickly identify the problem.
-//TODO: Perhaps call display line at this func end and the previous.
 void	remove_text(t_ui_elem *line, int count)
 {
 	t_text_space_store	*store = line->store;
@@ -229,6 +228,9 @@ void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
 				ui->event_handler_func(ui, ev);
 			}				
 			break;
+		//case SDL_KEYDOWN:
+		//	if (((SDL_KeyboardEvent*)ev)->keysym.sym == SDLK_BACKSPACE)
+		//		remove_text(ui->event_handling_store, 1);
 		case SDL_TEXTINPUT:
 			insert_text(ui->event_handling_store, ((SDL_TextInputEvent*)ev)->text);
 			break;

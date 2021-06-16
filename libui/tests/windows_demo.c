@@ -28,7 +28,7 @@ int main(void)
 	
 	char	*text = ui_secure_malloc(1);
 	mem_copy(text, "\0", 1);
-	ui_create_text_line_input(win->content, text, 10, 10, 100, 25);
+	ui_create_text_line_input(win->content, text, 10, 10, 200, 25);
 	//ui_create_button(win->content, 10, 10, 50, 50, "42_puts", ui_debug_say_clicked);
 
 	refresh_win(win);
