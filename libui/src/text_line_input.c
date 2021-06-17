@@ -195,11 +195,14 @@ void	remove_text(t_ui_elem *line, int count)
 
 	if (count > store->pos)
 		return;
-	if (store->pos == store->visible_text_start)
+	if (store->pos == store->visible_text_start + 1)
+	{
 		puts("text start == pos");
+		return;
+	}
 	int	new_len = store->text_len - count;
 	//printf("new_len = %d\n", new_len);
-	char	*new_text = ui_secure_malloc(new_len);
+	char	*new_text = ui_secure_malloc(new_len + 1);
 	mem_copy(new_text, store->text, store->pos - count);
 	//printf("Copied %d first letters from %s\n", store->pos - count, store->text);
 	mem_copy(new_text + store->pos - count, store->text + store->pos, store->text_len - store->pos);
