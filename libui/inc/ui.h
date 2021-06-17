@@ -280,9 +280,8 @@ t_ui_img	*ui_create_colored_texture(t_ui_win *win, int w, int h, t_ui_color
 *color);
 void		ui_draw_fullcircle(t_ui_img *img, int w, int h, int size,
 								t_ui_win *win);
-void		ui_display_rect_from_elem_percentage(t_ui_elem *e, SDL_Rect *r, SDL_Color *c);
+void		ui_display_absolute_colored_rect(t_ui_elem *e, SDL_Rect *r, SDL_Color *c);
 void		ui_display_absolute_rect_relative_to_elem(t_ui_elem *e, SDL_Rect *r, SDL_Color *c);
-void		ui_display_absoluste_colored_rect(t_ui_elem *e, SDL_Rect *r, SDL_Color *c);
 
 //Interface elements
 t_ui_elem	*ui_create_button(t_ui_elem *parent, int x,

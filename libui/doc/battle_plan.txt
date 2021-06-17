@@ -221,10 +221,11 @@ OK-Ajouter une fonction qui deduit la position du curseur en px a partir
 OK-Egalement mettre a jour remove_text.
 OK-Remove text crash lorsque l'on remove alors qu'il n'y a plus rien
 	a remove et lorsque l'on s'apprete a supprimer le visible start.
--Decomposer les fonctions trop longues en plusieurs partie afin de bien segmenter la logique.
--Verifier que l'event handler store ne fuit pas lorsque l'on quitte
+OK-Decomposer les fonctions trop longues en plusieurs partie afin de bien segmenter la logique.
+OK-Verifier que l'event handler store ne fuit pas lorsque l'on quitte
 	l'application avant qu'il ne soit defait. Pour text input et pour
-	les sliders.	
+	les sliders. Pour les sliders on pointe simplement sur le store de l'element et pour text input on pointe sur l'element lui meme donc ce sera free automatiquement.	
+-Oops the exemple is leaking additionnal memory.
 -Faire l'element d'interface "afficheur d'image"
 -Gerer les fenetres multiples
 -Valgrind.

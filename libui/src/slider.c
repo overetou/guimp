@@ -11,7 +11,7 @@ void	ui_display_slider(t_ui_elem *e)
 		UI_SLIDER_CURSOR_WIDTH_IN_PX, e->actual_dimensions.h};
 
 	ui_colorize_elem(e, UI_EXPAND_COLOR(line_color));
-	ui_display_absoluste_colored_rect(e, &cursor_dimensions, &cursor_color);
+	ui_display_absolute_colored_rect(e, &cursor_dimensions, &cursor_color);
 }
 
 void	ui_slider_drag_event_handler(t_ui *ui, SDL_Event *ev)

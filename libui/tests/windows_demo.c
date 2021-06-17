@@ -1,6 +1,3 @@
-//
-// Created by osc on 21/04/2021.
-//
 #include <ui.h>
 
 int main(void)
@@ -29,6 +26,7 @@ int main(void)
 	char	*text = ui_secure_malloc(3);
 	mem_copy(text, "yo\0", 3);
 	ui_create_text_line_input(win->content, text, 10, 10, 200, 25);
+	ui_create_slider(win->content, 10, 20, 40, 50, 100);
 	//ui_create_button(win->content, 10, 10, 50, 50, "42_puts", ui_debug_say_clicked);
 
 	refresh_win(win);
