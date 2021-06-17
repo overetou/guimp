@@ -227,11 +227,12 @@ void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
 				ui->event_handler_func(ui, ev);
 			}				
 			break;
-		case SDL_TEXTINPUT:
-			if (ev->text.text[0] == '\b')
+		case SDL_KEYDOWN:
+			if (ev->key.keysym.sym == SDLK_BACKSPACE)
 				remove_text(ui->event_handling_store, 1);
-			else
-				insert_text(ui->event_handling_store, ((SDL_TextInputEvent*)ev)->text);
+			break;
+		case SDL_TEXTINPUT:
+			insert_text(ui->event_handling_store, ev->text.text);
 			break;
 	}
 }
