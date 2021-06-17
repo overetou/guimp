@@ -89,55 +89,50 @@ void	ui_text_line_unfocus(t_ui_elem *line)
 	refresh_win(UI_EL_WIN(line));
 }
 
+void	find_cursor_min_overstep(t_ui_elem *line, t_text_space_store *store, int *current_pixel_pos,
+		int *current_char_pos, int *tmp, int x)
+{
+	while (*current_pixel_pos <= x)
+	{
+		TTF_GlyphMetrics(UI_FONT(line, store->police_font),
+				store->text[*current_char_pos], NULL, NULL, NULL, NULL, tmp);
+		(*current_char_pos)++;
+		(*current_pixel_pos) += *tmp;
+	}
+}
+
 void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 {
 	t_text_space_store	*store = line->store;
-	char				save;
-	int					text_img_width;
-	int					current_char_pos = store->visible_text_start;
-	int					current_pixel_pos = 0;
-	int					tmp;
+	char								save;
+	int									text_img_width, tmp, current_pixel_pos = 0;
+	int									current_char_pos = store->visible_text_start;
 
-	//printf("x straight from args = %d.\n", x);
 	if (x <= store->sub_rect.x + line->actual_dimensions.x || store->text_len == 0)
 	{
-		//puts("Deducted pos of the curor is 0.");
 		store->pos = 0;
 		store->cursor_pixel_pos = 0;
 	}
 	else
 	{
 		save = *(store->visible_text_end);
-		//printf("visible_text_end index = %ld\n", store->visible_text_end - store->text);
 		*(store->visible_text_end) = '\0';
-		//printf("evaluated text = %s\n", store->text + store->visible_text_start);
 		TTF_SizeText(UI_FONT(line, store->police_font), store->text, &text_img_width, NULL);
 		*(store->visible_text_end) = save;
 		x -= line->actual_dimensions.x + store->sub_rect.x;
-		//printf("x = %d after removal of the start of the sub rect.\nText width: %d.\n", x, text_img_width);
 		if (x >= text_img_width)
 		{
 			store->pos = store->visible_text_end - store->text;
 			store->cursor_pixel_pos = text_img_width;
-			//printf("Clicked after the text. pos = %d.\n", store->pos);
 		}
 		else
 		{
-			//puts("Clicked on the text. Need to calculate the pos.");
-			while (current_pixel_pos <= x)
-			{
-				TTF_GlyphMetrics(UI_FONT(line, store->police_font), store->text[current_char_pos], NULL, NULL, NULL, NULL, &tmp);
-				current_char_pos++;
-				current_pixel_pos += tmp;
-			}
+			find_cursor_min_overstep(line, store, &current_pixel_pos, &current_char_pos, &tmp, x);
 			store->cursor_pixel_pos = current_pixel_pos - tmp;
-			//printf("current_pixel_pos = %d.\n", current_pixel_pos);
 			store->pos = current_char_pos - 1;
-			//printf("Calculated pos = %d.\n", store->pos);
 		}
 	}
 	refresh_win(UI_EL_WIN(line));
-	//SDL_RenderPresent(UI_EL_REND(line));
 }
 
 int		get_text_pixel_size(t_ui_elem *e, int police_index, const char *text)
