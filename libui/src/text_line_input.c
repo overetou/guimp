@@ -197,8 +197,9 @@ void	remove_text(t_ui_elem *line, int count)
 		return;
 	if (store->pos == store->visible_text_start + 1)
 	{
-		puts("text start == pos");
-		return;
+		if (store->visible_text_start != 0)
+			(store->visible_text_start)--;
+		(store->visible_text_end)--;
 	}
 	int	new_len = store->text_len - count;
 	//printf("new_len = %d\n", new_len);
