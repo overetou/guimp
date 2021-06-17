@@ -218,13 +218,13 @@ OK-Regarder si le texte que l'on tape une fois que l'on a clique sur la ligne de
 OK-verifier (et faire en sorte si ca n'est pas le cas) que l'on ne prend plus le text input dans le terminal une fois que l'on a clique ailleurs.
 OK-Ajouter une fonction qui deduit la position du curseur en px a partir
 	de la pos en char.
--Egalement mettre a jour remove_text.
+OK-Egalement mettre a jour remove_text.
+-Remove text crash lorsque l'on remove alors qu'il n'y a plus rien
+	a remove et lorsque l'on s'apprete a supprimer le visible start.
 -Decomposer les fonctions trop longues en plusieurs partie afin de bien segmenter la logique.
--Ajouter les fonctions de typing:
-	-Lors d'un text input, on a le text de base, la pos du curseur et le text qui doit etre ajouter.
-	-Faire une fonction qui assemble ce texte et utilise la fonction d'avant pour mettre a jour le text dans store. Ajouter la taille du text_input a pos.
-	-Quand on a un backspace, enlever la lettre derriere pos (sauf si pos = 0). Meme tralala que la ligne precedente.
-	Ca suffira comme option d'input essentielles pour le moment.
+-Verifier que l'event handler store ne fuit pas lorsque l'on quitte
+	l'application avant qu'il ne soit defait. Pour text input et pour
+	les sliders.	
 -Faire l'element d'interface "afficheur d'image"
 -Gerer les fenetres multiples
 -Valgrind.
