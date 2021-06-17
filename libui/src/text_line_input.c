@@ -34,16 +34,31 @@ int		max_width_from_visible_start(t_ui_elem *line, t_text_space_store *store)
 	return fit_in - added;
 }
 
+void	display_too_large_text(t_ui_elem *line, t_text_space_store *store, int height)
+{
+	SDL_Rect	dest_rect;
+	SDL_Rect	src_rect;
+	int				tmp = max_width_from_visible_start(line, store);
+
+	src_rect.x = starting_pos_of_visible_start(line, store);
+	src_rect.y = 0;
+	src_rect.w = tmp;
+	src_rect.h = height;
+	dest_rect.x = line->actual_dimensions.x + store->sub_rect.x;
+	dest_rect.y = line->actual_dimensions.y + store->sub_rect.y;
+	dest_rect.w = tmp;
+	dest_rect.h = height;
+	SDL_RenderCopy(UI_EL_REND(line), store->text_img, &src_rect, &dest_rect);
+}
+
 void	ui_display_text_space(t_ui_elem *line)
 {
 	t_text_space_store	*store = line->store;
-	SDL_Color			bg = {100, 100, 100, UI_ALPHA_OPAQUE};
-	SDL_Color			fg = {210, 210, 210, UI_ALPHA_OPAQUE};
-	SDL_Rect			cursor_rect = {0, 0, 1, line->actual_dimensions.h};
-	SDL_Rect			dest_rect;
-	SDL_Rect			src_rect;
-	int					tmp;
-	int					height;
+	SDL_Color						bg = {100, 100, 100, UI_ALPHA_OPAQUE};
+	SDL_Color						fg = {210, 210, 210, UI_ALPHA_OPAQUE};
+	SDL_Rect						cursor_rect = {0, 0, 1, line->actual_dimensions.h};
+	int									tmp;
+	int									height;
 
 	ui_colorize_elem(line, UI_EXPAND_COLOR(bg));
 	if (store->text_len > 0)
@@ -51,18 +66,7 @@ void	ui_display_text_space(t_ui_elem *line)
 		store->text_img = ui_text_to_texture(store->text + store->visible_text_start, store->police_font, &fg, &bg, line);
 		TTF_SizeText(UI_FONT(line, store->police_font), store->text + store->visible_text_start, &tmp, &height);
 		if (tmp > store->sub_rect.w)
-		{
-			tmp = max_width_from_visible_start(line, store);
-			src_rect.x = starting_pos_of_visible_start(line, store);
-			src_rect.y = 0;
-			src_rect.w = tmp;
-			src_rect.h = height;
-			dest_rect.x = line->actual_dimensions.x + store->sub_rect.x;
-			dest_rect.y = line->actual_dimensions.y + store->sub_rect.y;
-			dest_rect.w = tmp;
-			dest_rect.h = height;
-			SDL_RenderCopy(UI_EL_REND(line), store->text_img, &src_rect, &dest_rect);
-		}
+			display_too_large_text(line, store, height);
 		else
 		{
 			store->visible_text_end = store->text + store->text_len;

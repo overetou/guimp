@@ -219,7 +219,7 @@ OK-verifier (et faire en sorte si ca n'est pas le cas) que l'on ne prend plus le
 OK-Ajouter une fonction qui deduit la position du curseur en px a partir
 	de la pos en char.
 OK-Egalement mettre a jour remove_text.
--Remove text crash lorsque l'on remove alors qu'il n'y a plus rien
+OK-Remove text crash lorsque l'on remove alors qu'il n'y a plus rien
 	a remove et lorsque l'on s'apprete a supprimer le visible start.
 -Decomposer les fonctions trop longues en plusieurs partie afin de bien segmenter la logique.
 -Verifier que l'event handler store ne fuit pas lorsque l'on quitte
