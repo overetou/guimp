@@ -7,6 +7,7 @@ void	ui_free_text_space_store(void *to_free)
 	free(to_free);
 }
 
+//Used to determine where the start in px is in the full text image.
 int		starting_pos_of_visible_start(t_ui_elem *line, t_text_space_store *store)
 {
 	char	s[store->visible_text_start + 1];
@@ -218,6 +219,28 @@ void	remove_text(t_ui_elem *line, int count)
 	refresh_win(UI_EL_WIN(line));
 }
 
+void	line_move_cursor(t_ui_elem *line, int movement)
+{
+	t_text_space_store	*store = line->store;
+
+	if (movement < 0)
+	{
+		if (store->pos + movement < 0)
+			store->pos = 0;
+		else
+			store->pos += movement;
+		if (store->pos < store->visible_text_start)
+			store->visible_text_start = store->pos;
+	}
+	else if (store->pos + movement > store->text_len)
+		store->pos = store->text_len;
+	else
+		store->pos += movement;
+	if (store->pos > store->visible_text_end)
+		//TODO: Place the visible start from the farther visible place possible, but is it
+		//not already managed in another part of the page?
+}
+
 void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
 {
 	switch (ev->type)
@@ -227,7 +250,7 @@ void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
 			break;
 		case SDL_MOUSEBUTTONDOWN:
 			if (ui_is_point_in_rect(ev->button.x, ev->button.y,
-				&(((t_ui_elem*)(ui->event_handling_store))->actual_dimensions)))
+						&(((t_ui_elem*)(ui->event_handling_store))->actual_dimensions)))
 				ui_text_line_put_cursor_at_new_pos_from_x(ui->event_handling_store, ev->button.x);
 			else
 			{
@@ -237,8 +260,18 @@ void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
 			}				
 			break;
 		case SDL_KEYDOWN:
-			if (ev->key.keysym.sym == SDLK_BACKSPACE)
-				remove_text(ui->event_handling_store, 1);
+			switch (ev->key.keysym.sym)
+			{
+				case SDLK_BACKSPACE:
+					remove_text(ui->event_handling_store, 1);
+					break;
+				case SDLK_LEFT:
+					line_move_cursor(ui->event_handling_store, -1);
+					break;
+				case SDLK_RIGHT:
+					line_move_cursor(ui->event_handling_store, 1);
+					break;
+			}
 			break;
 		case SDL_TEXTINPUT:
 			insert_text(ui->event_handling_store, ev->text.text);

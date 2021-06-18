@@ -151,7 +151,8 @@ OK-fonction refresh_win qui rafraichit intelligement la fenêtre aux seuls endro
 	IMPORTANT:
 -Systeme de HOTKEYS
 -Gerer la colision des elements lorsque la fenêtre se fait redimensionner. (pour les 
-elements qui contiennent des choses a taille fixe)
+elements qui contiennent des choses a taille fixe) (ou alors faire du scrollable lorsqu'il
+n'y a plus assez de place.)
 
 BLOCKING:
 
@@ -193,40 +194,13 @@ SEMI_BONUS:
 -Raffraichir l'écran uniquement lorsque nécessaire en créant une liste d'objets à raffraichir sur le second buffer.
 
 REFLEXIONS:
+text zone est assez semblable a text line. Les differences sont:
+-Au lieu d'avoir une seule ligne, on peut en avoir plusieurs.
+-Lorsqu'une ligne depasse de l'espace disponible on revient a la ligne sans inserer de <cr>
+-lorsque <cr> est presse on revient a la ligne en inserant un <cr>
+-On va devoir faire le scroll vertical (faire quelque chose qui marche pour tout les
+elements)
+-Les flèches verticales permettent de naviguer d'une ligne a l'autre.
 
 LA SUITE:
-OK-Si la width du texte est superieure a la width du subrect, On affiche autant de caractere que possible a partir de visible_text_start.
-	OK-On fait la meme chose que pour trouver le curseur pour trouver le nombre de lettres acceptees. Concerver cet indicateur pour ne chercher qu'a partir de ce dernier et n'avoir qu'a reajuster.
-	OK-Relire le code et tester.
-	OK-Retirer des bouts de code jusqu'a denicher la partie qui fait un uninitialised conditionnal jump.
-OK-Creer une fonction deduce_text_px_len.
-OK-creer une fonction modify_text(line, new_text) -> met a jour text, text_len et visible_text_start. Egalement pos?
-OK-creer fonction remove_text(line, int count)
-OK-Tenir compte du fait que lors du calcul de pos apres un click de souris on commence de visible_text_start et pas de 0.
-OK-Compiler
-OK-tester que l'on a pas casse le display et le positionement du curseur sur les clics
-OK-Lorsque l'on calcul tmp avec max_width..., mettre dans une nouvelle zone de memoire dans store l'index du caractere limite.
-OK-dans ui_text_line_put_cursor_at_new_pos_from_x, sauvegarder le caractere a l'index de limite, le remplacer par \0, faire un size_text dessus et normalement ca marche.
-OK-Tester a nouveau le comportement du clic/ curseur. Si ca ne marche pas mettre des prints des valeurs de visible_text_end et voir si c'est la que ca coince.
-OK-Attention dans certains cas visible_text_end n'est pas initialise. Dans ces cas le mettre a store->text + store->text_len
-OK-Critical failure on empty text. Add a check in display_text for text_len. Check all of the places where text_img is called or assigned. The cursor still has to appear correctly.
-OK-Valgrind detecte des erreurs. Les corriger.
-OK-Activer le nouvel event handler dans handle click
-OK-Allouer et assigner un event_handler_store lors de la reassignation de event_handler_func.
-OK-Lors du changement d'event_handler_func pour le default, free le store.
-OK-Erreur lors de l'appel de event_handler_func depuis ui_text_linefocused_event_handler.
-OK-Regarder si le texte que l'on tape une fois que l'on a clique sur la ligne de texte est affiche dans le terminal
-OK-verifier (et faire en sorte si ca n'est pas le cas) que l'on ne prend plus le text input dans le terminal une fois que l'on a clique ailleurs.
-OK-Ajouter une fonction qui deduit la position du curseur en px a partir
-	de la pos en char.
-OK-Egalement mettre a jour remove_text.
-OK-Remove text crash lorsque l'on remove alors qu'il n'y a plus rien
-	a remove et lorsque l'on s'apprete a supprimer le visible start.
-OK-Decomposer les fonctions trop longues en plusieurs partie afin de bien segmenter la logique.
-OK-Verifier que l'event handler store ne fuit pas lorsque l'on quitte
-	l'application avant qu'il ne soit defait. Pour text input et pour
-	les sliders. Pour les sliders on pointe simplement sur le store de l'element et pour text input on pointe sur l'element lui meme donc ce sera free automatiquement.	
-OK-Oops the exemple is leaking additionnal memory. La memoire allouee par
-	perma_func_block ligne 6 n'est jamais liberee.
--Faire l'element d'interface "afficheur d'image"
--Valgrind.
+-Faire les flèches pour text_line.
