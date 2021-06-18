@@ -7,51 +7,6 @@ void	ui_free_text_space_store(void *to_free)
 	free(to_free);
 }
 
-//Used to determine where the start in px is in the full text image.
-int		starting_pos_of_visible_start(t_ui_elem *line, t_text_space_store *store)
-{
-	char	s[store->visible_text_start + 1];
-	int		starting_pos_in_px;
-
-	mem_copy(s, store->text, store->visible_text_start);
-	s[store->visible_text_start] = '\0';
-	TTF_SizeText(UI_FONT(line, store->police_font), s, &starting_pos_in_px, NULL);
-	return starting_pos_in_px;
-}
-
-int		max_width_from_visible_start(t_ui_elem *line, t_text_space_store *store)
-{
-	int		fit_in = 0;
-	int		added;
-	char	*traveler = store->text + store->visible_text_start;
-
-	while (fit_in <= store->sub_rect.w)
-	{
-		TTF_GlyphMetrics(UI_FONT(line, store->police_font), *traveler, NULL, NULL, NULL, NULL, &added);
-		fit_in += added;
-		traveler++;
-	}
-	store->visible_text_end = traveler - 1;
-	return fit_in - added;
-}
-
-void	display_too_large_text(t_ui_elem *line, t_text_space_store *store, int height)
-{
-	SDL_Rect	dest_rect;
-	SDL_Rect	src_rect;
-	int				tmp = max_width_from_visible_start(line, store);
-
-	src_rect.x = starting_pos_of_visible_start(line, store);
-	src_rect.y = 0;
-	src_rect.w = tmp;
-	src_rect.h = height;
-	dest_rect.x = line->actual_dimensions.x + store->sub_rect.x;
-	dest_rect.y = line->actual_dimensions.y + store->sub_rect.y;
-	dest_rect.w = tmp;
-	dest_rect.h = height;
-	SDL_RenderCopy(UI_EL_REND(line), store->text_img, &src_rect, &dest_rect);
-}
-
 void	ui_display_text_space(t_ui_elem *line)
 {
 	t_text_space_store	*store = line->store;
@@ -65,14 +20,8 @@ void	ui_display_text_space(t_ui_elem *line)
 	if (store->text_len > 0)
 	{
 		store->text_img = ui_text_to_texture(store->text + store->visible_text_start, store->police_font, &fg, &bg, line);
-		TTF_SizeText(UI_FONT(line, store->police_font), store->text + store->visible_text_start, &tmp, &height);
-		if (tmp > store->sub_rect.w)
-			display_too_large_text(line, store, height);
-		else
-		{
-			store->visible_text_end = store->text + store->text_len;
-			ui_display_img_at_absolute_pos(line, store->text_img, store->sub_rect.x, store->sub_rect.y);
-		}
+		store->visible_text_end = store->text + store->text_len;
+		ui_display_img_at_absolute_pos(line, store->text_img, store->sub_rect.x, store->sub_rect.y);
 		SDL_DestroyTexture(store->text_img);
 	}
 	if (store->pos >= 0)
@@ -90,73 +39,12 @@ void	ui_text_line_unfocus(t_ui_elem *line)
 	refresh_win(UI_EL_WIN(line));
 }
 
-void	find_cursor_min_overstep(t_ui_elem *line, t_text_space_store *store, int *current_pixel_pos,
-		int *current_char_pos, int *tmp, int x)
-{
-	while (*current_pixel_pos <= x)
-	{
-		TTF_GlyphMetrics(UI_FONT(line, store->police_font),
-				store->text[*current_char_pos], NULL, NULL, NULL, NULL, tmp);
-		(*current_char_pos)++;
-		(*current_pixel_pos) += *tmp;
-	}
-}
-
-//This func determines the position of the cursor from an already displayed text.
-//visible start and visible end must be declared
-//It refreshes the window afterward.
-void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
-{
-	t_text_space_store	*store = line->store;
-	char								save;
-	int									text_img_width, tmp, current_pixel_pos = 0;
-	int									current_char_pos = store->visible_text_start;
-
-	if (x <= store->sub_rect.x + line->actual_dimensions.x || store->text_len == 0)
-	{
-		store->pos = 0;
-		store->cursor_pixel_pos = 0;
-	}
-	else
-	{
-		save = *(store->visible_text_end);
-		*(store->visible_text_end) = '\0';
-		TTF_SizeText(UI_FONT(line, store->police_font), store->text, &text_img_width, NULL);
-		*(store->visible_text_end) = save;
-		x -= line->actual_dimensions.x + store->sub_rect.x;
-		if (x >= text_img_width)
-		{
-			store->pos = store->visible_text_end - store->text;
-			store->cursor_pixel_pos = text_img_width;
-		}
-		else
-		{
-			find_cursor_min_overstep(line, store, &current_pixel_pos, &current_char_pos, &tmp, x);
-			store->cursor_pixel_pos = current_pixel_pos - tmp;
-			store->pos = current_char_pos - 1;
-		}
-	}
-	refresh_win(UI_EL_WIN(line));
-}
-
 int		get_text_pixel_size(t_ui_elem *e, int police_index, const char *text)
 {
 	int	result;
 
 	TTF_SizeText(UI_FONT(e, police_index), text, &result, NULL);
 	return result;
-}
-
-//TODO: Make sure that we can never get here with a negative pos.
-void	update_visible_start(t_ui_elem *line, t_text_space_store *store)
-{
-	//calculer la taille du texte jusqu'a pos. Tant que cette taille est superieure a sub_rect->width, incrementer visible_text_start.
-	char	saved = store->text[store->pos];
-	store->text[store->pos] = '\0';
-
-	while (get_text_pixel_size(line, store->police_font, store->text + store->visible_text_start) > store->sub_rect.w)
-		(store->visible_text_start)++;
-	store->text[store->pos] = saved;
 }
 
 void		update_cursor_px_pos_from_chr_pos(t_ui_elem *line)
@@ -173,9 +61,7 @@ void	insert_text(t_ui_elem *line, const char *to_insert)
 {
 	t_text_space_store	*store = line->store;
 	int									to_insert_len = ui_strlen(to_insert);
-	//printf("to_insert_len = %d\n", to_insert_len);
 	int									full_size = store->text_len + to_insert_len;
-	//printf("full_size = %d\n", full_size);
 	char								*new_text = ui_secure_malloc(full_size + 1);
 
 	mem_copy(new_text, store->text, store->pos);
@@ -186,8 +72,6 @@ void	insert_text(t_ui_elem *line, const char *to_insert)
 	store->text = new_text;
 	store->text_len = full_size;
 	store->pos += to_insert_len;
-	update_visible_start(line, store);
-	update_cursor_px_pos_from_chr_pos(line);
 	refresh_win(UI_EL_WIN(line));
 }
 
@@ -195,30 +79,18 @@ void	insert_text(t_ui_elem *line, const char *to_insert)
 void	remove_text(t_ui_elem *line, int count)
 {
 	t_text_space_store	*store = line->store;
+	int	new_len = store->text_len - count;
+	char	*new_text = ui_secure_malloc(new_len + 1);
 
 	if (count > store->pos)
 		return;
-	if (store->pos == store->visible_text_start + 1)
-	{
-		if (store->visible_text_start != 0)
-			(store->visible_text_start)--;
-		(store->visible_text_end)--;
-	}
-	int	new_len = store->text_len - count;
-	//printf("new_len = %d\n", new_len);
-	char	*new_text = ui_secure_malloc(new_len + 1);
 	mem_copy(new_text, store->text, store->pos - count);
-	//printf("Copied %d first letters from %s\n", store->pos - count, store->text);
 	mem_copy(new_text + store->pos - count, store->text + store->pos, store->text_len - store->pos);
-	//printf("Copied %d first letters from %s\n", store->text_len - store->pos, store->text + store->pos);
 	free(store->text);
 	new_text[new_len] = '\0';
 	store->text = new_text;
 	store->text_len = new_len;
 	store->pos -= count;
-	if (store->visible_text_start > store->text_len)
-		store->visible_text_start = store->text_len;
-	update_cursor_px_pos_from_chr_pos(line);
 	refresh_win(UI_EL_WIN(line));
 }
 
@@ -226,29 +98,12 @@ void	line_move_cursor(t_ui_elem *line, int movement)
 {
 	t_text_space_store	*store = line->store;
 
-	if (movement < 0)
-	{
-		if (store->pos + movement < 0)
-			store->pos = 0;
-		else
-			store->pos += movement;
-		if (store->pos < store->visible_text_start)
-		{
-			puts("store->pos < store->visible_text_start");//se declenche au bon moment.
-			store->visible_text_start = store->pos;
-			printf("store->visible_text_start = %d\n", store->pos);//la position est correcte.
-		}
-		max_width_from_visible_start(line, store);
-	}
+	if (store->pos + movement < 0)
+		store->pos = 0;
+	else if (store->pos + movement > store->text_len)
+		store->pos = store->text_len;
 	else
-	{
-		if (store->pos + movement > store->text_len)
-			store->pos = store->text_len;
-		else
-			store->pos += movement;
-		update_visible_start(line, store);
-	}
-	update_cursor_px_pos_from_chr_pos(line);
+		store->pos += movement;
 	refresh_win(UI_EL_WIN(line));
 }
 
