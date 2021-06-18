@@ -225,7 +225,8 @@ OK-Decomposer les fonctions trop longues en plusieurs partie afin de bien segmen
 OK-Verifier que l'event handler store ne fuit pas lorsque l'on quitte
 	l'application avant qu'il ne soit defait. Pour text input et pour
 	les sliders. Pour les sliders on pointe simplement sur le store de l'element et pour text input on pointe sur l'element lui meme donc ce sera free automatiquement.	
--Oops the exemple is leaking additionnal memory.
+OK-Oops the exemple is leaking additionnal memory. La memoire allouee par
+	perma_func_block ligne 6 n'est jamais liberee.
 -Faire l'element d'interface "afficheur d'image"
 -Gerer les fenetres multiples
 -Valgrind.
