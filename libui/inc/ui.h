@@ -194,19 +194,24 @@ typedef	struct		s_text_space_store
 	SDL_Rect		sensible_zone;
 }					t_text_space_store;
 
+typedef struct	s_img_disp_store
+{
+	t_ui_img			*img_texture;
+}								t_img_disp_store;
+
 //basic stuff
-void				mem_copy(char *dest, const char *src, int len);
-void				add_link_to_list(t_link **list, t_link *new_link);
-void				remove_link_from_list(t_link **list, t_link *to_remove);
-void				free_list(t_link *list, void(*free_func)(void*));
-void				init_list(t_link **list, t_link *new_link);
-void				list_add_link_at_start(t_link **list, t_link *new_link);
-void				list_add_link_at_end(t_link *last_link, t_link *new_link);
-void				list_add_link_in_the_middle(t_link *next_link_to_be, t_link *new_link);
+void								mem_copy(char *dest, const char *src, int len);
+void								add_link_to_list(t_link **list, t_link *new_link);
+void								remove_link_from_list(t_link **list, t_link *to_remove);
+void								free_list(t_link *list, void(*free_func)(void*));
+void								init_list(t_link **list, t_link *new_link);
+void								list_add_link_at_start(t_link **list, t_link *new_link);
+void								list_add_link_at_end(t_link *last_link, t_link *new_link);
+void								list_add_link_in_the_middle(t_link *next_link_to_be, t_link *new_link);
 t_perma_func_block	*ui_add_perma_func(t_ui *ui, void (*func)(void*), void *store);
-void				ui_remove_permafunc(t_ui *ui, t_perma_func_block *to_delete);
-void				ui_insert_str_in_str(char *to_modify, int tm_len, const char *to_insert, int ti_len, int pos);
-int					ui_strlen(const char *s);
+void								ui_remove_permafunc(t_ui *ui, t_perma_func_block *to_delete);
+void								ui_insert_str_in_str(char *to_modify, int tm_len, const char *to_insert, int ti_len, int pos);
+int									ui_strlen(const char *s);
 
 //Int manipulation
 int	ui_get_percentage_of_int(int reference, int percentage);
@@ -276,8 +281,8 @@ void		ui_display_img_at_center_of_elem(t_ui_elem *e, t_ui_img *img);
 void		ui_display_img(t_ui_elem *e, t_ui_img *img, int x,
 							int y);
 void		ui_display_img_at_absolute_pos(t_ui_elem *e, t_ui_img *img, int x, int y);
-t_ui_img	*ui_create_colored_texture(t_ui_win *win, int w, int h, t_ui_color
-*color);
+void		ui_display_img_with_absolute_dimensions(t_ui_elem *e, t_ui_img *img, int w, int h);
+t_ui_img	*ui_create_colored_texture(t_ui_win *win, int w, int h, t_ui_color *color);
 void		ui_draw_fullcircle(t_ui_img *img, int w, int h, int size,
 								t_ui_win *win);
 void		ui_display_absolute_colored_rect(t_ui_elem *e, SDL_Rect *r, SDL_Color *c);
@@ -296,6 +301,8 @@ short choice_index);
 t_ui_elem	*ui_create_checkbox_button(t_ui_elem *parent, const char *text, int x, int y);
 t_ui_elem	*ui_create_slider(t_ui_elem *parent, int x, int y, int w, int current_cursor_val, int max_cursor_val);
 t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, char *text, int x, int y, int w, int h);
+t_ui_elem	*ui_create_img_display(t_ui_elem *parent, int x, int y, int w, int h,
+		const char *img_path);
 
 //Sensibility
 void ui_add_clickable_zones(t_ui_elem *e, SDL_Rect *zones,
