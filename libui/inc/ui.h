@@ -1,6 +1,3 @@
-//
-// Created by osc on 13/04/2021.
-//
 #ifndef UI
 #define UI
 
@@ -78,25 +75,25 @@ typedef struct	s_ui_elem
 {
 	struct s_ui_elem	*next;
 	struct s_ui_elem	*prev;
-	SDL_Rect			relative_dimensions;
-	void				(*elem_dimensions_resolution_func)(SDL_Rect *reference, SDL_Rect *values, SDL_Rect *to_fill);
-	SDL_Rect			actual_dimensions;
-	char				display_priority;
-	void				(*display_func)(struct s_ui_elem*);
-	void				*store;
-	void				(*free_store_func)(void*);
-	t_ui_bool			sensible;
-	SDL_Rect			*sensible_zones_relative_dimensions;
-	void				(*sensible_zones_resolution_func)(SDL_Rect *reference, SDL_Rect *values, SDL_Rect *to_fill);
-	SDL_Rect			sensible_zones_actual_dimensions;
-	short				nb_sensible_zones;
-	t_ui_bool			has_sub_hovers;
-	void				(*hover_func)(struct s_ui_elem*);
-	t_ui_bool			has_sub_clicks;
-	void				(*click_func)(struct s_ui_elem*, SDL_MouseButtonEvent*);
+	SDL_Rect					relative_dimensions;
+	void							(*elem_dimensions_resolution_func)(SDL_Rect *reference, SDL_Rect *values, SDL_Rect *to_fill);
+	SDL_Rect					actual_dimensions;
+	char							display_priority;
+	void							(*display_func)(struct s_ui_elem*);
+	void							*store;
+	void							(*free_store_func)(void*);
+	t_ui_bool					sensible;
+	SDL_Rect					*sensible_zones_relative_dimensions;
+	void							(*sensible_zones_resolution_func)(SDL_Rect *reference, SDL_Rect *values, SDL_Rect *to_fill);
+	SDL_Rect					sensible_zones_actual_dimensions;
+	short							nb_sensible_zones;
+	t_ui_bool					has_sub_hovers;
+	void							(*hover_func)(struct s_ui_elem*);
+	t_ui_bool					has_sub_clicks;
+	void							(*click_func)(struct s_ui_elem*, SDL_MouseButtonEvent*);
 	struct s_ui_elem	*sub_elems;
 	struct s_ui_elem	*parent;
-	void				*win;
+	void							*win;
 }				t_ui_elem;
 
 typedef struct	s_ui_win

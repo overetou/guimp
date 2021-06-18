@@ -204,3 +204,21 @@ elements)
 
 LA SUITE:
 -Faire les flèches pour text_line.
+ -C'est mort le code est trop complique. Il faut une architecture plus simple et
+ 	clairement delimitee.
+
+Pour le scroll, on va juste afficher ce que l'on peut afficher. Etape 1: on cree un
+	element intitule "scrolable", dont la seule fonction sera de rendre SON(et pas ses)
+	enfant scrollable.
+	-L'enfant de scroll aura une disp priority nulle. Il sera donc ignore par	ui_display_elem.
+	-la fonction de display de scroll se chargera d'afficher son contenu.
+	-dans ui, on definira un pointeur sur fonction qui se chargera partout de translater les
+		textures dans le rendu (et qui pourra etre laissee a une fonction par defaut de la sdl
+		la pluspart du temps).
+	-la fonction display de scroll modifiera cette fonction, appellera ui display elem
+		sur son enfant, puis remettra cette fonction a sa valeur d'origine.
+	-La modification en question consistera a mesurer
+	-Les elements d'insertion de texte utiliseront d'office cette fonction.
+
+-Pour la liste deroulante, on mettra un texte avec l'intitule, puis un espace en dessous
+(qui apparait lorsque l'on clique sur l'intitule) ou on mettra un choix radio.

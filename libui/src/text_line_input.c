@@ -102,6 +102,9 @@ void	find_cursor_min_overstep(t_ui_elem *line, t_text_space_store *store, int *c
 	}
 }
 
+//This func determines the position of the cursor from an already displayed text.
+//visible start and visible end must be declared
+//It refreshes the window afterward.
 void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 {
 	t_text_space_store	*store = line->store;
@@ -225,15 +228,17 @@ void	line_move_cursor(t_ui_elem *line, int movement)
 
 	if (movement < 0)
 	{
-		puts("movement inferior to 0");
-		printf("Pos = %d\n", store->pos);
 		if (store->pos + movement < 0)
 			store->pos = 0;
 		else
 			store->pos += movement;
-		printf("Pos updated to %d\n", store->pos);
 		if (store->pos < store->visible_text_start)
+		{
+			puts("store->pos < store->visible_text_start");//se declenche au bon moment.
 			store->visible_text_start = store->pos;
+			printf("store->visible_text_start = %d\n", store->pos);//la position est correcte.
+		}
+		max_width_from_visible_start(line, store);
 	}
 	else
 	{
@@ -241,11 +246,7 @@ void	line_move_cursor(t_ui_elem *line, int movement)
 			store->pos = store->text_len;
 		else
 			store->pos += movement;
-		if (store->pos > store->text - store->visible_text_end)
-		{
-			store->visible_text_end = store->text + store->pos;
-			update_visible_start(line, store);
-		}
+		update_visible_start(line, store);
 	}
 	update_cursor_px_pos_from_chr_pos(line);
 	refresh_win(UI_EL_WIN(line));
@@ -294,7 +295,6 @@ void	ui_text_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 	t_ui	*ui = ((t_ui_win*)(e->win))->ui;
 
 	(void)ev;
-	//((t_slider_store*)(ui->event_handling_store))->previous_event_handling_func = ui->event_handler_func;
 	ui->event_handling_store = e;
 	ui_change_event_handler(ui, ui_text_linefocused_event_handler);
 	ui_text_line_put_cursor_at_new_pos_from_x(e, ev->x);
