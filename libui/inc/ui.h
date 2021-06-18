@@ -131,6 +131,7 @@ typedef struct				s_ui
 	void								(*event_handler_func)(struct s_ui*, SDL_Event*);
 	void								*event_handling_store;
 	t_perma_func_block	*perma_funcs;
+	void								(*render_copy_func)(void*);
 }				t_ui;
 
 typedef struct	s_ui_wincontent_store
@@ -195,6 +196,14 @@ typedef struct	s_img_disp_store
 {
 	t_ui_img			*img_texture;
 }								t_img_disp_store;
+
+
+typedef struct	s_scroll_space_store
+{
+	t_ui_img			*target;
+	SDL_Rect			virtual_space;//x and y indicate the position of the visualizer.
+	//w and h are the dimensions of the virtual space.
+}								t_scroll_space_store;
 
 //basic stuff
 void								mem_copy(char *dest, const char *src, int len);
