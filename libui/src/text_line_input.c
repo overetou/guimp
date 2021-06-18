@@ -225,20 +225,30 @@ void	line_move_cursor(t_ui_elem *line, int movement)
 
 	if (movement < 0)
 	{
+		puts("movement inferior to 0");
+		printf("Pos = %d\n", store->pos);
 		if (store->pos + movement < 0)
 			store->pos = 0;
 		else
 			store->pos += movement;
+		printf("Pos updated to %d\n", store->pos);
 		if (store->pos < store->visible_text_start)
 			store->visible_text_start = store->pos;
 	}
-	else if (store->pos + movement > store->text_len)
-		store->pos = store->text_len;
 	else
-		store->pos += movement;
-	if (store->pos > store->visible_text_end)
-		//TODO: Place the visible start from the farther visible place possible, but is it
-		//not already managed in another part of the page?
+	{
+		if (store->pos + movement > store->text_len)
+			store->pos = store->text_len;
+		else
+			store->pos += movement;
+		if (store->pos > store->text - store->visible_text_end)
+		{
+			store->visible_text_end = store->text + store->pos;
+			update_visible_start(line, store);
+		}
+	}
+	update_cursor_px_pos_from_chr_pos(line);
+	refresh_win(UI_EL_WIN(line));
 }
 
 void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)

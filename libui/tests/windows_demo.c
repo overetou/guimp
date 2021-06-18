@@ -27,7 +27,7 @@ int main(void)
 	mem_copy(text, "yo\0", 3);
 	ui_create_text_line_input(win->content, text, 10, 10, 200, 25);
 	ui_create_slider(win->content, 10, 20, 40, 50, 100);
-	ui_create_img_display(win->content, 10, 30, 300, 300, "assets/arkham_logo.jpg");
+	ui_create_img_display(win->content, 10, 30, 161, 201, "assets/img.jpg");
 
 	refresh_win(win);
 	ui_handle_events(ui);
