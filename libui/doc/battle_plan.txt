@@ -153,6 +153,8 @@ OK-fonction refresh_win qui rafraichit intelligement la fenêtre aux seuls endro
 -Gerer la colision des elements lorsque la fenêtre se fait redimensionner. (pour les 
 elements qui contiennent des choses a taille fixe) (ou alors faire du scrollable lorsqu'il
 n'y a plus assez de place.)
+-Ne raffraichir les proportions d'un element que si ce dernier est visible (disp_priority
+ > 0)
 
 BLOCKING:
 
@@ -202,8 +204,16 @@ text zone est assez semblable a text line. Les differences sont:
 elements)
 -Les flèches verticales permettent de naviguer d'une ligne a l'autre.
 
-On a un probleme: Le framework n'est pas prevu pour que l'on puisse faire debuter
-un element hors de l'element qui le contient (de sa w et de son h)
+On a un probleme: les coordonnees de scroll space vont se transmettre a son enfant.
+On voudrait qu'il se mette a 0 sur le x et le y de base. De plus si un element a des
+dimensions donnees en proportionnel, on est eu (les mauvaises seront retransmises).
+Solution:
+
+Solution:
+On utilise 2 couches. Ce sera plus simples comme ca.
+Lorsque l'on souhaite redimensionner un element, on modifie simplement ses dimensions de
+l'interieur. La fonction de resolution des dimensions de la couche superieure drainera
+les dimensions de l'enfant de la couche inferieure pour la redimensionner.
 
 Il faut voir que l'element fils pourra definir ses dimensions w et h.
 
