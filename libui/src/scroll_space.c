@@ -78,7 +78,12 @@ void	ui_display_scroll_space(t_ui_elem *e)
 
 void	ui_scroll_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 {
-	//
+	//On va appeller la fonction de retransmission de clic sur le sub_layer. Mais avant
+	//ca, on modifie les valeur de x et de y du SDL_MouseButtonEvent pour qu'il soit
+	//correctement positionne au sein de l'espace virtuel.
+	t_ui_elem	*sub_layer = e->sub_elems;
+
+	ev->x += sub_layer->actual_dimensions.x - e->actual_dimensions.x;
 }
 
 t_ui_elem	*ui_get_scroll_space_sub_elems(t_ui_elem *e)
