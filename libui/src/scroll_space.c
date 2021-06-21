@@ -8,36 +8,18 @@ void	free_sub_layer_store(void *to_delete)
 	free(to_delete);
 }
 
-void	ui_display_scroll_space(t_ui_elem *e)
+//This function must be called on the sub_layer of a scroll space. x and y will
+//be added, to the existing pos, and will be automatically limited to max and min values.
+void	ui_move_sub_layer_vision(t_ui_elem *sub_layer, int x, int y)
 {
-	t_sub_layer_store	*store = scroll_space->store;
-
-	SDL_SetRenderTarget(UI_EL_REND(e), store->target);
-	ui_display_elem(e->sub_elems);
-	SDL_SetRenderTarget(UI_EL_REND(e), NULL);
-	ui_display_img_at_absolute_pos(e, store->target, 0, 0);
-}
-
-void	ui_scroll_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
-{
-
-}
-
-void	move_scroll_vision(t_ui_elem *scroll_space, int x, int y)
-{
-	t_sub_layer_store	*store = scroll_space->store;
+	t_sub_layer_store	*store = sub_layer->store;
 
 	if (store->virtual_space.x + x < 0)
 		store->virtual_space.x = 0;
 	else if (store->virtual_space.x + x > store->virtual_space.w - 
-			scroll_space->actual_dimensions.w)
+			sub_layer->actual_dimensions.w)
 		store->virtual_space.x = store->virtual_space.w -
-			scroll_space->actual_dimensions.w;
-}
-
-void			ui_display_sub_layer(t_ui_elem *e)
-{
-
+			sub_layer->actual_dimensions.w;
 }
 
 void			ui_resolve_sublayer_dimensions(t_ui_elem *sub_layer)
@@ -63,7 +45,6 @@ void			ui_add_sub_layer(t_ui_elem *parent, int w, int h)
 	new->parent = parent;
 	new->win = parent->win;
 	new->display_priority = 0;
-	new->display_func = ui_display_sub_layer;
 	new->sensible = UI_TRUE;
 	new->nb_sensible_zones = 1;
 	new->has_sub_hovers = UI_FALSE;
@@ -85,6 +66,21 @@ void			ui_add_sub_layer(t_ui_elem *parent, int w, int h)
 	new->free_store_func = free_sub_layer_store;
 }
 
+void	ui_display_scroll_space(t_ui_elem *e)
+{
+	t_sub_layer_store	*store = scroll_space->store;
+
+	SDL_SetRenderTarget(UI_EL_REND(e), store->target);
+	ui_display_elem(e->sub_elems);
+	SDL_SetRenderTarget(UI_EL_REND(e), NULL);
+	ui_display_img_at_absolute_pos(e, store->target, 0, 0);
+}
+
+void	ui_scroll_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
+{
+	//
+}
+
 t_ui_elem	*ui_get_scroll_space_sub_elems(t_ui_elem *e)
 {
 	return e->sub_elems->sub_elems;
@@ -95,10 +91,19 @@ t_ui_elem	*ui_get_scroll_space_sub_elems(t_ui_elem *e)
 t_ui_elem	*ui_create_scroll_space(t_ui_elem *parent, int x, int y, int visible_w,
 		int visible_h, int virtual_w, int virtual_h)
 {
-	t_ui_elem							*new;
+	t_ui_elem	*new;
+	SDL_Rect	*sensible_zone;
 
 	new = ui_add_elem(parent, x, y, visible_w, visible_h, 1, ui_display_scroll_space,
-			UI_TRUE, ui_free_nothing, ui_resolve_as_percentages);
+			UI_TRUE, free, ui_resolve_as_percentages);
+	new->store = ui_secure_malloc(sizeof(SDL_Rect));
+	sensible_zone = new->store;
+	sensible_zone->x = 0;
+	sensible_zone->y = 0;
+	sensible_zone->w = 100;
+	sensible_zone->h = 100;
 	ui_add_sub_layer(new, virtual_w, virtual_h);
+	ui_add_clickable_zones(new, sensible_zone, ui_scroll_space_clicked, 1,
+			ui_resolve_as_percentages);
 	return new;
 }

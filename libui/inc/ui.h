@@ -197,7 +197,6 @@ typedef struct	s_img_disp_store
 	t_ui_img			*img_texture;
 }								t_img_disp_store;
 
-
 typedef struct	s_sub_layer_store
 {
 	t_ui_img			*target;
