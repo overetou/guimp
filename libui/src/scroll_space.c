@@ -81,7 +81,12 @@ void			ui_add_sub_layer(t_ui_elem *parent, int w, int h)
 	new->actual_dimensions.h = h;
 }
 
-//To add an elem to this scroll_space, you need to call ui_scroll_space_add_elem.
+t_ui_elem	*ui_get_scroll_space_sub_elems(t_ui_elem *e)
+{
+	return e->sub_elems->sub_elems;
+}
+
+//Do not use this elem as a parent. Use his sub_elem instead. ex: scrollpace->sub_elems
 //To retrieve the childrens of scroll space, use ui_scroll_space_get_sub_elems.
 t_ui_elem	*ui_create_scroll_space(t_ui_elem *parent, int x, int y, int visible_w,
 		int visible_h, int virtual_w, int virtual_h)
