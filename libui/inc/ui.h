@@ -237,6 +237,7 @@ void	ui_resolve_as_square_from_h(t_ui_elem *e);
 void	ui_set_x_and_y_from_ref(t_ui_elem *e);
 void	ui_resolve_w_as_percentage_keep_actual_h(t_ui_elem *e);
 void	ui_resolve_clickable_zone_as_percentage(t_ui_elem *e);
+void	ui_resolve_clickable_zone_keep_actual_dimensions(t_ui_elem *e);
 
 //core functions
 t_ui	*ui_init(uint32_t ui_flags, int img_flags);

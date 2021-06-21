@@ -62,6 +62,6 @@ t_ui_elem	*ui_create_checkbox_button(t_ui_elem *parent, const char *text, int x,
 	new->sensible_zones_actual_dimensions.w = 30;
 	new->sensible_zones_actual_dimensions.h = 30;
 	ui_add_clickable_zones(new, &(store->sensible_zone), ui_checkbox_clicked, 1,
-		ui_resolve_keep_actual_dimensions);
+		ui_resolve_clickable_zone_keep_actual_dimensions);
 	return new;
 }

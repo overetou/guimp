@@ -21,6 +21,11 @@ void	ui_resolve_clickable_zone_as_percentage(t_ui_elem *e)
 		e->sensible_zones_relative_dimensions.h);
 }
 
+void	ui_resolve_clickable_zone_keep_actual_dimensions(t_ui_elem *e)
+{
+	(void)e;
+}
+
 void	ui_add_clickable_zones(t_ui_elem *e, SDL_Rect *zones,
 	void (*click_func)(t_ui_elem*, SDL_MouseButtonEvent*),
 	short nb_sensible_zones,

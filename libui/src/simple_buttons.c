@@ -36,6 +36,6 @@ t_ui_elem	*ui_create_button(t_ui_elem *parent, int x,
 			new,
 			&(((t_ui_button_store*)(new->store))->sensible_zone),
 			click_func,
-			1, ui_resolve_as_percentages);
+			1, ui_resolve_clickable_zone_as_percentage);
 	return new;
 }
