@@ -214,6 +214,12 @@ On utilise 2 couches. Ce sera plus simples comme ca.
 Lorsque l'on souhaite redimensionner un element, on modifie simplement ses dimensions de
 l'interieur. La fonction de resolution des dimensions de la couche superieure drainera
 les dimensions de l'enfant de la couche inferieure pour la redimensionner.
+L'utilisateur ne sera jamais sense interagir directement avec la couche inferieure.
+On stockera le fils de la couche inferieure comme premier fils de la couche superieure?
+Ou on utilisera simplement une fonction faite expres?
+Pour la resolution des clics, on mettra une click func sur la couche superieure qui
+transmettra la recherche tout en l'adaptant pour tenir compte du positionement du
+scroll_space dans l'espace virtuel.
 
 Il faut voir que l'element fils pourra definir ses dimensions w et h.
 

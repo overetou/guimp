@@ -49,15 +49,49 @@ void			ui_lock_scrollable_elem(t_ui_elem *scroll_space)
 			child->actual_dimensions.h);
 }
 
-//Don't forget to call ui_lock_scrollable_elem after you added an elem in the scroll
-//	space!
-t_ui_elem	*ui_create_scroll_space(t_ui_elem *parent, int x, int y, int w, int h)
+void			ui_display_sub_layer(t_ui_elem *e)
+{
+
+}
+
+void			ui_resolve_sublayer_dimensions(t_ui_elem *e)
+{
+
+}
+
+void			ui_add_sub_layer(t_ui_elem *parent, int w, int h)
+{
+	t_ui_elem *new = ui_secure_malloc(sizeof(t_ui_elem));
+
+	new->parent = parent;
+	new->win = parent->win;
+	new->display_priority = 0;
+	new->display_func = ui_display_sub_layer;
+	new->sensible = UI_TRUE;
+	new->nb_sensible_zones = 1;
+	new->has_sub_hovers = UI_FALSE;
+	new->has_sub_clicks = UI_FALSE;
+	new->click_func = NULL;
+	new->sub_elems = NULL;
+	incorporate_sub_elem(&(parent->sub_elems), new);
+	new->elem_dimensions_resolution_func = ui_resolve_sublayer_dimensions;
+	new->actual_dimensions.x = 0;
+	new->actual_dimensions.y = 0;
+	new->actual_dimensions.w = w;
+	new->actual_dimensions.h = h;
+}
+
+//To add an elem to this scroll_space, you need to call ui_scroll_space_add_elem.
+//To retrieve the childrens of scroll space, use ui_scroll_space_get_sub_elems.
+t_ui_elem	*ui_create_scroll_space(t_ui_elem *parent, int x, int y, int visible_w,
+		int visible_h, int virtual_w, int virtual_h)
 {
 	t_ui_elem							*new;
 	t_scroll_space_store	*store;
 
-	new = ui_add_elem(parent, x, y, w, h, 1, ui_display_scroll_space, UI_TRUE,
-			free_scroll_space_store, ui_resolve_as_percentages);
+	new = ui_add_elem(parent, x, y, visible_w, visible_h, 1, ui_display_scroll_space,
+			UI_TRUE, free_scroll_space_store, ui_resolve_as_percentages);
+	ui_add_sub_layer(new, virtual_w, virtual_h);
 	new->store = ui_secure_malloc(sizeof(t_scroll_space_store));
 	store = new->store;
 	store->virtual_space.x = 0;
