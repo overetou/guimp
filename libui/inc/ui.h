@@ -198,12 +198,12 @@ typedef struct	s_img_disp_store
 }								t_img_disp_store;
 
 
-typedef struct	s_scroll_space_store
+typedef struct	s_sub_layer_store
 {
 	t_ui_img			*target;
 	SDL_Rect			virtual_space;//x and y indicate the position of the visualizer.
 	//w and h are the dimensions of the virtual space.
-}								t_scroll_space_store;
+}								t_sub_layer_store;
 
 //basic stuff
 void								mem_copy(char *dest, const char *src, int len);

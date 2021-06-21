@@ -155,6 +155,13 @@ elements qui contiennent des choses a taille fixe) (ou alors faire du scrollable
 n'y a plus assez de place.)
 -Ne raffraichir les proportions d'un element que si ce dernier est visible (disp_priority
  > 0)
+-lorsque l'on reaffiche un element, le redimensionner. Utiliser des fonctions dediees pour
+	cacher et reveler des elements (pour qu'ils puissent gerer ce genre de cas). Une fois les
+	fontions crees, il faudra parcourir toutes les assignations de disp_priority pour mettre
+	les nouvelles fonction a la place des bêtes manipulations de structure qu'il pourrait y
+	avoir.
+-Si l'utilisateur redimensionne un element, il doit redimensionner la fenetre entiere sauf
+	si il sait exactement ce qu'il fait (custom behavior)
 
 BLOCKING:
 
@@ -224,6 +231,8 @@ scroll_space dans l'espace virtuel.
 Il faut voir que l'element fils pourra definir ses dimensions w et h.
 
 LA SUITE:
+-Dans scroll_space, mettre les fonctions de sublayer au dessus et celles de scroll space
+	au dessous
 -Faire les flèches pour text_line.
  -C'est mort le code est trop complique. Il faut une architecture plus simple et
  	clairement delimitee.
