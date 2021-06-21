@@ -33,11 +33,11 @@ t_ui_elem *ui_create_virgin_elem(int x, int y, int w,
 }
 
 //TODO: This could be optimised with better classification algorithms but as
-// it is not supposed to scale madly maybe it is fine to leave it as is.
+// it is not supposed to scale madly maybe it is fine to leave it as it is.
 // However it is expected that people may always pass 1 as display priority.
 // In such a case, it may be good to keep a pointer on the 1 elem to operate
 // smoothly.
-static void incorporate_sub_elem(t_ui_elem **list, t_ui_elem *to_incorporate)
+void	incorporate_sub_elem(t_ui_elem **list, t_ui_elem *to_incorporate)
 {
 	t_ui_elem *traveler;
 
@@ -75,8 +75,7 @@ ui_add_elem(t_ui_elem *parent, int x, int y, int w,
             int h, char disp_priority,
             void (*display_func)(t_ui_elem *), t_ui_bool sensible,
             void (*store_free_func)(void *), void
-            (*elem_dimensions_resolution_func)(SDL_Rect *, SDL_Rect *,
-            		SDL_Rect *))
+            (*elem_dimensions_resolution_func)(t_ui_elem*))
 {
 	t_ui_elem *new = ui_secure_malloc(sizeof(t_ui_elem));
 
@@ -98,12 +97,8 @@ ui_add_elem(t_ui_elem *parent, int x, int y, int w,
 	new->sub_elems = NULL;
 	incorporate_sub_elem(&(parent->sub_elems), new);
 	new->elem_dimensions_resolution_func = elem_dimensions_resolution_func;
-	ui_set_x_and_y_from_ref(&(parent->actual_dimensions),
-	                        &(new->relative_dimensions),
-	                        &(new->actual_dimensions));
-	elem_dimensions_resolution_func(&(parent->actual_dimensions),
-	                                &(new->relative_dimensions),
-	                                &(new->actual_dimensions));
+	ui_set_x_and_y_from_ref(new);
+	elem_dimensions_resolution_func(new);
 	new->free_store_func = store_free_func;
 	return new;
 }

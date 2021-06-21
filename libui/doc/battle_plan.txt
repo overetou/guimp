@@ -162,6 +162,9 @@ n'y a plus assez de place.)
 	avoir.
 -Si l'utilisateur redimensionne un element, il doit redimensionner la fenetre entiere sauf
 	si il sait exactement ce qu'il fait (custom behavior)
+-Pour le redimensionnement, on ne redimensionne pas ce qui est invisible. En revanche, il
+	faudra set une fonction de redimension speciale aux scroll_space, qui redimensionnera
+	normalement ces dernier, mais appelera egalement une fonction adoc sur les sublayers.
 
 BLOCKING:
 
@@ -234,5 +237,6 @@ OK-Dans scroll_space, mettre les fonctions de sublayer au dessus et celles de sc
 	Creer la demo, puis relire le code pour verifier ce qui sera execute.
 -Ajouter des controles specifiques pour se deplacer au sein d'une fenetre de scroll.
 	(ex: scroll of the mouse, ctrl+mouse scroll for horizontal scroll)
+-Regarder ce TODO dans elems qui ne fait rien quand on demande qu'un element a priorite nulle soit incorpore.
 -Faire les flèches pour text_line.
 

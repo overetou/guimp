@@ -12,9 +12,8 @@ void	ui_display_text_space(t_ui_elem *line)
 	t_text_space_store	*store = line->store;
 	SDL_Color						bg = {100, 100, 100, UI_ALPHA_OPAQUE};
 	SDL_Color						fg = {210, 210, 210, UI_ALPHA_OPAQUE};
-	SDL_Rect						cursor_rect = {0, 0, 1, line->actual_dimensions.h};
-	int									tmp;
-	int									height;
+	SDL_Rect						cursor_rect = {0, 0, 1,
+		TTF_FontHeight(UI_FONT(line, store->police_font))};
 
 	ui_colorize_elem(line, UI_EXPAND_COLOR(bg));
 	if (store->text_len > 0)
@@ -105,6 +104,12 @@ void	line_move_cursor(t_ui_elem *line, int movement)
 	else
 		store->pos += movement;
 	refresh_win(UI_EL_WIN(line));
+}
+
+void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *e, int x)
+{
+	(void)e;
+	(void)x;
 }
 
 void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)

@@ -20,6 +20,13 @@ void	ui_move_sub_layer_vision(t_ui_elem *sub_layer, int x, int y)
 			sub_layer->actual_dimensions.w)
 		store->virtual_space.x = store->virtual_space.w -
 			sub_layer->actual_dimensions.w;
+	if (store->virtual_space.y + y < 0)
+		store->virtual_space.y = 0;
+	else if (store->virtual_space.y + y > store->virtual_space.h - 
+			sub_layer->actual_dimensions.h)
+		store->virtual_space.y = store->virtual_space.h -
+			sub_layer->actual_dimensions.h;
+	//TODO: Refresh the window?
 }
 
 void			ui_resolve_sublayer_dimensions(t_ui_elem *sub_layer)
@@ -28,8 +35,8 @@ void			ui_resolve_sublayer_dimensions(t_ui_elem *sub_layer)
 	t_sub_layer_store	*store = sub_layer->store;
 
 	SDL_DestroyTexture(store->target);
-	store->target = SDL_CreateTexture(UI_EL_REND(scroll_space),
-			UI_EL_UI(scroll_space)->default_pixel_format, SDL_TEXTUREACCESS_TARGET,
+	store->target = SDL_CreateTexture(UI_EL_REND(sub_layer),
+			UI_EL_UI(sub_layer)->default_pixel_format, SDL_TEXTUREACCESS_TARGET,
 			child->actual_dimensions.w, child->actual_dimensions.h);
 	//TODO (bonus): find the most extreme dimensions + placement of each children and
 	//resize the sub_layer accordingly
@@ -47,9 +54,6 @@ void			ui_add_sub_layer(t_ui_elem *parent, int w, int h)
 	new->display_priority = 0;
 	new->sensible = UI_TRUE;
 	new->nb_sensible_zones = 1;
-	new->has_sub_hovers = UI_FALSE;
-	new->has_sub_clicks = UI_FALSE;
-	new->click_func = NULL;
 	new->sub_elems = NULL;
 	incorporate_sub_elem(&(parent->sub_elems), new);
 	new->elem_dimensions_resolution_func = ui_resolve_sublayer_dimensions;
@@ -110,8 +114,8 @@ t_ui_elem	*ui_create_scroll_space(t_ui_elem *parent, int x, int y, int visible_w
 	sensible_zone->y = 0;
 	sensible_zone->w = 100;
 	sensible_zone->h = 100;
-	ui_add_sub_layer(new, virtual_w, virtual_h);
 	ui_add_clickable_zones(new, sensible_zone, ui_scroll_space_clicked, 1,
 			ui_resolve_as_percentages);
+	ui_add_sub_layer(new, virtual_w, virtual_h);
 	return new;
 }

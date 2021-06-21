@@ -15,7 +15,7 @@ t_ui_bool ui_is_point_in_rect(Sint32 x, Sint32 y, SDL_Rect *rect)
 	&& y >= rect->y && y <= rect->y + rect->h;
 }
 
-void	ui_transmit_click_event(t_ui_elem *e)
+void	ui_transmit_click_event(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 {
 	while (e)
 	{
@@ -43,8 +43,7 @@ void ui_handle_click(t_ui *ui, SDL_MouseButtonEvent *ev)
 	t_ui_elem   *e = win->content;
 
 	//printf("Clicked at pos: %d, %d.\n", ev->x, ev->y);//TMP
-	ui_transmit_click_event(e);
-	//puts("The search ended!");
+	ui_transmit_click_event(e, ev);
 }
 
 void	ui_default_event_handler(t_ui *ui, SDL_Event *ev)

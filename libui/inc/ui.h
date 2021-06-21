@@ -228,19 +228,15 @@ void	ui_critical_check(t_ui_bool val, const char *msg);
 void	*ui_secure_malloc(size_t  len);
 void	ui_secure_realloc(void **to_realloc, size_t len);
 
-//calculus
+//dimensions resolution
 void	ui_resolve_win_content_actual_size(t_ui_win *win);
-void	ui_resolve_as_percentages(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
-*to_fill);
-void	ui_resolve_keep_actual_dimensions(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
-*to_fill);
-void	ui_resolve_keep_fixed_dimensions(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect *to_fill);
-void	ui_resolve_as_square_from_h(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
-*to_fill);
-void	ui_set_x_and_y_from_ref(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
-*to_fill);
-void	ui_resolve_w_as_percentage_keep_actual_h(SDL_Rect *reference_rect, SDL_Rect *relative_dimensions, SDL_Rect
-*to_fill);
+void	ui_resolve_as_percentages(t_ui_elem *e);
+void	ui_resolve_keep_actual_dimensions(t_ui_elem *e);
+void	ui_resolve_keep_fixed_dimensions(t_ui_elem *e);
+void	ui_resolve_as_square_from_h(t_ui_elem *e);
+void	ui_set_x_and_y_from_ref(t_ui_elem *e);
+void	ui_resolve_w_as_percentage_keep_actual_h(t_ui_elem *e);
+void	ui_resolve_clickable_zone_as_percentage(t_ui_elem *e);
 
 //core functions
 t_ui	*ui_init(uint32_t ui_flags, int img_flags);
@@ -265,10 +261,11 @@ ui_add_elem(t_ui_elem *parent, int x, int y, int w,
 			int h, char disp_priority,
 			void (*display_func)(t_ui_elem *), t_ui_bool sensible,
 			void (*store_free_func)(void *), void
-			(*elem_dimensions_resolution_func)(SDL_Rect *, SDL_Rect *,
-			SDL_Rect *));
+			(*elem_dimensions_resolution_func)(t_ui_elem*));
 void		ui_display_elem(t_ui_elem *e);
 void		ui_paint_elem(t_ui_elem *e, int r, int g, int b, int a);
+void		incorporate_sub_elem(t_ui_elem **list, t_ui_elem *to_incorporate);
+
 //blocking
 void	ui_free_wincontent_store(void *to_free);
 void	ui_colorblock_1(t_ui_elem *e);
@@ -321,9 +318,9 @@ void ui_add_clickable_zones(t_ui_elem *e, SDL_Rect *zones,
 
 //events
 t_ui_bool	ui_is_point_in_rect(Sint32 x, Sint32 y, SDL_Rect *rect);
-void		ui_handle_events(t_ui *ui);
-void		ui_change_event_handler(t_ui *ui, void(*new_event_handler_func)(t_ui*, SDL_Event*));
-void		ui_transmit_click_event(t_ui_elem *e);
+void			ui_handle_events(t_ui *ui);
+void			ui_change_event_handler(t_ui *ui, void(*new_event_handler_func)(t_ui*, SDL_Event*));
+void			ui_transmit_click_event(t_ui_elem *e, SDL_MouseButtonEvent *ev);
 
 //Pre-made callbacks
 void	ui_stop_event_handling(t_ui_elem *e, SDL_MouseButtonEvent *ev);/*Uses
