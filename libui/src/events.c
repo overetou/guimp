@@ -15,41 +15,35 @@ t_ui_bool ui_is_point_in_rect(Sint32 x, Sint32 y, SDL_Rect *rect)
 	&& y >= rect->y && y <= rect->y + rect->h;
 }
 
+void	ui_transmit_click_event(t_ui_elem *e)
+{
+	while (e)
+	{
+		if (e->sensible)
+		{
+			if (e->has_sub_clicks && ui_is_point_in_rect(ev->x, ev->y, &(e->actual_dimensions)))
+				e = e->sub_elems;
+			else if (e->click_func && ui_is_point_in_rect(ev->x, ev->y,
+						&(e->sensible_zones_actual_dimensions)))
+			{
+				e->click_func(e, ev);
+				break;
+			}
+			else
+				e = e->next;
+		}
+		else
+			e = e->next;
+	}
+}
+
 void ui_handle_click(t_ui *ui, SDL_MouseButtonEvent *ev)
 {
 	t_ui_win    *win = ui_find_win(ui, SDL_GetWindowFromID(ev->windowID));
 	t_ui_elem   *e = win->content;
 
 	//printf("Clicked at pos: %d, %d.\n", ev->x, ev->y);//TMP
-	while (e)
-	{
-		//puts("Testing an element.");
-		if (e->sensible)
-		{
-			if (e->has_sub_clicks && ui_is_point_in_rect(ev->x, ev->y, &(e->actual_dimensions)))
-			{
-				//puts("Sub click activated.");
-				e = e->sub_elems;
-			}
-			else if (e->click_func && ui_is_point_in_rect(ev->x, ev->y,
-												 &(e->sensible_zones_actual_dimensions)))
-			{
-				//puts("Click func activated.");
-				e->click_func(e, ev);
-				break;
-			}
-			else
-			{
-				//puts("Nothing to with the elem. Passing to the next.");
-				e = e->next;
-			}
-		}
-		else
-		{
-			//puts("Element is not sensible. Ignoring it and going next.");
-			e = e->next;
-		}
-	}
+	ui_transmit_click_event(e);
 	//puts("The search ended!");
 }
 

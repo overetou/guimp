@@ -82,13 +82,16 @@ void	ui_scroll_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 	//ca, on modifie les valeur de x et de y du SDL_MouseButtonEvent pour qu'il soit
 	//correctement positionne au sein de l'espace virtuel.
 	t_ui_elem	*sub_layer = e->sub_elems;
+	t_sub_layer_store	*store = sub_layer->store;
 
-	ev->x += sub_layer->actual_dimensions.x - e->actual_dimensions.x;
+	ev->x += store->virtual_space.x - e->actual_dimensions.x;
+	ev->y += store->virtual_space.y - e->actual_dimensions.y;
+	ui_transmit_click_event(sub_layer);
 }
 
-t_ui_elem	*ui_get_scroll_space_sub_elems(t_ui_elem *e)
+t_ui_elem	*ui_get_scroll_space_sub_layer(t_ui_elem *e)
 {
-	return e->sub_elems->sub_elems;
+	return e->sub_elems;
 }
 
 //Do not use this elem as a parent. Use his sub_elem instead. ex: scrollpace->sub_elems

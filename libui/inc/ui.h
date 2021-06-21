@@ -308,6 +308,8 @@ t_ui_elem	*ui_create_slider(t_ui_elem *parent, int x, int y, int w, int current_
 t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, char *text, int x, int y, int w, int h);
 t_ui_elem	*ui_create_img_display(t_ui_elem *parent, int x, int y, int w, int h,
 		const char *img_path);
+t_ui_elem	*ui_create_scroll_space(t_ui_elem *parent, int x, int y, int visible_w,
+		int visible_h, int virtual_w, int virtual_h);
 
 //Sensibility
 void ui_add_clickable_zones(t_ui_elem *e, SDL_Rect *zones,
@@ -321,6 +323,7 @@ void ui_add_clickable_zones(t_ui_elem *e, SDL_Rect *zones,
 t_ui_bool	ui_is_point_in_rect(Sint32 x, Sint32 y, SDL_Rect *rect);
 void		ui_handle_events(t_ui *ui);
 void		ui_change_event_handler(t_ui *ui, void(*new_event_handler_func)(t_ui*, SDL_Event*));
+void		ui_transmit_click_event(t_ui_elem *e);
 
 //Pre-made callbacks
 void	ui_stop_event_handling(t_ui_elem *e, SDL_MouseButtonEvent *ev);/*Uses
@@ -332,5 +335,8 @@ void	ui_default_event_handler(t_ui *ui, SDL_Event *ev);
 
 //Data printing
 void	ui_display_rect_values(SDL_Rect *rect);
+
+//scroll functions
+t_ui_elem	*ui_get_scroll_space_sub_layer(t_ui_elem *e);
 
 #endif //UI
