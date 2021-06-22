@@ -65,6 +65,8 @@ void			ui_add_sub_layer(t_ui_elem *parent, int w, int h)
 	store = new->store;
 	store->virtual_space.x = 0;
 	store->virtual_space.y = 0;
+	store->virtual_space.w = parent->actual_dimensions.w;//TODO: Will this 2 lines be updated when things are redemensionned?
+	store->virtual_space.h = parent->actual_dimensions.h;
 	store->target = SDL_CreateTexture(UI_EL_REND(parent),
 			UI_EL_UI(parent)->default_pixel_format, SDL_TEXTUREACCESS_TARGET, w, h);
 	new->free_store_func = free_sub_layer_store;
@@ -79,7 +81,7 @@ void	ui_display_scroll_space(t_ui_elem *scroll_space)
 	//TODO: Launch the next func on every sub_elems instead of just one.
 	ui_display_elem(sub_layer->sub_elems);
 	SDL_SetRenderTarget(UI_EL_REND(sub_layer), NULL);
-	ui_display_img_at_absolute_pos(scroll_space, store->target, 0, 0);
+	SDL_RenderCopy(UI_EL_REND(scroll_space), store->target, &(store->virtual_space), &(scroll_space->actual_dimensions));
 }
 
 void	ui_scroll_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
@@ -93,6 +95,7 @@ void	ui_scroll_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 	ev->x += store->virtual_space.x - e->actual_dimensions.x;
 	ev->y += store->virtual_space.y - e->actual_dimensions.y;
 	ui_transmit_click_event(sub_layer, ev);
+	ui_change_event_handler();
 }
 
 t_ui_elem	*ui_get_scroll_space_sub_layer(t_ui_elem *e)

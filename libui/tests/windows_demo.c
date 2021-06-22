@@ -28,10 +28,10 @@ int main(void)
 	ui_create_text_line_input(win->content, text, 10, 10, 200, 25);
 	ui_create_slider(win->content, 10, 20, 40, 50, 100);
 	ui_create_img_display(win->content, 10, 30, 161, 201, "assets/img.jpg");
-	//t_ui_elem *scroll_space = ui_create_scroll_space(win->content, 40, 10, 40, 40,
-		//2048, 1504);
-	//ui_create_img_display(ui_get_scroll_space_sub_layer(scroll_space), 0, 0, 2048, 1504,
-			//"assets/big_img.jpg");
+	t_ui_elem *scroll_space = ui_create_scroll_space(win->content, 40, 30, 40, 40,
+		2048, 1504);
+	ui_create_img_display(ui_get_scroll_space_sub_layer(scroll_space), 0, 0, 2048, 1504,
+			"assets/big_img.jpg");
 
 	refresh_win(win);
 	ui_handle_events(ui);
