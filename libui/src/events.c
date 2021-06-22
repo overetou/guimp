@@ -11,8 +11,10 @@ static t_ui_win *ui_find_win(t_ui *ui, SDL_Window *wanted)
 
 t_ui_bool ui_is_point_in_rect(Sint32 x, Sint32 y, SDL_Rect *rect)
 {
-	return x >= rect->x && x <= rect->x + rect->w
-	&& y >= rect->y && y <= rect->y + rect->h;
+	return x >= rect->x &&
+		x <= rect->x + rect->w &&
+		y >= rect->y &&
+		y <= rect->y + rect->h;
 }
 
 void	ui_transmit_click_event(t_ui_elem *e, SDL_MouseButtonEvent *ev)

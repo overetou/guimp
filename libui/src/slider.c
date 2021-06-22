@@ -79,7 +79,7 @@ t_ui_elem	*ui_create_slider(t_ui_elem *parent, int x, int y, int w, int current_
 	store->sensible_zone.y = 0;
 	store->sensible_zone.w = 100;
 	new->sensible_zones_actual_dimensions.h = UI_SLIDER_HEIGHT_IN_PX;
-	ui_add_clickable_zones(new, &(((t_slider_store*)(new->store))->sensible_zone), ui_slider_clicked,
-	1, ui_resolve_w_as_percentage_keep_actual_h);
+	ui_add_clickable_zones(new, &(store->sensible_zone), ui_slider_clicked,
+	1, ui_resolve_clickable_zone_w_as_percentage_keep_actual_h);
 	return new;
 }

@@ -181,8 +181,8 @@ t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, char *text, int x, int y
 	store->sub_rect.h = ui_get_percentage_of_int(new->actual_dimensions.h, 80);
 	store->sensible_zone.x = 0;
 	store->sensible_zone.y = 0;
-	store->sensible_zone.w = w;
-	store->sensible_zone.h = h;
+	new->sensible_zones_actual_dimensions.w = w;
+	new->sensible_zones_actual_dimensions.h = h;
 	store->visible_text_start = 0;
 	ui_add_clickable_zones(new, &(store->sensible_zone), ui_text_space_clicked, 1,
 	ui_resolve_clickable_zone_keep_actual_dimensions);
