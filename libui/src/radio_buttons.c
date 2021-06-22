@@ -88,7 +88,7 @@ t_ui_elem	*ui_create_radio_button(t_ui_elem *parent, const char *choice_text,
 	store->sensible_zone.x = 0;
 	store->sensible_zone.y = 0;
 	store->sensible_zone.w = 100;
-	store->sensible_zone.h = 100;
+	//store->sensible_zone.h = 100;
 	ui_add_clickable_zones(
 			new,
 			&(store->sensible_zone),

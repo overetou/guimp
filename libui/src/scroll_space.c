@@ -70,14 +70,16 @@ void			ui_add_sub_layer(t_ui_elem *parent, int w, int h)
 	new->free_store_func = free_sub_layer_store;
 }
 
-void	ui_display_scroll_space(t_ui_elem *e)
+void	ui_display_scroll_space(t_ui_elem *scroll_space)
 {
-	t_sub_layer_store	*store = scroll_space->store;
+	t_ui_elem					*sub_layer = scroll_space->sub_elems;
+	t_sub_layer_store	*store = sub_layer->store;
 
-	SDL_SetRenderTarget(UI_EL_REND(e), store->target);
-	ui_display_elem(e->sub_elems);
-	SDL_SetRenderTarget(UI_EL_REND(e), NULL);
-	ui_display_img_at_absolute_pos(e, store->target, 0, 0);
+	SDL_SetRenderTarget(UI_EL_REND(sub_layer), store->target);
+	//TODO: Launch the next func on every sub_elems instead of just one.
+	ui_display_elem(sub_layer->sub_elems);
+	SDL_SetRenderTarget(UI_EL_REND(sub_layer), NULL);
+	ui_display_img_at_absolute_pos(scroll_space, store->target, 0, 0);
 }
 
 void	ui_scroll_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
@@ -90,7 +92,7 @@ void	ui_scroll_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 
 	ev->x += store->virtual_space.x - e->actual_dimensions.x;
 	ev->y += store->virtual_space.y - e->actual_dimensions.y;
-	ui_transmit_click_event(sub_layer);
+	ui_transmit_click_event(sub_layer, ev);
 }
 
 t_ui_elem	*ui_get_scroll_space_sub_layer(t_ui_elem *e)
@@ -115,7 +117,7 @@ t_ui_elem	*ui_create_scroll_space(t_ui_elem *parent, int x, int y, int visible_w
 	sensible_zone->w = 100;
 	sensible_zone->h = 100;
 	ui_add_clickable_zones(new, sensible_zone, ui_scroll_space_clicked, 1,
-			ui_resolve_as_percentages);
+			ui_resolve_clickable_zone_as_percentage);
 	ui_add_sub_layer(new, virtual_w, virtual_h);
 	return new;
 }

@@ -76,7 +76,7 @@ typedef struct	s_ui_elem
 	struct s_ui_elem	*next;
 	struct s_ui_elem	*prev;
 	SDL_Rect					relative_dimensions;
-	void							(*elem_dimensions_resolution_func)(SDL_Rect *reference, SDL_Rect *values, SDL_Rect *to_fill);
+	void							(*elem_dimensions_resolution_func)(struct s_ui_elem*);
 	SDL_Rect					actual_dimensions;
 	char							display_priority;
 	void							(*display_func)(struct s_ui_elem*);
@@ -84,7 +84,7 @@ typedef struct	s_ui_elem
 	void							(*free_store_func)(void*);
 	t_ui_bool					sensible;
 	SDL_Rect					*sensible_zones_relative_dimensions;
-	void							(*sensible_zones_resolution_func)(SDL_Rect *reference, SDL_Rect *values, SDL_Rect *to_fill);
+	void							(*sensible_zones_resolution_func)(struct s_ui_elem*);
 	SDL_Rect					sensible_zones_actual_dimensions;
 	short							nb_sensible_zones;
 	t_ui_bool					has_sub_hovers;
@@ -238,6 +238,8 @@ void	ui_set_x_and_y_from_ref(t_ui_elem *e);
 void	ui_resolve_w_as_percentage_keep_actual_h(t_ui_elem *e);
 void	ui_resolve_clickable_zone_as_percentage(t_ui_elem *e);
 void	ui_resolve_clickable_zone_keep_actual_dimensions(t_ui_elem *e);
+void	ui_resolve_clickable_zone_w_as_percentage_keep_actual_h(t_ui_elem *e);
+void	ui_resolve_clickable_zone_as_square_from_h(t_ui_elem *e);
 
 //core functions
 t_ui	*ui_init(uint32_t ui_flags, int img_flags);
@@ -311,11 +313,8 @@ t_ui_elem	*ui_create_scroll_space(t_ui_elem *parent, int x, int y, int visible_w
 
 //Sensibility
 void ui_add_clickable_zones(t_ui_elem *e, SDL_Rect *zones,
-	void (*click_func)(t_ui_elem*,
-	SDL_MouseButtonEvent*),
-	short nb_sensible_zones,
-	void (*sensible_zones_resolution_func)
-	(SDL_Rect*, SDL_Rect*, SDL_Rect*));
+	void (*click_func)(t_ui_elem*, SDL_MouseButtonEvent*),
+	short nb_sensible_zones, void (*sensible_zones_resolution_func) (t_ui_elem*));
 
 //events
 t_ui_bool	ui_is_point_in_rect(Sint32 x, Sint32 y, SDL_Rect *rect);

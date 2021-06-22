@@ -7,18 +7,31 @@ void	ui_resolve_clickable_zone_x_and_y(t_ui_elem *e)
 {
 	e->sensible_zones_actual_dimensions.x = e->actual_dimensions.x +
 		ui_get_percentage_of_int(e->actual_dimensions.w,
-		e->sensible_zones_relative_dimensions.x);
+		e->sensible_zones_relative_dimensions->x);
 	e->sensible_zones_actual_dimensions.y = e->actual_dimensions.x +
 		ui_get_percentage_of_int(e->actual_dimensions.h,
-		e->sensible_zones_relative_dimensions.y);
+		e->sensible_zones_relative_dimensions->y);
+}
+
+void	ui_resolve_clickable_zone_w_as_percentage_keep_actual_h(t_ui_elem *e)
+{
+	e->sensible_zones_actual_dimensions.w = ui_get_percentage_of_int(
+			e->actual_dimensions.w, e->sensible_zones_relative_dimensions->w);
+}
+
+void	ui_resolve_clickable_zone_as_square_from_h(t_ui_elem *e)
+{
+	e->sensible_zones_actual_dimensions.h = ui_get_percentage_of_int(
+			e->actual_dimensions.h, e->sensible_zones_relative_dimensions->h);
+	e->sensible_zones_actual_dimensions.w = e->sensible_zones_actual_dimensions.h;
 }
 
 void	ui_resolve_clickable_zone_as_percentage(t_ui_elem *e)
 {
 	e->sensible_zones_actual_dimensions.w = ui_get_percentage_of_int(e->actual_dimensions.w,
-		e->sensible_zones_relative_dimensions.w);
+		e->sensible_zones_relative_dimensions->w);
 	e->sensible_zones_actual_dimensions.h = ui_get_percentage_of_int(e->actual_dimensions.h,
-		e->sensible_zones_relative_dimensions.h);
+		e->sensible_zones_relative_dimensions->h);
 }
 
 void	ui_resolve_clickable_zone_keep_actual_dimensions(t_ui_elem *e)
