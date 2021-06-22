@@ -84,6 +84,14 @@ void	ui_display_scroll_space(t_ui_elem *scroll_space)
 	SDL_RenderCopy(UI_EL_REND(scroll_space), store->target, &(store->virtual_space), &(scroll_space->actual_dimensions));
 }
 
+void	*capture_scroll(t_ui *ui, SDL_Event *ev)
+{
+	if (ev->type == SDL_MOUSEWHEEL)
+		ui_move_sub_layer_vision(ui->event_handling_store, ev->wheel->x, ev->wheel->y);
+	else
+		ui_default_event_handler(ui, ev);
+}
+
 void	ui_scroll_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 {
 	//On va appeller la fonction de retransmission de clic sur le sub_layer. Mais avant
@@ -95,7 +103,7 @@ void	ui_scroll_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 	ev->x += store->virtual_space.x - e->actual_dimensions.x;
 	ev->y += store->virtual_space.y - e->actual_dimensions.y;
 	ui_transmit_click_event(sub_layer, ev);
-	ui_change_event_handler();
+	ui_change_event_handler(UI_EL_UI(), );
 }
 
 t_ui_elem	*ui_get_scroll_space_sub_layer(t_ui_elem *e)
