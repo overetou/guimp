@@ -165,6 +165,8 @@ n'y a plus assez de place.)
 -Pour le redimensionnement, on ne redimensionne pas ce qui est invisible. En revanche, il
 	faudra set une fonction de redimension speciale aux scroll_space, qui redimensionnera
 	normalement ces dernier, mais appelera egalement une fonction adoc sur les sublayers.
+-Les fonctions de gestion d'evenements doivent etres specifiques aux
+	fenetres, pas a l'ui.
 
 BLOCKING:
 
