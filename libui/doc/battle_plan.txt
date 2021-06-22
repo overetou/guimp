@@ -237,13 +237,9 @@ OK-Dans scroll_space, mettre les fonctions de sublayer au dessus et celles de sc
 	au dessous
 OK-Comme example, on va faire un simple affichage d'image que l'on essaiera d'afficher au sein d'un scroll space.
 	Creer la demo, puis relire le code pour verifier ce qui sera execute.
--Ajouter des controles specifiques pour se deplacer au sein d'une fenetre de scroll.
+OK-Ajouter des controles specifiques pour se deplacer au sein d'une fenetre de scroll.
 	(ex: scroll of the mouse, ctrl+mouse scroll for horizontal scroll)
-	-Pas le choix, on doit mettre les differents types de fonction de gestion d'event.
-		-Il y aura les fonctions permanentes (ex: SDL_Quit = quitter)
-		-La fonction principale de gestion d'evenement (bien souvent
-			celle par defaut)
-		-Mettre event_handling_store a jour dans scroll clicked.
+		-Mettre des signaux dans le terminal qui indiquent lorsque la capture du scroll est activee, les valeur de scroll et lorsque la capture prend fin.
 		-regarder tout les endroits ou SDL_QUIT est refere. La plus part du temps il n'est peut-etre pas necessaire.
 -Regarder ce TODO dans elems qui ne fait rien quand on demande qu'un element a priorite nulle soit incorpore.
 -Faire les flèches pour text_line.
