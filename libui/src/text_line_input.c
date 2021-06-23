@@ -12,8 +12,13 @@ void	ui_display_text_space(t_ui_elem *line)
 	t_text_space_store	*store = line->store;
 	SDL_Color						bg = {100, 100, 100, UI_ALPHA_OPAQUE};
 	SDL_Color						fg = {210, 210, 210, UI_ALPHA_OPAQUE};
-	SDL_Rect						cursor_rect = {0, 0, 1,
-		TTF_FontHeight(UI_FONT(line, store->police_font))};
+	SDL_Rect						cursor_rect = {
+		0,
+		ui_calculate_start_of_center(line->actual_dimensions.h, TTF_FontHeight(UI_FONT(line, store->police_font))),
+		1,
+		TTF_FontHeight(UI_FONT(line, store->police_font))
+	};
+	char 								saved = store->text[store->pos];
 
 	ui_colorize_elem(line, UI_EXPAND_COLOR(bg));
 	if (store->text_len > 0)
@@ -25,7 +30,9 @@ void	ui_display_text_space(t_ui_elem *line)
 	}
 	if (store->pos >= 0)
 	{
-		cursor_rect.x = store->sub_rect.x + store->cursor_pixel_pos;
+		store->text[new_pos] = '\0';
+		TTF_SizeText(UI_FONT(line, store->police_font), store->text, &(cursor_rect.x), NULL);
+		store->text[new_pos] = saved;
 		ui_display_absolute_rect_relative_to_elem(line, &cursor_rect, &fg);
 	}
 }
@@ -46,14 +53,11 @@ int		get_text_pixel_size(t_ui_elem *e, int police_index, const char *text)
 	return result;
 }
 
-void		update_cursor_px_pos_from_chr_pos(t_ui_elem *line)
+void		ui_text_line_input_change_cursor_pos(t_ui_elem *line, int new_pos)
 {
 	t_text_space_store	*store = line->store;
-	char saved = store->text[store->pos];
-	store->text[store->pos]	= '\0';
-	TTF_SizeText(UI_FONT(line, store->police_font), store->text + store->visible_text_start,
-			&(store->cursor_pixel_pos), NULL);
-	store->text[store->pos]	= saved;
+	
+	store->pos = new_pos;
 }
 
 void	insert_text(t_ui_elem *line, const char *to_insert)

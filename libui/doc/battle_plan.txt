@@ -203,6 +203,7 @@ SEMI_BONUS:
 -Remplacer le delay dans la boucle des events par un cronometre qui n'attends que le reste a attendre pour que l'on rafraichisse a interval regulier.
 -Faire gerer l'ajout de masc permafunc et de crucial funcs par la librairie. (le code dans ui_slider_clicked)
 -Raffraichir l'écran uniquement lorsque nécessaire en créant une liste d'objets à raffraichir sur le second buffer.
+-Si l'on raffraichit la fenetre a chaque fois que l'on fait un changement de pos, on risque de raffraichir plusieurs fois dans une meme operation. C'est pas opti.
 
 REFLEXIONS:
 text zone est assez semblable a text line. Les differences sont:
@@ -217,7 +218,8 @@ LA SUITE:
 -text en ligne: On part du principe que text line input est automatiquement inclus dans un scroll space. (Son constructeur s'en charge)
 	-On utilisera les donnees de notre sublayer pour gerer nos comportements
 		-Tout ce qui a attrait au changement de pos sera gere dans la fonction changement de pos
-		-De plus la fonction change_pos_from x devra aussi acceder aux donnees du sublayer.
+		-Cette fonction sera appelee a chaque fois que l'on souhaite modifier pos, excepte a l'initialisation du texte.
+		OK-De plus la fonction change_pos_from x devra aussi acceder aux donnees du sublayer.
 
 -regarder tout les endroits ou SDL_QUIT est refere. La plus part du temps il n'est peut-etre pas necessaire.
 -Regarder ce TODO dans elems qui ne fait rien quand on demande qu'un element a priorite nulle soit incorpore.

@@ -179,18 +179,14 @@ typedef struct		s_slider_store
 
 typedef	struct		s_text_space_store
 {
-	int				police_font;
-	char			*text;
-	int				text_len;
-	int				pos;
-	int				cursor_pixel_pos;
-	char			*visible_text_end;
-	int				visible_text_start;
-	t_ui_img		*text_img;
-	int				text_px_len;
-	SDL_Rect		sub_rect;
-	SDL_Rect		sensible_zone;
-}					t_text_space_store;
+	int							police_font;
+	char						*text;
+	int							text_len;
+	int							pos;
+	t_ui_img				*text_img;
+	SDL_Rect				sub_rect;
+	SDL_Rect				sensible_zone;
+}									t_text_space_store;
 
 typedef struct	s_img_disp_store
 {
@@ -217,6 +213,7 @@ t_perma_func_block	*ui_add_perma_func(t_ui *ui, void (*func)(void*), void *store
 void								ui_remove_permafunc(t_ui *ui, t_perma_func_block *to_delete);
 void								ui_insert_str_in_str(char *to_modify, int tm_len, const char *to_insert, int ti_len, int pos);
 int									ui_strlen(const char *s);
+int									ui_calculate_start_of_center(int total_length, int length_to_center);
 
 //Int manipulation
 int	ui_get_percentage_of_int(int reference, int percentage);

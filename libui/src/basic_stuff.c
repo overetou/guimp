@@ -102,3 +102,8 @@ int	ui_strlen(const char *s)
 		i++;
 	return i;
 }
+
+int	ui_calculate_start_of_center(int total_length, int length_to_center)
+{
+	return (total_length - length_to_center) / 2;
+}
