@@ -7,6 +7,17 @@ void	ui_free_text_space_store(void *to_free)
 	free(to_free);
 }
 
+int		ui_get_text_size_with_len(TTF_Font *font, char *text, int len)
+{
+	char	saved = text[len];
+	int		result;
+
+	text[len] = '\0';
+	TTF_SizeText(font, text, &result, NULL);
+	text[len] = saved;
+	return result;
+}
+
 void	ui_display_text_space(t_ui_elem *line)
 {
 	t_text_space_store	*store = line->store;
@@ -18,21 +29,17 @@ void	ui_display_text_space(t_ui_elem *line)
 		1,
 		TTF_FontHeight(UI_FONT(line, store->police_font))
 	};
-	char 								saved = store->text[store->pos];
 
 	ui_colorize_elem(line, UI_EXPAND_COLOR(bg));
 	if (store->text_len > 0)
 	{
-		store->text_img = ui_text_to_texture(store->text + store->visible_text_start, store->police_font, &fg, &bg, line);
-		store->visible_text_end = store->text + store->text_len;
+		store->text_img = ui_text_to_texture(store->text, store->police_font, &fg, &bg, line);
 		ui_display_img_at_absolute_pos(line, store->text_img, store->sub_rect.x, store->sub_rect.y);
-		SDL_DestroyTexture(store->text_img);
+		SDL_DestroyTexture(store->text_img);//TODO: This image could be kept and only replaced when the text itself is modified.
 	}
 	if (store->pos >= 0)
 	{
-		store->text[new_pos] = '\0';
-		TTF_SizeText(UI_FONT(line, store->police_font), store->text, &(cursor_rect.x), NULL);
-		store->text[new_pos] = saved;
+		ui_get_text_size_with_len(UI_FONT(line, store->police_font), store->text, store->pos);
 		ui_display_absolute_rect_relative_to_elem(line, &cursor_rect, &fg);
 	}
 }
@@ -45,24 +52,17 @@ void	ui_text_line_unfocus(t_ui_elem *line)
 	refresh_win(UI_EL_WIN(line));
 }
 
-int		get_text_pixel_size(t_ui_elem *e, int police_index, const char *text)
-{
-	int	result;
-
-	TTF_SizeText(UI_FONT(e, police_index), text, &result, NULL);
-	return result;
-}
-
 void		ui_text_line_input_change_cursor_pos(t_ui_elem *line, int new_pos)
 {
 	t_text_space_store	*store = line->store;
-	
+	int									px_pos;
+	t_sub_layer_store		*sub_layer_store = line->parent->store;
 	//The goal here is to move the sublayer visible part in a relevant way.
 	if (new_pos >= 0)
 	{
-		//The cursor can either be: in the field of view, too much on the right or too much on the left.
-		//If it is too much on one side, we move the field of view just enough to make it visible.
-		//Else it is already visible, we do not move.
+		px_pos = ui_get_text_size_with_len(UI_FONT(line, store->police_font), store->text, store->pos);//TODO: this is recalculated in the display func.
+		if (px_pos < sub_layer_store->virtual_space.x || px_pos > sub_layer_store->virtual_space.x)
+			sub_layer_store->virtual_space.x = px_pos;
 	}
 	store->pos = new_pos;
 }
@@ -204,7 +204,6 @@ t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, char *text, int x, int y
 	store->sensible_zone.y = 0;
 	new->sensible_zones_actual_dimensions.w = w;
 	new->sensible_zones_actual_dimensions.h = h;
-	store->visible_text_start = 0;
 	ui_add_clickable_zones(new, &(store->sensible_zone), ui_text_space_clicked, 1,
 	ui_resolve_clickable_zone_keep_actual_dimensions);
 	return new;
