@@ -174,7 +174,7 @@ OK-Creer une fonction de boutton
 OK-bouton radio
 OK-bouton checkbox
 OK-Slider
-OK-Texte éditable en ligne
+-Texte éditable en ligne
 -texte éditable en zone.
 -barre de scroll (c'est un bonus)
 -menu par defaut "open save quit"
@@ -189,7 +189,7 @@ OK-Texte éditable en ligne
 
 DISPLAY:
 
--Système de scroll (pour du texte pour commencer, mais peut-être le rendre générique pour que ça marche aussi avec des images.)
+OK-Système de scroll (pour du texte pour commencer, mais peut-être le rendre générique pour que ça marche aussi avec des images.)
 
 SEMI_BONUS:
 -Ajouter dans display une fonction qui permet de créer un cercle plein à partir d'une couleur
@@ -209,38 +209,15 @@ text zone est assez semblable a text line. Les differences sont:
 -Au lieu d'avoir une seule ligne, on peut en avoir plusieurs.
 -Lorsqu'une ligne depasse de l'espace disponible on revient a la ligne sans inserer de <cr>
 -lorsque <cr> est presse on revient a la ligne en inserant un <cr>
--On va devoir faire le scroll vertical (faire quelque chose qui marche pour tout les
+OK-On va devoir faire le scroll vertical (faire quelque chose qui marche pour tout les
 elements)
 -Les flèches verticales permettent de naviguer d'une ligne a l'autre.
 
-On a un probleme: les coordonnees de scroll space vont se transmettre a son enfant.
-On voudrait qu'il se mette a 0 sur le x et le y de base. De plus si un element a des
-dimensions donnees en proportionnel, on est eu (les mauvaises seront retransmises).
-Solution:
-
-Solution:
-On utilise 2 couches. Ce sera plus simples comme ca.
-Lorsque l'on souhaite redimensionner un element, on modifie simplement ses dimensions de
-l'interieur. La fonction de resolution des dimensions de la couche superieure drainera
-les dimensions de l'enfant de la couche inferieure pour la redimensionner.
-L'utilisateur ne sera jamais sense interagir directement avec la couche inferieure.
-On stockera le fils de la couche inferieure comme premier fils de la couche superieure?
-Ou on utilisera simplement une fonction faite expres?
-Pour la resolution des clics, on mettra une click func sur la couche superieure qui
-transmettra la recherche tout en l'adaptant pour tenir compte du positionement du
-scroll_space dans l'espace virtuel.
-
-Il faut voir que l'element fils pourra definir ses dimensions w et h.
-
 LA SUITE:
-OK-Dans scroll_space, mettre les fonctions de sublayer au dessus et celles de scroll space
-	au dessous
-OK-Comme example, on va faire un simple affichage d'image que l'on essaiera d'afficher au sein d'un scroll space.
-	Creer la demo, puis relire le code pour verifier ce qui sera execute.
-OK-Ajouter des controles specifiques pour se deplacer au sein d'une fenetre de scroll.
-	(ex: scroll of the mouse, ctrl+mouse scroll for horizontal scroll)
-		OK-Mettre des signaux dans le terminal qui indiquent lorsque la capture du scroll est activee, les valeur de scroll et lorsque la capture prend fin.
-		-regarder tout les endroits ou SDL_QUIT est refere. La plus part du temps il n'est peut-etre pas necessaire.
+-text en ligne: On part du principe que text line input est automatiquement inclus dans un scroll space. (Son constructeur s'en charge)
+	-
+
+-regarder tout les endroits ou SDL_QUIT est refere. La plus part du temps il n'est peut-etre pas necessaire.
 -Regarder ce TODO dans elems qui ne fait rien quand on demande qu'un element a priorite nulle soit incorpore.
 -Faire les flèches pour text_line.
 

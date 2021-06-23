@@ -334,6 +334,7 @@ void	ui_default_event_handler(t_ui *ui, SDL_Event *ev);
 void	ui_display_rect_values(SDL_Rect *rect);
 
 //scroll functions
+void			ui_move_sub_layer_vision(t_ui_elem *sub_layer, int x, int y);
 t_ui_elem	*ui_get_scroll_space_sub_layer(t_ui_elem *e);
 
 #endif //UI
