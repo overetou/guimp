@@ -108,8 +108,22 @@ void	line_move_cursor(t_ui_elem *line, int movement)
 
 void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *e, int x)
 {
-	(void)e;
-	(void)x;
+	//On veut set pos a la position de la lettre qui a ete cliquee.
+	//Notons que le x qui nous arrive est sensee deja avoir ete transcrit relativement a la ligne entiere de texte.
+	//Il nous suffit donc d'aller a la lettre suivante jusqu'a depasser x.
+	t_text_space_store	*store = line->store;
+	int									char_pos = 0;
+	int									px_pos = 0;
+	int									tmp;
+
+	while (px_pos <= x)
+	{
+		TTF_GlyphMetrics(UI_FONT(e), store->text[char_pos], NULL, NULL, NULL, NULL, &tmp);
+		px_pos += tmp;
+		char_pos++;
+	}
+	store->pos = px_pos - tmp;
+	refresh_win(UI_EL_WIN(line));
 }
 
 void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
@@ -154,7 +168,6 @@ void	ui_text_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 {
 	t_ui	*ui = ((t_ui_win*)(e->win))->ui;
 
-	(void)ev;
 	ui->event_handling_store = e;
 	ui_change_event_handler(ui, ui_text_linefocused_event_handler);
 	ui_text_line_put_cursor_at_new_pos_from_x(e, ev->x);
