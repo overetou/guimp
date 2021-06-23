@@ -57,6 +57,13 @@ void		ui_text_line_input_change_cursor_pos(t_ui_elem *line, int new_pos)
 {
 	t_text_space_store	*store = line->store;
 	
+	//The goal here is to move the sublayer visible part in a relevant way.
+	if (new_pos >= 0)
+	{
+		//The cursor can either be: in the field of view, too much on the right or too much on the left.
+		//If it is too much on one side, we move the field of view just enough to make it visible.
+		//Else it is already visible, we do not move.
+	}
 	store->pos = new_pos;
 }
 
