@@ -215,7 +215,9 @@ elements)
 
 LA SUITE:
 -text en ligne: On part du principe que text line input est automatiquement inclus dans un scroll space. (Son constructeur s'en charge)
-	-
+	-On utilisera les donnees de notre sublayer pour gerer nos comportements
+		-Tout ce qui a attrait au changement de pos sera gere dans la fonction changement de pos
+		-De plus la fonction change_pos_from x devra aussi acceder aux donnees du sublayer.
 
 -regarder tout les endroits ou SDL_QUIT est refere. La plus part du temps il n'est peut-etre pas necessaire.
 -Regarder ce TODO dans elems qui ne fait rien quand on demande qu'un element a priorite nulle soit incorpore.
