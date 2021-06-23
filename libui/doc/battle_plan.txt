@@ -239,7 +239,7 @@ OK-Comme example, on va faire un simple affichage d'image que l'on essaiera d'af
 	Creer la demo, puis relire le code pour verifier ce qui sera execute.
 OK-Ajouter des controles specifiques pour se deplacer au sein d'une fenetre de scroll.
 	(ex: scroll of the mouse, ctrl+mouse scroll for horizontal scroll)
-		-Mettre des signaux dans le terminal qui indiquent lorsque la capture du scroll est activee, les valeur de scroll et lorsque la capture prend fin.
+		OK-Mettre des signaux dans le terminal qui indiquent lorsque la capture du scroll est activee, les valeur de scroll et lorsque la capture prend fin.
 		-regarder tout les endroits ou SDL_QUIT est refere. La plus part du temps il n'est peut-etre pas necessaire.
 -Regarder ce TODO dans elems qui ne fait rien quand on demande qu'un element a priorite nulle soit incorpore.
 -Faire les flèches pour text_line.

@@ -26,7 +26,7 @@ void	ui_move_sub_layer_vision(t_ui_elem *sub_layer, int x, int y)
 			sub_layer->actual_dimensions.h)
 		store->virtual_space.y = store->virtual_space.h -
 			sub_layer->actual_dimensions.h;
-	//TODO: Refresh the window?
+	refresh_win(UI_EL_WIN(sub_layer));
 }
 
 void			ui_resolve_sublayer_dimensions(t_ui_elem *sub_layer)
@@ -84,23 +84,27 @@ void	ui_display_scroll_space(t_ui_elem *scroll_space)
 	SDL_RenderCopy(UI_EL_REND(scroll_space), store->target, &(store->virtual_space), &(scroll_space->actual_dimensions));
 }
 
-void	*capture_scroll(t_ui *ui, SDL_Event *ev)
+void	capture_scroll(t_ui *ui, SDL_Event *ev)
 {
 	switch (ev->type)
 	{
 		case SDL_MOUSEWHEEL:
-		ui_move_sub_layer_vision(ui->event_handling_store, ev->wheel.x, ev->wheel.y);
-		return;
-		break;
-		case SDL_MOUSEBUTTONDOWN:
-		if (ui_is_point_in_rect(ev->button.x, ev->button.y, ((t_ui_elem*)(ui->event_handling_store))->actual_dimensions))
-		{
-			ui_transmit_click_event(((t_ui_elem*)(ui->event_handling_store))->sub_elems, ev);
+			printf("Mouse wheeled. x = %d, y = %d\n", ev->wheel.x, ev->wheel.y);
+			ui_move_sub_layer_vision(ui->event_handling_store, ev->wheel.x, ev->wheel.y);
 			return;
-		}
-		else
-			ui->event_handler_func = ui_default_event_handler;
-		break;
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			if (ui_is_point_in_rect(ev->button.x, ev->button.y, &(((t_ui_elem*)(ui->event_handling_store))->actual_dimensions)))
+			{
+				ui_transmit_click_event(((t_ui_elem*)(ui->event_handling_store))->sub_elems, &(ev->button));
+				return;
+			}
+			else
+			{
+				ui->event_handler_func = ui_default_event_handler;
+				puts("event_handler_func changed back to ui_default_event_handler");
+			}
+			break;
 	}
 	ui_default_event_handler(ui, ev);
 }
@@ -116,8 +120,9 @@ void	ui_scroll_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 	ev->x += store->virtual_space.x - e->actual_dimensions.x;
 	ev->y += store->virtual_space.y - e->actual_dimensions.y;
 	UI_EL_UI(e)->event_handling_store = e;
-	ui_change_event_handler(UI_EL_UI(), capture_scroll);
-	ui_transmit_click_event(sub_layer, ev);
+	ui_change_event_handler(UI_EL_UI(e), capture_scroll);
+	puts("Changed event handler to capture_scroll");
+	ui_transmit_click_event(sub_layer->sub_elems, ev);
 }
 
 t_ui_elem	*ui_get_scroll_space_sub_layer(t_ui_elem *e)
