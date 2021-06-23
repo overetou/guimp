@@ -81,7 +81,8 @@ void	ui_display_scroll_space(t_ui_elem *scroll_space)
 	//TODO: Launch the next func on every sub_elems instead of just one.
 	ui_display_elem(sub_layer->sub_elems);
 	SDL_SetRenderTarget(UI_EL_REND(sub_layer), NULL);
-	SDL_RenderCopy(UI_EL_REND(scroll_space), store->target, &(store->virtual_space), &(scroll_space->actual_dimensions));
+	SDL_RenderCopy(UI_EL_REND(scroll_space), store->target, &(store->virtual_space),
+			&(scroll_space->actual_dimensions));
 }
 
 void	capture_scroll(t_ui *ui, SDL_Event *ev)
@@ -90,13 +91,16 @@ void	capture_scroll(t_ui *ui, SDL_Event *ev)
 	{
 		case SDL_MOUSEWHEEL:
 			printf("Mouse wheeled. x = %d, y = %d\n", ev->wheel.x, ev->wheel.y);
-			ui_move_sub_layer_vision(ui->event_handling_store, ev->wheel.x, ev->wheel.y);
+			ui_move_sub_layer_vision(((t_ui_elem*)(ui->event_handling_store))->sub_elems,
+					ev->wheel.x, ev->wheel.y);
 			return;
 			break;
 		case SDL_MOUSEBUTTONDOWN:
-			if (ui_is_point_in_rect(ev->button.x, ev->button.y, &(((t_ui_elem*)(ui->event_handling_store))->actual_dimensions)))
+			if (ui_is_point_in_rect(ev->button.x, ev->button.y,
+						&(((t_ui_elem*)(ui->event_handling_store))->actual_dimensions)))
 			{
-				ui_transmit_click_event(((t_ui_elem*)(ui->event_handling_store))->sub_elems, &(ev->button));
+				ui_transmit_click_event(((t_ui_elem*)(ui->event_handling_store))->sub_elems,
+						&(ev->button));
 				return;
 			}
 			else
