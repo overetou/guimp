@@ -24,7 +24,7 @@ void	ui_display_text_space(t_ui_elem *line)
 	SDL_Color						bg = {100, 100, 100, UI_ALPHA_OPAQUE};
 	SDL_Color						fg = {210, 210, 210, UI_ALPHA_OPAQUE};
 	SDL_Rect						cursor_rect = {
-		0,
+		store->sub_rect.x,
 		ui_calculate_start_of_center(line->actual_dimensions.h, TTF_FontHeight(UI_FONT(line, store->police_font))),
 		1,
 		TTF_FontHeight(UI_FONT(line, store->police_font))
@@ -39,7 +39,7 @@ void	ui_display_text_space(t_ui_elem *line)
 	}
 	if (store->pos >= 0)
 	{
-		ui_get_text_size_with_len(UI_FONT(line, store->police_font), store->text, store->pos);
+		cursor_rect.x += ui_get_text_size_with_len(UI_FONT(line, store->police_font), store->text, store->pos);
 		ui_display_absolute_rect_relative_to_elem(line, &cursor_rect, &fg);
 	}
 }
@@ -121,15 +121,17 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 {
 	t_text_space_store	*store = line->store;
 	int									char_pos = 0;
-	int									px_pos = 0;
+	int									px_pos = store->sub_rect.x;
 	int									tmp;
 
+	printf("x to overcome = %d, initial px_pos = %d\n", x, px_pos);exit(0);
 	while (px_pos <= x)
 	{
 		TTF_GlyphMetrics(UI_FONT(line, store->police_font), store->text[char_pos], NULL, NULL, NULL, NULL, &tmp);
 		px_pos += tmp;
 		char_pos++;
 	}
+	printf("Found char pos: %d.\n", char_pos);
 	ui_text_line_input_change_cursor_pos(line, char_pos - 1);
 	refresh_win(UI_EL_WIN(line));
 }
