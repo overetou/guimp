@@ -9,6 +9,7 @@ void	ui_free_text_space_store(void *to_free)
 
 int		ui_get_text_size_with_len(TTF_Font *font, char *text, int len)
 {
+	printf("about to operate on character %d of %s.\n", len, text);
 	char	saved = text[len];
 	int		result;
 
@@ -49,10 +50,10 @@ void		ui_text_line_input_change_cursor_pos(t_ui_elem *line, int new_pos)
 	t_text_space_store	*store = line->store;
 	int									px_pos;
 	t_sub_layer_store		*sub_layer_store = line->parent->store;
-	//The goal here is to move the sublayer visible part in a relevant way.
+
 	if (new_pos >= 0)
 	{
-		px_pos = ui_get_text_size_with_len(UI_FONT(line, store->police_font), store->text, store->pos);//TODO: this is recalculated in the display func.
+		px_pos = ui_get_text_size_with_len(UI_FONT(line, store->police_font), store->text, new_pos);//TODO: this is recalculated in the display func.
 		if (px_pos < sub_layer_store->virtual_space.x || px_pos > sub_layer_store->virtual_space.x)
 			sub_layer_store->virtual_space.x = px_pos;
 	}
@@ -124,15 +125,24 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 	int									px_pos = store->sub_rect.x;
 	int									tmp;
 
-	printf("x to overcome = %d, initial px_pos = %d\n", x, px_pos);exit(0);
-	while (px_pos <= x)
+	tmp = ui_get_text_size_with_len(UI_FONT(line, store->police_font), store->text, store->text_len);
+	//printf("x to overcome = %d, initial px_pos = %d, max_len = %d\n", x, px_pos, px_pos + tmp);
+	if (x > px_pos + tmp)
+		char_pos = store->text_len;
+	else if (x <= px_pos)
+		char_pos = 0;
+	else
 	{
-		TTF_GlyphMetrics(UI_FONT(line, store->police_font), store->text[char_pos], NULL, NULL, NULL, NULL, &tmp);
-		px_pos += tmp;
-		char_pos++;
+		while (px_pos <= x)
+		{
+			TTF_GlyphMetrics(UI_FONT(line, store->police_font), store->text[char_pos], NULL, NULL, NULL, NULL, &tmp);
+			px_pos += tmp;
+			char_pos++;
+		}
+		char_pos--;
 	}
-	printf("Found char pos: %d.\n", char_pos);
-	ui_text_line_input_change_cursor_pos(line, char_pos - 1);
+	ui_text_line_input_change_cursor_pos(line, char_pos);
+	//printf("Found char pos: %d.\n", store->pos);
 	refresh_win(UI_EL_WIN(line));
 }
 
