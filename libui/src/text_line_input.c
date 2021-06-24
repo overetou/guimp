@@ -185,10 +185,12 @@ void	ui_text_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 
 t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, char *text, int x, int y, int w, int h)
 {
+	t_ui_elem			*scroll_space;
 	t_ui_elem			*new;
 	t_text_space_store	*store;
 
-	new = ui_add_elem(parent, x, y, 0, 0, 1, ui_display_text_space, UI_TRUE,
+	scroll_space = ui_create_scroll_space(parent, x, y, w, h, w, h);
+	new = ui_add_elem(scroll_space->sub_elems, x, y, 0, 0, 1, ui_display_text_space, UI_TRUE,
 	ui_free_text_space_store, ui_resolve_keep_actual_dimensions);
 	new->actual_dimensions.w = w;
 	new->actual_dimensions.h = h;
