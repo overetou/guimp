@@ -44,14 +44,6 @@ void	ui_display_text_space(t_ui_elem *line)
 	}
 }
 
-void	ui_text_line_unfocus(t_ui_elem *line)
-{
-	t_text_space_store	*store = line->store;
-	
-	store->pos = -1;
-	refresh_win(UI_EL_WIN(line));
-}
-
 void		ui_text_line_input_change_cursor_pos(t_ui_elem *line, int new_pos)
 {
 	t_text_space_store	*store = line->store;
@@ -65,6 +57,14 @@ void		ui_text_line_input_change_cursor_pos(t_ui_elem *line, int new_pos)
 			sub_layer_store->virtual_space.x = px_pos;
 	}
 	store->pos = new_pos;
+}
+
+void	ui_text_line_unfocus(t_ui_elem *line)
+{
+	t_text_space_store	*store = line->store;
+	
+	store->pos = -1;//No need to call ui_text_line_input_change_cursor_pos here.
+	refresh_win(UI_EL_WIN(line));
 }
 
 void	insert_text(t_ui_elem *line, const char *to_insert)
@@ -81,7 +81,7 @@ void	insert_text(t_ui_elem *line, const char *to_insert)
 	free(store->text);
 	store->text = new_text;
 	store->text_len = full_size;
-	store->pos += to_insert_len;
+	ui_text_line_input_change_cursor_pos(line, store->pos + to_insert_len);
 	refresh_win(UI_EL_WIN(line));
 }
 
@@ -100,7 +100,7 @@ void	remove_text(t_ui_elem *line, int count)
 	new_text[new_len] = '\0';
 	store->text = new_text;
 	store->text_len = new_len;
-	store->pos -= count;
+	ui_text_line_input_change_cursor_pos(line, store->pos - count);
 	refresh_win(UI_EL_WIN(line));
 }
 
@@ -109,11 +109,11 @@ void	line_move_cursor(t_ui_elem *line, int movement)
 	t_text_space_store	*store = line->store;
 
 	if (store->pos + movement < 0)
-		store->pos = 0;
+		ui_text_line_input_change_cursor_pos(line, 0);
 	else if (store->pos + movement > store->text_len)
-		store->pos = store->text_len;
+		ui_text_line_input_change_cursor_pos(line, store->text_len);
 	else
-		store->pos += movement;
+		ui_text_line_input_change_cursor_pos(line, store->pos + movement);
 	refresh_win(UI_EL_WIN(line));
 }
 
@@ -130,7 +130,7 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 		px_pos += tmp;
 		char_pos++;
 	}
-	store->pos = px_pos - tmp;
+	ui_text_line_input_change_cursor_pos(line, char_pos - 1);
 	refresh_win(UI_EL_WIN(line));
 }
 
