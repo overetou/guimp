@@ -1,6 +1,3 @@
-//
-// Created by osc on 22/04/2021.
-//
 #include "ui.h"
 
 void mem_copy(char *dest, const char *src, int len)
@@ -101,9 +98,4 @@ int	ui_strlen(const char *s)
 	while (s[i])
 		i++;
 	return i;
-}
-
-int	ui_calculate_start_of_center(int total_length, int length_to_center)
-{
-	return (total_length - length_to_center) / 2;
 }

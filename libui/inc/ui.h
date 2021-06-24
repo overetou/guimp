@@ -213,11 +213,12 @@ t_perma_func_block	*ui_add_perma_func(t_ui *ui, void (*func)(void*), void *store
 void								ui_remove_permafunc(t_ui *ui, t_perma_func_block *to_delete);
 void								ui_insert_str_in_str(char *to_modify, int tm_len, const char *to_insert, int ti_len, int pos);
 int									ui_strlen(const char *s);
-int									ui_calculate_start_of_center(int total_length, int length_to_center);
 
 //Int manipulation
 int	ui_get_percentage_of_int(int reference, int percentage);
 int	ui_get_subset_proportionnal_to_proportion(int actual_max, int reference_max, int reference_subset);
+int	ui_get_proportion_in_percents(int bigger_val, int lesser_val);
+int	ui_calculate_start_of_center(int total_length, int length_to_center);
 
 //security
 void	ui_sdl_critical_check(int val);

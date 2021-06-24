@@ -183,17 +183,19 @@ void	ui_text_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 	ui_text_line_put_cursor_at_new_pos_from_x(e, ev->x);
 }
 
+//w and h will be treated as percentages.
 t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, char *text, int x, int y, int w, int h)
 {
 	t_ui_elem			*scroll_space;
 	t_ui_elem			*new;
 	t_text_space_store	*store;
 
-	scroll_space = ui_create_scroll_space(parent, x, y, w, h, w, h);
-	new = ui_add_elem(scroll_space->sub_elems, x, y, 0, 0, 1, ui_display_text_space, UI_TRUE,
-	ui_free_text_space_store, ui_resolve_keep_actual_dimensions);
-	new->actual_dimensions.w = w;
-	new->actual_dimensions.h = h;
+	scroll_space = ui_create_scroll_space(parent, x, y, w, h, ui_get_percentage_of_int(parent->actual_dimensions.w, w), ui_get_percentage_of_int(parent->actual_dimensions.h, h));
+	//printf("scroll_space dims: %d, %d, %d, %d\n", scroll_space->actual_dimensions.x, scroll_space->actual_dimensions.y, scroll_space->actual_dimensions.w, scroll_space->actual_dimensions.h);
+	//printf("sub_layer dims: %d, %d, %d, %d\n", scroll_space->sub_elems->actual_dimensions.x, scroll_space->sub_elems->actual_dimensions.y, scroll_space->sub_elems->actual_dimensions.w, scroll_space->sub_elems->actual_dimensions.h);
+	new = ui_add_elem(scroll_space->sub_elems, 0, 0, 100, 100, 1, ui_display_text_space, UI_TRUE,
+	ui_free_text_space_store, ui_resolve_as_percentages);
+	//printf("text_line dims: %d, %d, %d, %d\n", new->actual_dimensions.x, new->actual_dimensions.y, new->actual_dimensions.w, new->actual_dimensions.h);
 	new->store = ui_secure_malloc(sizeof(t_text_space_store));
 	store = new->store;
 	store->text = text;
@@ -201,14 +203,15 @@ t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, char *text, int x, int y
 	store->pos = -1;
 	store->police_font = 0;
 	store->sub_rect.x = ui_get_percentage_of_int(new->actual_dimensions.w, 10);
-	store->sub_rect.y = ui_get_percentage_of_int(new->actual_dimensions.h, 10);
+	store->sub_rect.y = ui_get_percentage_of_int(new->actual_dimensions.h, 3);
 	store->sub_rect.w = ui_get_percentage_of_int(new->actual_dimensions.w, 80);
-	store->sub_rect.h = ui_get_percentage_of_int(new->actual_dimensions.h, 80);
+	store->sub_rect.h = ui_get_percentage_of_int(new->actual_dimensions.h, 90);
+	//printf("sub rect dims: %d, %d, %d, %d\n", store->sub_rect.x, store->sub_rect.y, store->sub_rect.w, store->sub_rect.h);exit(0);
 	store->sensible_zone.x = 0;
 	store->sensible_zone.y = 0;
-	new->sensible_zones_actual_dimensions.w = w;
-	new->sensible_zones_actual_dimensions.h = h;
+	store->sensible_zone.w = 100;
+	store->sensible_zone.h = 100;
 	ui_add_clickable_zones(new, &(store->sensible_zone), ui_text_space_clicked, 1,
-	ui_resolve_clickable_zone_keep_actual_dimensions);
+	ui_resolve_clickable_zone_as_percentage);
 	return new;
 }

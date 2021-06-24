@@ -23,14 +23,14 @@ void	ui_transmit_click_event(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 	{
 		if (e->sensible)
 		{
-			if (e->has_sub_clicks && ui_is_point_in_rect(ev->x, ev->y, &(e->actual_dimensions)))
-				e = e->sub_elems;
-			else if (e->click_func && ui_is_point_in_rect(ev->x, ev->y,
+			if (e->click_func && ui_is_point_in_rect(ev->x, ev->y,
 						&(e->sensible_zones_actual_dimensions)))
 			{
 				e->click_func(e, ev);
 				break;
 			}
+			if (e->has_sub_clicks && ui_is_point_in_rect(ev->x, ev->y, &(e->actual_dimensions)))
+				e = e->sub_elems;
 			else
 				e = e->next;
 		}

@@ -25,7 +25,7 @@ int main(void)
 	
 	char	*text = ui_secure_malloc(3);
 	mem_copy(text, "yo\0", 3);
-	ui_create_text_line_input(win->content, text, 10, 10, 200, 25);
+	ui_create_text_line_input(win->content, text, 10, 10, 10, 2);
 	ui_create_slider(win->content, 10, 20, 40, 50, 100);
 	ui_create_img_display(win->content, 10, 30, 161, 201, "assets/img.jpg");
 	t_ui_elem *scroll_space = ui_create_scroll_space(win->content, 40, 30, 40, 40,

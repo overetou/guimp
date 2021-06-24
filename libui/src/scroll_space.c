@@ -53,6 +53,8 @@ void			ui_add_sub_layer(t_ui_elem *parent, int w, int h)
 	new->win = parent->win;
 	new->display_priority = 0;
 	new->sensible = UI_TRUE;
+	new->has_sub_clicks = UI_FALSE;
+	new->has_sub_hovers = UI_FALSE;
 	new->nb_sensible_zones = 1;
 	new->sub_elems = NULL;
 	incorporate_sub_elem(&(parent->sub_elems), new);
