@@ -9,7 +9,6 @@ void	ui_free_text_space_store(void *to_free)
 
 int		ui_get_text_size_with_len(TTF_Font *font, char *text, int len)
 {
-	printf("about to operate on character %d of %s.\n", len, text);
 	char	saved = text[len];
 	int		result;
 
@@ -53,8 +52,8 @@ void		ui_text_line_input_change_cursor_pos(t_ui_elem *line, int new_pos)
 
 	if (new_pos >= 0)
 	{
-		px_pos = ui_get_text_size_with_len(UI_FONT(line, store->police_font), store->text, new_pos);//TODO: this is recalculated in the display func.
-		if (px_pos < sub_layer_store->virtual_space.x || px_pos > sub_layer_store->virtual_space.x)
+		px_pos = ui_get_text_size_with_len(UI_FONT(line, store->police_font), store->text, new_pos) + store->sub_rect.x;//TODO: this is recalculated in the display func.
+		if (px_pos < sub_layer_store->virtual_space.x || px_pos > sub_layer_store->virtual_space.x + sub_layer_store->virtual_space.w)
 			sub_layer_store->virtual_space.x = px_pos;
 	}
 	store->pos = new_pos;
