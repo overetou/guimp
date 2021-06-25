@@ -165,6 +165,23 @@ t_ui_elem	*ui_get_scroll_space_sub_layer(t_ui_elem *e)
 	return e->sub_elems;
 }
 
+void			ui_redimension_scroll_space(t_ui_elem *e)
+{
+	t_sub_layer_store	*sub_layer_store = e->sub_elems->store;
+
+	ui_resolve_as_percentages(e);
+	sub_layer_store->virtual_space.w = e->actual_dimensions.w;
+	sub_layer_store->virtual_space.h = e->actual_dimensions.h;
+	if (sub_layer_store->virtual_space.x + sub_layer_store->virtual_space.w > 
+			e->sub_elems->actual_dimensions.w)
+		sub_layer_store->virtual_space.x = e->sub_elems->actual_dimensions.w -
+			sub_layer_store->virtual_space.w;
+	if (sub_layer_store->virtual_space.y + sub_layer_store->virtual_space.h > 
+			e->sub_elems->actual_dimensions.h)
+		sub_layer_store->virtual_space.y = e->sub_elems->actual_dimensions.h -
+			sub_layer_store->virtual_space.h;
+}
+
 //Do not use this elem as a parent. Use his sub_elem instead. ex: scrollpace->sub_elems
 //To retrieve the childrens of scroll space, use ui_scroll_space_get_sub_elems.
 t_ui_elem	*ui_create_scroll_space(t_ui_elem *parent, int x, int y, int visible_w,

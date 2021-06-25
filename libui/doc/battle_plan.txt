@@ -228,12 +228,12 @@ LA SUITE:
 		OK-On verifie que vision_space.x + vision_space.w < virtual_space.w. Si ce n'est pas le cas, vision_space.x = virtual_space.w - vision_space.w.
 		OK-On alloue la texture du virtual_space avec les nouvelles dimensions.
 	OK-Note pour scroll space: on definie une fonction de resolution de dimension custom pour le sub_layer qui se comporte comme mentionne au dessus.
-	-Dans text line, a chaque fois qu'on insere du texte,
-		-on modifie la width de line->actual_dimensions avec la longueur du nouveau texte
-		-on demande une redimension de sublayer (juste de cet element.)
-		-on appelle le refresh.
+	OK-Dans text line, a chaque fois qu'on insere du texte,
+		OK-on modifie la width de line->actual_dimensions avec la longueur du nouveau texte
+		OK-on demande une redimension de sublayer (juste de cet element.)
+		OK-on appelle le refresh.
 
--Lorsque scroll_space (pas sub_layer) est redimensionne, il faudra mettre a jour les les dimensions de virtual space (et tenir compte de cette nouvelle surface sur les x et y de vision)
+OK-Lorsque scroll_space (pas sub_layer) est redimensionne, il faudra mettre a jour les les dimensions de virtual space (et tenir compte de cette nouvelle surface sur les x et y de vision)
 -regarder tout les endroits ou SDL_QUIT est refere. La plus part du temps il n'est peut-etre pas necessaire.
 -Regarder ce TODO dans elems qui ne fait rien quand on demande qu'un element a priorite nulle soit incorpore.
 -Faire les flèches pour text_line.
