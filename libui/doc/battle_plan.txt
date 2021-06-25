@@ -221,8 +221,8 @@ LA SUITE:
 	OK-Cette fonction sera appelee a chaque fois que l'on souhaite modifier pos, excepte a l'initialisation du texte. et lorsqu'on souhaite mettre a -1.
 	OK-De plus la fonction change_pos_from x devra aussi acceder aux donnees du sublayer.
 	OK-Problem: la valeur de clic est mal retransmie (normal, on a pas initialise de scroll space!!)
-	-We can see a problem there. Why is the display so distorted?
-	-We must update the dimensions (w and h) of the sublayer when the text image exceeds the dimensions of the sub_rect.
+	-Insertion de texte: lorsque la taille du texte excede la taille (w) de text line (subrect.x + subrect.w):
+		-
 
 -regarder tout les endroits ou SDL_QUIT est refere. La plus part du temps il n'est peut-etre pas necessaire.
 -Regarder ce TODO dans elems qui ne fait rien quand on demande qu'un element a priorite nulle soit incorpore.

@@ -24,7 +24,7 @@ void	ui_display_text_space(t_ui_elem *line)
 	SDL_Color						bg = {100, 100, 100, UI_ALPHA_OPAQUE};
 	SDL_Color						fg = {210, 210, 210, UI_ALPHA_OPAQUE};
 	SDL_Rect						cursor_rect = {
-		store->sub_rect.x,
+		0,
 		ui_calculate_start_of_center(line->actual_dimensions.h, TTF_FontHeight(UI_FONT(line, store->police_font))),
 		1,
 		TTF_FontHeight(UI_FONT(line, store->police_font))
@@ -34,12 +34,12 @@ void	ui_display_text_space(t_ui_elem *line)
 	if (store->text_len > 0)
 	{
 		store->text_img = ui_text_to_texture(store->text, store->police_font, &fg, &bg, line);
-		ui_display_img_at_absolute_pos(line, store->text_img, store->sub_rect.x, store->sub_rect.y);
+		ui_display_img_at_absolute_pos(line, store->text_img, 0, 0);
 		SDL_DestroyTexture(store->text_img);//TODO: This image could be kept and only replaced when the text itself is modified.
 	}
 	if (store->pos >= 0)
 	{
-		cursor_rect.x += ui_get_text_size_with_len(UI_FONT(line, store->police_font), store->text, store->pos);
+		cursor_rect.x = ui_get_text_size_with_len(UI_FONT(line, store->police_font), store->text, store->pos);
 		ui_display_absolute_rect_relative_to_elem(line, &cursor_rect, &fg);
 	}
 }
@@ -50,11 +50,16 @@ void		ui_text_line_input_change_cursor_pos(t_ui_elem *line, int new_pos)
 	int									px_pos;
 	t_sub_layer_store		*sub_layer_store = line->parent->store;
 
+	printf("virtual_space = %d, %d, %d, %d\n", sub_layer_store->virtual_space.x, sub_layer_store->virtual_space.y, sub_layer_store->virtual_space.w, sub_layer_store->virtual_space.h);
 	if (new_pos >= 0)
 	{
-		px_pos = ui_get_text_size_with_len(UI_FONT(line, store->police_font), store->text, new_pos) + store->sub_rect.x;//TODO: this is recalculated in the display func.
-		if (px_pos < sub_layer_store->virtual_space.x || px_pos > sub_layer_store->virtual_space.x + sub_layer_store->virtual_space.w)
+		px_pos = ui_get_text_size_with_len(UI_FONT(line, store->police_font), store->text, new_pos);//TODO: this is recalculated in the display func.
+		if (px_pos < sub_layer_store->virtual_space.x)
 			sub_layer_store->virtual_space.x = px_pos;
+		else if (px_pos > sub_layer_store->virtual_space.x + sub_layer_store->virtual_space.w)
+		{
+			sub_layer_store->virtual_space.x = px_pos - sub_layer_store->virtual_space.w;
+		}
 	}
 	store->pos = new_pos;
 }
@@ -121,7 +126,7 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 {
 	t_text_space_store	*store = line->store;
 	int									char_pos = 0;
-	int									px_pos = store->sub_rect.x;
+	int									px_pos = 0;
 	int									tmp;
 
 	tmp = ui_get_text_size_with_len(UI_FONT(line, store->police_font), store->text, store->text_len);
@@ -211,11 +216,6 @@ t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, char *text, int x, int y
 	store->text_len = ui_strlen(text);
 	store->pos = -1;
 	store->police_font = 0;
-	store->sub_rect.x = ui_get_percentage_of_int(new->actual_dimensions.w, 10);
-	store->sub_rect.y = ui_get_percentage_of_int(new->actual_dimensions.h, 3);
-	store->sub_rect.w = ui_get_percentage_of_int(new->actual_dimensions.w, 80);
-	store->sub_rect.h = ui_get_percentage_of_int(new->actual_dimensions.h, 90);
-	//printf("sub rect dims: %d, %d, %d, %d\n", store->sub_rect.x, store->sub_rect.y, store->sub_rect.w, store->sub_rect.h);exit(0);
 	store->sensible_zone.x = 0;
 	store->sensible_zone.y = 0;
 	store->sensible_zone.w = 100;
