@@ -87,6 +87,12 @@ void	insert_text(t_ui_elem *line, const char *to_insert)
 	store->text = new_text;
 	store->text_len = full_size;
 	ui_text_line_input_change_cursor_pos(line, store->pos + to_insert_len);
+	to_insert_len = ui_get_text_size_with_len(UI_FONT(line, store->police_font);
+	if (to_insert_len, store->text, store->text_len) > line->actual_dimensions.w)
+	{
+		line->actual_dimensions.w = to_insert_len;
+		line->parent->elem_dimensions_resolution_func(line->parent);
+	}
 	refresh_win(UI_EL_WIN(line));
 }
 
