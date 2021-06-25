@@ -131,3 +131,18 @@ void ui_display_elem(t_ui_elem *e)
 		e = e->next;
 	}
 }
+
+void	ui_redimension_elem_and_its_content(t_ui_elem *e)
+{
+	t_ui_elem	*sub_elems = e->sub_elems;
+
+	if (e->display_priority)
+	{
+		e->elem_dimensions_resolution_func(e);
+		while (sub_elems)
+		{
+			sub_elems->redimension_elem_and_its_content(sub_elems);
+			sub_elems = sub_elems->next;
+		}
+	}
+}

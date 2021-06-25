@@ -221,8 +221,18 @@ LA SUITE:
 	OK-Cette fonction sera appelee a chaque fois que l'on souhaite modifier pos, excepte a l'initialisation du texte. et lorsqu'on souhaite mettre a -1.
 	OK-De plus la fonction change_pos_from x devra aussi acceder aux donnees du sublayer.
 	OK-Problem: la valeur de clic est mal retransmie (normal, on a pas initialise de scroll space!!)
-	-Insertion de texte: lorsque la taille du texte excede la taille (w) de text line (subrect.x + subrect.w):
-		-
+	-Dans sub_layer, a chaque fois que la redimension de l'element est demandee
+		OK-on verifie que la nouvelle dimension est != a celle de l'espace de vision
+			OK-Si oui on adopte la nouvelle dimension.
+			OK-Si non on adopte la dimension de l'espace de vision.
+		OK-On verifie que vision_space.x + vision_space.w < virtual_space.w. Si ce n'est pas le cas, vision_space.x = virtual_space.w - vision_space.w.
+		OK-On alloue la texture du virtual_space avec les nouvelles dimensions.
+	-Note pour scroll space: on definie une fonction de resolution de dimension custom pour le sub_layer qui se comporte comme mentionne au dessus.
+	-Lorsque scroll_space (pas sub_layer) est redimensionne, il faudra mettre a jour les les dimensions de virtual space (et tenir compte de cette nouvelle surface sur les x et y de vision)
+	-Dans text line, a chaque fois qu'on insere du texte,
+		-on modifie la width de line->actual_dimensions avec la longueur du nouveau texte
+		-on demande une redimension de sublayer (juste de cet element.)
+		-on appelle le refresh.
 
 -regarder tout les endroits ou SDL_QUIT est refere. La plus part du temps il n'est peut-etre pas necessaire.
 -Regarder ce TODO dans elems qui ne fait rien quand on demande qu'un element a priorite nulle soit incorpore.

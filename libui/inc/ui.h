@@ -265,6 +265,7 @@ ui_add_elem(t_ui_elem *parent, int x, int y, int w,
 void		ui_display_elem(t_ui_elem *e);
 void		ui_paint_elem(t_ui_elem *e, int r, int g, int b, int a);
 void		incorporate_sub_elem(t_ui_elem **list, t_ui_elem *to_incorporate);
+void		ui_redimension_elem_and_its_content(t_ui_elem *e);
 
 //blocking
 void	ui_free_wincontent_store(void *to_free);

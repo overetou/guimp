@@ -34,14 +34,28 @@ void			ui_resolve_sublayer_dimensions(t_ui_elem *sub_layer)
 	t_ui_elem					*child = sub_layer->sub_elems;
 	t_sub_layer_store	*store = sub_layer->store;
 
-	SDL_DestroyTexture(store->target);
-	store->target = SDL_CreateTexture(UI_EL_REND(sub_layer),
-			UI_EL_UI(sub_layer)->default_pixel_format, SDL_TEXTUREACCESS_TARGET,
-			child->actual_dimensions.w, child->actual_dimensions.h);
-	//TODO (bonus): find the most extreme dimensions + placement of each children and
-	//resize the sub_layer accordingly
-	sub_layer->actual_dimensions.w = child->actual_dimensions.w;
-	sub_layer->actual_dimensions.h = child->actual_dimensions.h;
+	if (sub_layer->actual_dimensions.w != child->actual_dimensions.w ||
+			sub_layer->actual_dimensions.h != child->actual_dimensions.h)
+	{
+		if (child->actual_dimensions.w < store->virtual_space.w)
+			sub_layer->actual_dimensions.w = store->virtual_space.w;
+		else
+			sub_layer->actual_dimensions.w = child->actual_dimensions.w;
+		if (child->actual_dimensions.h < store->virtual_space.h)
+			sub_layer->actual_dimensions.h = store->virtual_space.h;
+		else
+			sub_layer->actual_dimensions.h = child->actual_dimensions.h;
+		SDL_DestroyTexture(store->target);
+		store->target = SDL_CreateTexture(UI_EL_REND(sub_layer),
+				UI_EL_UI(sub_layer)->default_pixel_format, SDL_TEXTUREACCESS_TARGET,
+				sub_layer->actual_dimensions.w, sub_layer->actual_dimensions.h);
+		//TODO (bonus): find the most extreme dimensions + placement of each children and
+		//resize the sub_layer accordingly
+		if (store->virtual_space.x + store->virtual_space.w > sub_layer->actual_dimensions.w)
+			store->virtual_space.x = sub_layer->actual_dimensions.w - store->virtual_space.w;
+		if (store->virtual_space.y + store->virtual_space.h > sub_layer->actual_dimensions.h)
+			store->virtual_space.y = sub_layer->actual_dimensions.h - store->virtual_space.h;
+	}
 }
 
 void			ui_add_sub_layer(t_ui_elem *parent, int w, int h)

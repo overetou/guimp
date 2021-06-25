@@ -50,7 +50,7 @@ void		ui_text_line_input_change_cursor_pos(t_ui_elem *line, int new_pos)
 	int									px_pos;
 	t_sub_layer_store		*sub_layer_store = line->parent->store;
 
-	printf("virtual_space = %d, %d, %d, %d\n", sub_layer_store->virtual_space.x, sub_layer_store->virtual_space.y, sub_layer_store->virtual_space.w, sub_layer_store->virtual_space.h);
+	//printf("virtual_space = %d, %d, %d, %d\n", sub_layer_store->virtual_space.x, sub_layer_store->virtual_space.y, sub_layer_store->virtual_space.w, sub_layer_store->virtual_space.h);
 	if (new_pos >= 0)
 	{
 		px_pos = ui_get_text_size_with_len(UI_FONT(line, store->police_font), store->text, new_pos);//TODO: this is recalculated in the display func.
@@ -133,8 +133,6 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 	//printf("x to overcome = %d, initial px_pos = %d, max_len = %d\n", x, px_pos, px_pos + tmp);
 	if (x > px_pos + tmp)
 		char_pos = store->text_len;
-	else if (x <= px_pos)
-		char_pos = 0;
 	else
 	{
 		while (px_pos <= x)
