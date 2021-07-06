@@ -234,7 +234,9 @@ LA SUITE:
 		OK-on appelle le refresh.
 
 OK-Lorsque scroll_space (pas sub_layer) est redimensionne, il faudra mettre a jour les les dimensions de virtual space (et tenir compte de cette nouvelle surface sur les x et y de vision)
+-Investiguer cette histoire de curseur non affiche a la fin du text input.
+-rendre le systeme d'interception d'evenement potentiellemnt cumulatif.
 -regarder tout les endroits ou SDL_QUIT est refere. La plus part du temps il n'est peut-etre pas necessaire.
 -Regarder ce TODO dans elems qui ne fait rien quand on demande qu'un element a priorite nulle soit incorpore.
--Faire les flèches pour text_line.
+OK-Faire les flèches pour text_line.
 
