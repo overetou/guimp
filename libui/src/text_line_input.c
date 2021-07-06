@@ -75,9 +75,9 @@ void	ui_text_line_unfocus(t_ui_elem *line)
 void	insert_text(t_ui_elem *line, const char *to_insert)
 {
 	t_text_space_store	*store = line->store;
-	int									to_insert_len = ui_strlen(to_insert);
-	int									full_size = store->text_len + to_insert_len;
-	char								*new_text = ui_secure_malloc(full_size + 1);
+	int					to_insert_len = ui_strlen(to_insert);
+	int					full_size = store->text_len + to_insert_len;
+	char				*new_text = ui_secure_malloc(full_size + 1);
 
 	mem_copy(new_text, store->text, store->pos);
 	mem_copy(new_text + store->pos, to_insert, to_insert_len);
@@ -87,8 +87,9 @@ void	insert_text(t_ui_elem *line, const char *to_insert)
 	store->text = new_text;
 	store->text_len = full_size;
 	ui_text_line_input_change_cursor_pos(line, store->pos + to_insert_len);
-	to_insert_len = ui_get_text_size_with_len(UI_FONT(line, store->police_font);
-	if (to_insert_len, store->text, store->text_len) > line->actual_dimensions.w)
+	to_insert_len = ui_get_text_size_with_len(UI_FONT(line, store->police_font), new_text, full_size);
+	//from here on to_insert_len represents a width.
+	if (to_insert_len > line->actual_dimensions.w)
 	{
 		line->actual_dimensions.w = to_insert_len;
 		line->parent->elem_dimensions_resolution_func(line->parent);

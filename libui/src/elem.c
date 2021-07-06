@@ -141,7 +141,7 @@ void	ui_redimension_elem_and_its_content(t_ui_elem *e)
 		e->elem_dimensions_resolution_func(e);
 		while (sub_elems)
 		{
-			sub_elems->redimension_elem_and_its_content(sub_elems);
+			ui_redimension_elem_and_its_content(sub_elems);
 			sub_elems = sub_elems->next;
 		}
 	}
