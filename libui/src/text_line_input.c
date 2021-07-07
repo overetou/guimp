@@ -21,9 +21,9 @@ int		ui_get_text_size_with_len(TTF_Font *font, char *text, int len)
 void	ui_display_text_space(t_ui_elem *line)
 {
 	t_text_space_store	*store = line->store;
-	SDL_Color						bg = {100, 100, 100, UI_ALPHA_OPAQUE};
-	SDL_Color						fg = {210, 210, 210, UI_ALPHA_OPAQUE};
-	SDL_Rect						cursor_rect = {
+	SDL_Color			bg = {100, 100, 100, UI_ALPHA_OPAQUE};
+	SDL_Color			fg = {210, 210, 210, UI_ALPHA_OPAQUE};
+	SDL_Rect			cursor_rect = {
 		0,
 		ui_calculate_start_of_center(line->actual_dimensions.h, TTF_FontHeight(UI_FONT(line, store->police_font))),
 		1,
@@ -47,8 +47,8 @@ void	ui_display_text_space(t_ui_elem *line)
 void		ui_text_line_input_change_cursor_pos(t_ui_elem *line, int new_pos)
 {
 	t_text_space_store	*store = line->store;
-	int									px_pos;
-	t_sub_layer_store		*sub_layer_store = line->parent->store;
+	int					px_pos;
+	t_sub_layer_store	*sub_layer_store = line->parent->store;
 
 	//printf("virtual_space = %d, %d, %d, %d\n", sub_layer_store->virtual_space.x, sub_layer_store->virtual_space.y, sub_layer_store->virtual_space.w, sub_layer_store->virtual_space.h);
 	if (new_pos >= 0)
@@ -56,9 +56,9 @@ void		ui_text_line_input_change_cursor_pos(t_ui_elem *line, int new_pos)
 		px_pos = ui_get_text_size_with_len(UI_FONT(line, store->police_font), store->text, new_pos);//TODO: this is recalculated in the display func.
 		if (px_pos < sub_layer_store->virtual_space.x)
 			sub_layer_store->virtual_space.x = px_pos;
-		else if (px_pos > sub_layer_store->virtual_space.x + sub_layer_store->virtual_space.w)
+		else if (px_pos >= sub_layer_store->virtual_space.x + sub_layer_store->virtual_space.w)
 		{
-			sub_layer_store->virtual_space.x = px_pos - sub_layer_store->virtual_space.w;
+			sub_layer_store->virtual_space.x = px_pos - sub_layer_store->virtual_space.w + 1;
 		}
 	}
 	store->pos = new_pos;
@@ -91,7 +91,7 @@ void	insert_text(t_ui_elem *line, const char *to_insert)
 	//from here on to_insert_len represents a width.
 	if (to_insert_len > line->actual_dimensions.w)
 	{
-		line->actual_dimensions.w = to_insert_len;
+		line->actual_dimensions.w = to_insert_len + 1;
 		line->parent->elem_dimensions_resolution_func(line->parent);
 	}
 	refresh_win(UI_EL_WIN(line));
@@ -210,7 +210,7 @@ t_ui_elem	*ui_create_text_line_input(t_ui_elem *parent, char *text, int x, int y
 	t_text_space_store	*store;
 
 	scroll_space = ui_create_scroll_space(parent, x, y, w, h, ui_get_percentage_of_int(parent->actual_dimensions.w, w), ui_get_percentage_of_int(parent->actual_dimensions.h, h));
-	//printf("scroll_space dims: %d, %d, %d, %d\n", scroll_space->actual_dimensions.x, scroll_space->actual_dimensions.y, scroll_space->actual_dimensions.w, scroll_space->actual_dimensions.h);
+	printf("scroll_space dims: %d, %d, %d, %d\n", scroll_space->actual_dimensions.x, scroll_space->actual_dimensions.y, scroll_space->actual_dimensions.w, scroll_space->actual_dimensions.h);
 	//printf("sub_layer dims: %d, %d, %d, %d\n", scroll_space->sub_elems->actual_dimensions.x, scroll_space->sub_elems->actual_dimensions.y, scroll_space->sub_elems->actual_dimensions.w, scroll_space->sub_elems->actual_dimensions.h);
 	new = ui_add_elem(scroll_space->sub_elems, 0, 0, 100, 100, 1, ui_display_text_space, UI_TRUE,
 	ui_free_text_space_store, ui_resolve_as_percentages);
