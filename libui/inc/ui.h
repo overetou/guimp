@@ -71,54 +71,62 @@ typedef struct	s_link
 	struct s_link	*prev;
 }				t_link;
 
-typedef struct	s_ui_elem
+typedef struct			s_ui_elem
 {
 	struct s_ui_elem	*next;
 	struct s_ui_elem	*prev;
-	SDL_Rect					relative_dimensions;
-	void							(*elem_dimensions_resolution_func)(struct s_ui_elem*);
-	SDL_Rect					actual_dimensions;
-	char							display_priority;
-	void							(*display_func)(struct s_ui_elem*);
-	void							*store;
-	void							(*free_store_func)(void*);
-	t_ui_bool					sensible;
-	SDL_Rect					*sensible_zones_relative_dimensions;
-	void							(*sensible_zones_resolution_func)(struct s_ui_elem*);
-	SDL_Rect					sensible_zones_actual_dimensions;
-	short							nb_sensible_zones;
-	t_ui_bool					has_sub_hovers;
-	void							(*hover_func)(struct s_ui_elem*);
-	t_ui_bool					has_sub_clicks;
-	void							(*click_func)(struct s_ui_elem*, SDL_MouseButtonEvent*);
+	SDL_Rect			relative_dimensions;
+	void				(*elem_dimensions_resolution_func)(struct s_ui_elem*);
+	SDL_Rect			actual_dimensions;
+	char				display_priority;
+	void				(*display_func)(struct s_ui_elem*);
+	void				*store;
+	void				(*free_store_func)(void*);
+	t_ui_bool			sensible;
+	SDL_Rect			*sensible_zones_relative_dimensions;
+	void				(*sensible_zones_resolution_func)(struct s_ui_elem*);
+	SDL_Rect			sensible_zones_actual_dimensions;
+	short				nb_sensible_zones;
+	t_ui_bool			has_sub_hovers;
+	void				(*hover_func)(struct s_ui_elem*);
+	t_ui_bool			has_sub_clicks;
+	void				(*click_func)(struct s_ui_elem*, SDL_MouseButtonEvent*);
 	struct s_ui_elem	*sub_elems;
 	struct s_ui_elem	*parent;
-	void							*win;
-}				t_ui_elem;
+	void				*win;
+}						t_ui_elem;
 
-typedef struct	s_ui_win
+typedef struct						s_ui_side_event_block
+{
+	struct s_ui_side_event_block	*next;
+	void							(*event_handler_func)(void*, SDL_Event*);
+	void							*store;
+}									t_ui_side_event_block;
+
+typedef struct				s_ui_win
 {
 	/*Let those as the 2 first members, in the same order, or problems there
 	will be!*/
-	struct s_ui_win	*next;//The next window in line.
-	struct s_ui_win	*prev;/*Previous window.
+	struct s_ui_win			*next;//The next window in line.
+	struct s_ui_win			*prev;/*Previous window.
 	other content.*/
-	void			*ui;/*Points back to its owning ui. Use this to modify
+	void					*ui;/*Points back to its owning ui. Use this to modify
 	keep_going or access your fonts. Note that elems have a win pointer.*/
-	SDL_Window		*sdl_ptr;
-	SDL_Renderer	*rend;
-	int				width;//Not percentages but the real value in pixels.
-	int				height;
-	t_ui_elem		*content;/*The root elem of the window. Should be used to
+	SDL_Window				*sdl_ptr;
+	SDL_Renderer			*rend;
+	int						width;//Not percentages but the real value in pixels.
+	int						height;
+	t_ui_elem				*content;/*The root elem of the window. Should be used to
 	set the background color/ image.*/
-}				t_ui_win;
+	t_ui_side_event_block	*side_events;//A list of secondary event interception funcs.
+}							t_ui_win;
 
-typedef struct	s_permanent_func_block
+typedef struct						s_permanent_func_block
 {
-	void													(*func)(void* store);
-	void													*store;//note: you can use it as an int with a cast.
+	void							(*func)(void* store);
+	void							*store;//note: you can use it as an int with a cast.
 	struct s_permanent_func_block	*next;
-}								t_perma_func_block;
+}									t_perma_func_block;
 
 typedef struct			s_ui
 {

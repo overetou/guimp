@@ -237,14 +237,17 @@ OK-Lorsque scroll_space (pas sub_layer) est redimensionne, il faudra mettre a jo
 OK-Faire les flèches pour text_line.
 OK-Investiguer cette histoire de curseur non affiche a la fin du text input.
 -rendre le systeme d'interception d'evenement potentiellemnt cumulatif.
-	-Creer une liste de maillons (dans la structure t_win) comprenant: une event_handler_func et un store. -> liste imperative.
-	-creer une fonction pour ajouter des maillons a cette liste.
-	-creer une fonction pour ajouter des maillons a fonction exclusive.
+	OK-Creer une liste de maillons (dans la structure t_win) comprenant: une event_handler_func et un store. -> liste imperative.
+	OK-creer une fonction pour ajouter des maillons a cette liste.
+	OK-creer une fonction pour ajouter des maillons a fonction exclusive.
+	-creer une fonction de surpression d'element de la liste
 	-dans les interceptions d'evenement, ajouter une passage de l'evenement par chacun de la liste imperative.
 	-Lors de la liberation d'une fenetre, liberer l'ensemble de sa liste imperative.
+		-note: regarder precisement quels sont les besoins en terme de store pour les side events funcs. (et adapter la liberation
+		des store en fonction dans side_events.c et partout ailleurs ou on les free)
 -Refaire les fonctions d'interception d'evenements en separant bien tout ce qui est pertinent de l'etre.
--Dans la fonction d'interception de la croix sur une fenetre, liberer la fenetre courante (et mettre sa liste a jour) et, si il n'y en a pas d'autre,
-quitter l'application
+-Dans la fonction d'interception de la croix sur une fenetre, liberer la fenetre courante (et mettre sa liste a jour) et,
+si il n'y en a pas d'autre, quitter l'application.
 -Regarder ce TODO dans elems qui ne fait rien quand on demande qu'un element a priorite nulle soit incorpore.
 
 Systeme d'interception d'evenement cumulatifs:
