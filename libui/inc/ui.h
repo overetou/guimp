@@ -120,19 +120,19 @@ typedef struct	s_permanent_func_block
 	struct s_permanent_func_block	*next;
 }								t_perma_func_block;
 
-typedef struct				s_ui
+typedef struct			s_ui
 {
-	t_ui_win						*wins; //This list stores all the windows you added to the ui.
-	t_ui_elem						*focused;//TODO: Keep track of the currently focused element.
-	t_ui_bool						keep_going;/*Goes to true when ui_handle_events is called.
+	t_ui_win			*wins; //This list stores all the windows you added to the ui.
+	t_ui_elem			*focused;//TODO: Keep track of the currently focused element.
+	t_ui_bool			keep_going;/*Goes to true when ui_handle_events is called.
 	Set it to false to make the loop stop.*/
-	TTF_Font						*fonts[FONT_NB];//A tab to store your font pointers.
-	Uint32							default_pixel_format;
-	void								(*event_handler_func)(struct s_ui*, SDL_Event*);
-	void								*event_handling_store;
+	TTF_Font			*fonts[FONT_NB];//A tab to store your font pointers.
+	Uint32				default_pixel_format;
+	void				(*event_handler_func)(struct s_ui*, SDL_Event*);
+	void				*event_handling_store;
 	t_perma_func_block	*perma_funcs;
-	void								(*render_copy_func)(void*);
-}				t_ui;
+	void				(*render_copy_func)(void*);
+}						t_ui;
 
 typedef struct	s_ui_wincontent_store
 {
@@ -208,7 +208,7 @@ void								init_list(t_link **list, t_link *new_link);
 void								list_add_link_at_start(t_link **list, t_link *new_link);
 void								list_add_link_at_end(t_link *last_link, t_link *new_link);
 void								list_add_link_in_the_middle(t_link *next_link_to_be, t_link *new_link);
-t_perma_func_block	*ui_add_perma_func(t_ui *ui, void (*func)(void*), void *store);
+t_perma_func_block					*ui_add_perma_func(t_ui *ui, void (*func)(void*), void *store);
 void								ui_remove_permafunc(t_ui *ui, t_perma_func_block *to_delete);
 void								ui_insert_str_in_str(char *to_modify, int tm_len, const char *to_insert, int ti_len, int pos);
 int									ui_strlen(const char *s);

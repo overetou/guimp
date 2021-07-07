@@ -234,9 +234,30 @@ LA SUITE:
 		OK-on appelle le refresh.
 
 OK-Lorsque scroll_space (pas sub_layer) est redimensionne, il faudra mettre a jour les les dimensions de virtual space (et tenir compte de cette nouvelle surface sur les x et y de vision)
+OK-Faire les flèches pour text_line.
 OK-Investiguer cette histoire de curseur non affiche a la fin du text input.
 -rendre le systeme d'interception d'evenement potentiellemnt cumulatif.
--regarder tout les endroits ou SDL_QUIT est refere. La plus part du temps il n'est peut-etre pas necessaire.
+	-Creer une liste de maillons (dans la structure t_win) comprenant: une event_handler_func et un store. -> liste imperative.
+	-creer une fonction pour ajouter des maillons a cette liste.
+	-creer une fonction pour ajouter des maillons a fonction exclusive.
+	-dans les interceptions d'evenement, ajouter une passage de l'evenement par chacun de la liste imperative.
+	-Lors de la liberation d'une fenetre, liberer l'ensemble de sa liste imperative.
+-Refaire les fonctions d'interception d'evenements en separant bien tout ce qui est pertinent de l'etre.
+-Dans la fonction d'interception de la croix sur une fenetre, liberer la fenetre courante (et mettre sa liste a jour) et, si il n'y en a pas d'autre,
+quitter l'application
 -Regarder ce TODO dans elems qui ne fait rien quand on demande qu'un element a priorite nulle soit incorpore.
-OK-Faire les flèches pour text_line.
+
+Systeme d'interception d'evenement cumulatifs:
+Il suffit d'avoir une liste de fonction d'interception imperative (laissee par des elements qui gardent la trace de leur pointeur
+(mais ne les supprime pas en fin d'execution, seulement en cours si il y a besoin))
+et une fonction d'interception courante.
+Probleme: que ce passe-t-il si on a un scrollspace dans un scrollspace ? Dans ce cas si on ajoute une fonction imperative a chaque
+fois, lorsqu on fera une fleche on se deplacera dans les deux scrollspace alors que le comportement attendu serait de bouger
+uniquement dans le deuxieme scrollspace.
+Solution un peu bourrine: si on trouve une fonction d'interception de scroll-space en voulant en ajouter une, on remplace juste le
+contenu de son store. Creer une fonction pour faire ca de facon generique:
+une fonction: add_exclusive_func qui regarde si la fonction donnee est deja presente. Si oui elle remplace le store, sinon elle
+rajoute la fonction avec son store.
+On aura une fonction alternative qui se contentera de faire le comportement attendu dans la deuxieme eventualite cite precedement.
+On pourra faire une fonction commune qui rajoute un maillon d'interception d'evenement apres celui qui est donne.
 
