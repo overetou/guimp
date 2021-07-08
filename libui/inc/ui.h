@@ -99,7 +99,7 @@ typedef struct			s_ui_elem
 typedef struct						s_ui_side_event_block
 {
 	struct s_ui_side_event_block	*next;
-	void							(*event_handler_func)(void*, SDL_Event*);
+	void							(*event_handler_func)(void *win, void *store, SDL_Event*);
 	void							*store;
 }									t_ui_side_event_block;
 

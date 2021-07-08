@@ -119,6 +119,14 @@ char		*ui_get_paperpress_content(void)
 void		ui_set_paperpress_content(text*)
 et ainsi de suite pour tous les éléments d'interface.
 
+Doc:
+side events:
+Un side event (t_ui_side_event_block) sert a intercepter des evenements que le developpeur juge susceptible de perdurer malgre un
+changement de la fonction principale d'interception d'evenement. Par exemple quitter lorsque l'on recoit SDL_QUIT, que ctrl-q est
+presse, scroller avec la molette lorsque l'on est dans un scroll space, ect... Cela nous permet d'avoir a recoder mille fois les
+memes comportements. Les fonction de side event se voient donnees la fenetre ou l'evenement a eu lieu, le store qui leur
+est appaire sous la forme void*, et l'evenement en cause.
+
 button
 
 Notes:
@@ -241,7 +249,8 @@ OK-Investiguer cette histoire de curseur non affiche a la fin du text input.
 	OK-creer une fonction pour ajouter des maillons a cette liste.
 	OK-creer une fonction pour ajouter des maillons a fonction exclusive.
 	OK-creer une fonction de surpression d'element de la liste
-	-dans les interceptions d'evenement, ajouter une passage de l'evenement par chacun de la liste imperative.
+	OK-dans les interceptions d'evenement, ajouter une passage de l'evenement par chacun de la liste imperative.
+	-Initialiser side_events a la creation de la fenetre (par exemple avec SDL_QUIT, mais ne pas oublier de mettre un NULL a la fin).
 	-Lors de la liberation d'une fenetre, liberer l'ensemble de sa liste imperative.
 		-note: regarder precisement quels sont les besoins en terme de store pour les side events funcs. (et adapter la liberation
 		des store en fonction dans side_events.c et partout ailleurs ou on les free)
