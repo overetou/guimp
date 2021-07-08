@@ -1,8 +1,8 @@
 #include "ui.h"
 
-t_ui_side_event_block	*ui_add_side_event(t_ui_win *win, void (*event_handler_func)(void*, SDL_Event*), void *store)
+t_ui_event_block	*ui_add_side_event(t_ui_win *win, void (*event_handler_func)(void*, SDL_Event*), void *store)
 {
-	t_ui_side_event_block	*new_bloc = ui_secure_malloc(sizeof(t_ui_side_event_block));
+	t_ui_event_block	*new_bloc = ui_secure_malloc(sizeof(t_ui_event_block));
 
 	new_bloc->event_handler_func = event_handler_func;
 	new_bloc->store = store;
@@ -10,9 +10,9 @@ t_ui_side_event_block	*ui_add_side_event(t_ui_win *win, void (*event_handler_fun
 	return new_bloc;
 }
 
-t_ui_side_event_block	*ui_add_exclusive_side_event(t_ui_win *win, void (*event_handler_func)(void*, SDL_Event*), void *store)
+t_ui_event_block	*ui_add_exclusive_side_event(t_ui_win *win, void (*event_handler_func)(void*, SDL_Event*), void *store)
 {
-	t_ui_side_event_block	*traveler = win->side_events;
+	t_ui_event_block	*traveler = win->side_events;
 
 	while (traveler)
 	{
@@ -25,9 +25,9 @@ t_ui_side_event_block	*ui_add_exclusive_side_event(t_ui_win *win, void (*event_h
 	return ui_add_exclusive_side_event(win, event_handler_func, store);
 }
 
-void	ui_remove_side_event(win, t_ui_side_event_block *to_remove)
+void	ui_remove_side_event(win, t_ui_event_block *to_remove)
 {
-	t_ui_side_event_block	*prev;
+	t_ui_event_block	*prev;
 
 	if (win->side_events == to_remove)
 		win->side_events = to_remove->next;
@@ -39,4 +39,10 @@ void	ui_remove_side_event(win, t_ui_side_event_block *to_remove)
 		prev->next = to_remove->next;
 	}
 	free(to_remove);
+}
+
+void	ui_quit_on_sdl_quit(void *win, void *store, SDL_Event *ev)
+{
+	if (ev->type == SDL_QUIT)
+		((t_ui*)win->ui)->keep_going = UI_FALSE;
 }

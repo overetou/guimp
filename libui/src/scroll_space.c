@@ -101,14 +101,14 @@ void	ui_display_scroll_space(t_ui_elem *scroll_space)
 			&(scroll_space->actual_dimensions));
 }
 
-void	capture_scroll(t_ui *ui, SDL_Event *ev)
+//Here we assume that store corresponds to the scroll space elem itself.
+void	capture_scroll(void *win, void *store, SDL_Event *ev)
 {
 	switch (ev->type)
 	{
 		case SDL_MOUSEWHEEL:
-			ui_move_sub_layer_vision(((t_ui_elem*)(ui->event_handling_store))->sub_elems,
+			ui_move_sub_layer_vision(((t_ui_elem*)store)->sub_elems,
 					-(ev->wheel.x) * 10, -(ev->wheel.y) * 10);
-			return;
 			break;
 		case SDL_KEYDOWN:
 			if (ev->key.keysym.mod & KMOD_SHIFT)
@@ -116,25 +116,25 @@ void	capture_scroll(t_ui *ui, SDL_Event *ev)
 				switch (ev->key.keysym.sym)
 				{
 					case SDLK_LEFT:
-						ui_move_sub_layer_vision(((t_ui_elem*)(ui->event_handling_store))->sub_elems, -10, 0);
+						ui_move_sub_layer_vision(((t_ui_elem*)store)->sub_elems, -10, 0);
 						break;
 					case SDLK_RIGHT:
-						ui_move_sub_layer_vision(((t_ui_elem*)(ui->event_handling_store))->sub_elems, 10, 0);
+						ui_move_sub_layer_vision(((t_ui_elem*)store)->sub_elems, 10, 0);
 						break;
 					case SDLK_DOWN:
-						ui_move_sub_layer_vision(((t_ui_elem*)(ui->event_handling_store))->sub_elems, 0, 10);
+						ui_move_sub_layer_vision(((t_ui_elem*)store)->sub_elems, 0, 10);
 						break;
 					case SDLK_UP:
-						ui_move_sub_layer_vision(((t_ui_elem*)(ui->event_handling_store))->sub_elems, 0, -10);
+						ui_move_sub_layer_vision(((t_ui_elem*)store)->sub_elems, 0, -10);
 						break;
 				}
 			}
 			break;
 		case SDL_MOUSEBUTTONDOWN:
 			if (ui_is_point_in_rect(ev->button.x, ev->button.y,
-						&(((t_ui_elem*)(ui->event_handling_store))->actual_dimensions)))
+						&(((t_ui_elem*)store)->actual_dimensions)))
 			{
-				ui_transmit_click_event(((t_ui_elem*)(ui->event_handling_store))->sub_elems,
+				ui_transmit_click_event(((t_ui_elem*)store)->sub_elems,
 						&(ev->button));
 				return;
 			}
@@ -142,6 +142,10 @@ void	capture_scroll(t_ui *ui, SDL_Event *ev)
 				ui->event_handler_func = ui_default_event_handler;
 			break;
 	}
+}
+
+void	capture_scroll(t_ui *ui, SDL_Event *ev)
+{
 	ui_default_event_handler(ui, ev);
 }
 

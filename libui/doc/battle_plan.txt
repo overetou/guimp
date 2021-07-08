@@ -212,6 +212,7 @@ SEMI_BONUS:
 -Faire gerer l'ajout de masc permafunc et de crucial funcs par la librairie. (le code dans ui_slider_clicked)
 -Raffraichir l'écran uniquement lorsque nécessaire en créant une liste d'objets à raffraichir sur le second buffer.
 -Si l'on raffraichit la fenetre a chaque fois que l'on fait un changement de pos, on risque de raffraichir plusieurs fois dans une meme operation. C'est pas opti.
+-Creer un systeme d'interception d'evenement qui ne repete pas les tests sur le type d'evenement.
 
 REFLEXIONS:
 text zone est assez semblable a text line. Les differences sont:
@@ -273,3 +274,7 @@ rajoute la fonction avec son store.
 On aura une fonction alternative qui se contentera de faire le comportement attendu dans la deuxieme eventualite cite precedement.
 On pourra faire une fonction commune qui rajoute un maillon d'interception d'evenement apres celui qui est donne.
 
+Pour les scroll space:
+On va remplacer la fonction principale par la partie mouse button down. (Il faudra donc que meme la fonction d'interception d'event
+soit dans win et pas dans ui). (On pourra creer une file de fonction principales, a chaque fois qu'on remove la fonction actuelle
+on utilise la suivante)

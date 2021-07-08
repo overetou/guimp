@@ -96,12 +96,12 @@ typedef struct			s_ui_elem
 	void				*win;
 }						t_ui_elem;
 
-typedef struct						s_ui_side_event_block
+typedef struct						s_ui_event_block
 {
 	struct s_ui_side_event_block	*next;
 	void							(*event_handler_func)(void *win, void *store, SDL_Event*);
 	void							*store;
-}									t_ui_side_event_block;
+}									t_ui_event_block;
 
 typedef struct				s_ui_win
 {
@@ -118,7 +118,8 @@ typedef struct				s_ui_win
 	int						height;
 	t_ui_elem				*content;/*The root elem of the window. Should be used to
 	set the background color/ image.*/
-	t_ui_side_event_block	*side_events;//A list of secondary event interception funcs.
+	t_ui_event_block	*main_events;
+	t_ui_event_block	*side_events;//A list of secondary event interception funcs.
 }							t_ui_win;
 
 typedef struct						s_permanent_func_block
@@ -136,8 +137,6 @@ typedef struct			s_ui
 	Set it to false to make the loop stop.*/
 	TTF_Font			*fonts[FONT_NB];//A tab to store your font pointers.
 	Uint32				default_pixel_format;
-	void				(*event_handler_func)(struct s_ui*, SDL_Event*);
-	void				*event_handling_store;
 	t_perma_func_block	*perma_funcs;
 	void				(*render_copy_func)(void*);
 }						t_ui;

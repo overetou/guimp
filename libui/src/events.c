@@ -49,20 +49,13 @@ void ui_handle_click(t_ui_win *win, SDL_MouseButtonEvent *ev)
 
 void	ui_default_event_handler(t_ui *ui, SDL_Event *ev)
 {
-	switch (ev->type)
-	{
-		case SDL_QUIT:
-			ui->keep_going = UI_FALSE;
-			break;
-		case SDL_MOUSEBUTTONDOWN:
-			ui_handle_click(ui, (SDL_MouseButtonEvent*)ev);
-			break;
-	}
+	if (ev->type == SDL_MOUSEBUTTONDOWN)
+		ui_handle_click(ui, (SDL_MouseButtonEvent*)ev);
 }
 
 void	go_trough_side_events(t_ui_win	*win, SDL_Event *ev)
 {
-	t_ui_side_event_block	*traveler = win->side_events;
+	t_ui_event_block	*traveler = win->side_events;
 
 	while (traveler)
 	{
