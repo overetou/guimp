@@ -240,7 +240,7 @@ OK-Investiguer cette histoire de curseur non affiche a la fin du text input.
 	OK-Creer une liste de maillons (dans la structure t_win) comprenant: une event_handler_func et un store. -> liste imperative.
 	OK-creer une fonction pour ajouter des maillons a cette liste.
 	OK-creer une fonction pour ajouter des maillons a fonction exclusive.
-	-creer une fonction de surpression d'element de la liste
+	OK-creer une fonction de surpression d'element de la liste
 	-dans les interceptions d'evenement, ajouter une passage de l'evenement par chacun de la liste imperative.
 	-Lors de la liberation d'une fenetre, liberer l'ensemble de sa liste imperative.
 		-note: regarder precisement quels sont les besoins en terme de store pour les side events funcs. (et adapter la liberation
