@@ -198,7 +198,7 @@ void	ui_text_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 	t_ui	*ui = ((t_ui_win*)(e->win))->ui;
 
 	ui->event_handling_store = e;
-	ui_change_event_handler(ui, ui_text_linefocused_event_handler);
+	ui_add_main_event(e->win, ui_text_linefocused_event_handler);
 	ui_text_line_put_cursor_at_new_pos_from_x(e, ev->x);
 }
 

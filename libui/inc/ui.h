@@ -199,6 +199,12 @@ typedef struct	s_img_disp_store
 	t_ui_img			*img_texture;
 }								t_img_disp_store;
 
+typedef struct			s_scroll_space_store
+{
+	SDL_Rect			sensible_zone;
+	t_ui_event_block	*ev_block;
+}						t_scroll_space_store;
+
 typedef struct	s_sub_layer_store
 {
 	t_ui_img	*target;
@@ -331,7 +337,6 @@ void				ui_remove_event(t_ui_event_block **list, t_ui_event_block *to_remove);
 //events
 t_ui_bool	ui_is_point_in_rect(Sint32 x, Sint32 y, SDL_Rect *rect);
 void		ui_handle_events(t_ui *ui);
-void		ui_change_event_handler(t_ui *ui, void(*new_event_handler_func)(t_ui*, SDL_Event*));
 void		ui_transmit_click_event(t_ui_elem *e, SDL_MouseButtonEvent *ev);
 void		ui_close_current_main_event(t_ui_win *win)
 

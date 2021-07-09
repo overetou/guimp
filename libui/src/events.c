@@ -74,8 +74,8 @@ void	ui_handle_events(t_ui *ui)
 		while (SDL_PollEvent(&ev))
 		{
 			win = ui_find_win(ui, SDL_GetWindowFromID(ev->windowID));
-			win->main_events->event_handler_func(win, win->main_events->store, &ev);
 			go_trough_side_events(win, &ev);
+			win->main_events->event_handler_func(win, win->main_events->store, &ev);
 		}
 		perma_func = ui->perma_funcs;
 		while (perma_func)
@@ -85,9 +85,4 @@ void	ui_handle_events(t_ui *ui)
 		}
 		SDL_Delay(35);
 	}
-}
-
-void	ui_change_event_handler(t_ui *ui, void(*new_event_handler_func)(t_ui*, SDL_Event*))
-{
-	ui->event_handler_func = new_event_handler_func;
 }
