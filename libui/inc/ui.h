@@ -96,31 +96,31 @@ typedef struct			s_ui_elem
 	void				*win;
 }						t_ui_elem;
 
-typedef struct						s_ui_event_block
+typedef struct				s_ui_event_block
 {
-	struct s_ui_side_event_block	*next;
-	void							(*event_handler_func)(void *win, void *store, SDL_Event*);
-	void							*store;
-}									t_ui_event_block;
+	struct s_ui_event_block	*next;
+	void					(*event_handler_func)(void *win, void *store, SDL_Event*);
+	void					*store;
+}							t_ui_event_block;
 
-typedef struct				s_ui_win
+typedef struct			s_ui_win
 {
 	/*Let those as the 2 first members, in the same order, or problems there
 	will be!*/
-	struct s_ui_win			*next;//The next window in line.
-	struct s_ui_win			*prev;/*Previous window.
+	struct s_ui_win		*next;//The next window in line.
+	struct s_ui_win		*prev;/*Previous window.
 	other content.*/
-	void					*ui;/*Points back to its owning ui. Use this to modify
+	void				*ui;/*Points back to its owning ui. Use this to modify
 	keep_going or access your fonts. Note that elems have a win pointer.*/
-	SDL_Window				*sdl_ptr;
-	SDL_Renderer			*rend;
-	int						width;//Not percentages but the real value in pixels.
-	int						height;
-	t_ui_elem				*content;/*The root elem of the window. Should be used to
+	SDL_Window			*sdl_ptr;
+	SDL_Renderer		*rend;
+	int					width;//Not percentages but the real value in pixels.
+	int					height;
+	t_ui_elem			*content;/*The root elem of the window. Should be used to
 	set the background color/ image.*/
 	t_ui_event_block	*main_events;
 	t_ui_event_block	*side_events;//A list of secondary event interception funcs.
-}							t_ui_win;
+}						t_ui_win;
 
 typedef struct						s_permanent_func_block
 {
@@ -186,13 +186,13 @@ typedef struct		s_slider_store
 
 typedef	struct		s_text_space_store
 {
-	int							police_font;
-	char						*text;
-	int							text_len;
-	int							pos;
-	t_ui_img				*text_img;
-	SDL_Rect				sensible_zone;
-}									t_text_space_store;
+	int				police_font;
+	char			*text;
+	int				text_len;
+	int				pos;
+	t_ui_img		*text_img;
+	SDL_Rect		sensible_zone;
+}					t_text_space_store;
 
 typedef struct	s_img_disp_store
 {
@@ -201,10 +201,10 @@ typedef struct	s_img_disp_store
 
 typedef struct	s_sub_layer_store
 {
-	t_ui_img			*target;
-	SDL_Rect			virtual_space;//x and y indicate the position of the visualizer.
+	t_ui_img	*target;
+	SDL_Rect	virtual_space;//x and y indicate the position of the visualizer.
 	//w and h are the dimensions of the virtual space.
-}								t_sub_layer_store;
+}				t_sub_layer_store;
 
 //basic stuff
 void								mem_copy(char *dest, const char *src, int len);
@@ -321,11 +321,19 @@ void ui_add_clickable_zones(t_ui_elem *e, SDL_Rect *zones,
 	void (*click_func)(t_ui_elem*, SDL_MouseButtonEvent*),
 	short nb_sensible_zones, void (*sensible_zones_resolution_func) (t_ui_elem*));
 
+//event blocks
+t_ui_event_block	*ui_add_main_event(t_ui_win *win, void (*event_handler_func)(void*, SDL_Event*), void *store);
+t_ui_event_block	*ui_add_side_event(t_ui_win *win, void (*event_handler_func)(void*, SDL_Event*), void *store);
+t_ui_event_block	*ui_add_exclusive_side_event(t_ui_win *win, void (*event_handler_func)(void*, SDL_Event*), void *store);
+void				ui_close_current_main_event(t_ui_win *win);
+void				ui_remove_event(t_ui_event_block **list, t_ui_event_block *to_remove);
+
 //events
 t_ui_bool	ui_is_point_in_rect(Sint32 x, Sint32 y, SDL_Rect *rect);
-void			ui_handle_events(t_ui *ui);
-void			ui_change_event_handler(t_ui *ui, void(*new_event_handler_func)(t_ui*, SDL_Event*));
-void			ui_transmit_click_event(t_ui_elem *e, SDL_MouseButtonEvent *ev);
+void		ui_handle_events(t_ui *ui);
+void		ui_change_event_handler(t_ui *ui, void(*new_event_handler_func)(t_ui*, SDL_Event*));
+void		ui_transmit_click_event(t_ui_elem *e, SDL_MouseButtonEvent *ev);
+void		ui_close_current_main_event(t_ui_win *win)
 
 //Pre-made callbacks
 void	ui_stop_event_handling(t_ui_elem *e, SDL_MouseButtonEvent *ev);/*Uses

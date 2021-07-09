@@ -41,10 +41,8 @@ void	ui_transmit_click_event(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 
 void ui_handle_click(t_ui_win *win, SDL_MouseButtonEvent *ev)
 {
-	t_ui_elem   *e = win->content;
-
 	//printf("Clicked at pos: %d, %d.\n", ev->x, ev->y);//TMP
-	ui_transmit_click_event(e, ev);
+	ui_transmit_click_event(win->content, ev);
 }
 
 void	ui_default_event_handler(t_ui *ui, SDL_Event *ev)
@@ -76,7 +74,7 @@ void	ui_handle_events(t_ui *ui)
 		while (SDL_PollEvent(&ev))
 		{
 			win = ui_find_win(ui, SDL_GetWindowFromID(ev->windowID));
-			ui->event_handler_func(ui, &ev);
+			win->main_events->event_handler_func(win, win->main_events->store, &ev);
 			go_trough_side_events(win, &ev);
 		}
 		perma_func = ui->perma_funcs;
