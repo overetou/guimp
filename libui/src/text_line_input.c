@@ -155,7 +155,7 @@ void	ui_text_line_put_cursor_at_new_pos_from_x(t_ui_elem *line, int x)
 	refresh_win(UI_EL_WIN(line));
 }
 
-void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
+void	ui_text_linefocused_event_handler(void *win, void *store, SDL_Event *ev)
 {
 	switch (ev->type)
 	{
@@ -163,32 +163,31 @@ void	ui_text_linefocused_event_handler(t_ui *ui, SDL_Event *ev)
 			ui->keep_going = UI_FALSE;
 			break;
 		case SDL_MOUSEBUTTONDOWN:
-			if (ui_is_point_in_rect(ev->button.x, ev->button.y,
-						&(((t_ui_elem*)(ui->event_handling_store))->actual_dimensions)))
-				ui_text_line_put_cursor_at_new_pos_from_x(ui->event_handling_store, ev->button.x);
+			if (ui_is_point_in_rect(ev->button.x, ev->button.y, &(((t_ui_elem*)store)->actual_dimensions)))
+				ui_text_line_put_cursor_at_new_pos_from_x(store, ev->button.x);
 			else
 			{
-				ui_text_line_unfocus(ui->event_handling_store);
-				ui_change_event_handler(ui, ui_default_event_handler);
-				ui->event_handler_func(ui, ev);
+				ui_text_line_unfocus(store);
+				ui_close_current_main_event(win);
+				win->main_events->event_handler_func(win, store, ev);
 			}				
 			break;
 		case SDL_KEYDOWN:
 			switch (ev->key.keysym.sym)
 			{
 				case SDLK_BACKSPACE:
-					remove_text(ui->event_handling_store, 1);
+					remove_text(store, 1);
 					break;
 				case SDLK_LEFT:
-					line_move_cursor(ui->event_handling_store, -1);
+					line_move_cursor(store, -1);
 					break;
 				case SDLK_RIGHT:
-					line_move_cursor(ui->event_handling_store, 1);
+					line_move_cursor(store, 1);
 					break;
 			}
 			break;
 		case SDL_TEXTINPUT:
-			insert_text(ui->event_handling_store, ev->text.text);
+			insert_text(store, ev->text.text);
 			break;
 	}
 }
