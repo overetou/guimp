@@ -14,19 +14,14 @@ void	ui_display_slider(t_ui_elem *e)
 	ui_display_absolute_colored_rect(e, &cursor_dimensions, &cursor_color);
 }
 
-void	ui_slider_drag_event_handler(t_ui *ui, SDL_Event *ev)
+void	ui_slider_drag_event_handler(t_ui_win *win, SDL_Event *ev)
 {
-	switch (ev->type)
+	(void)win;
+	(void)ev;
+	if (ev->type == SDL_MOUSEBUTTONUP)
 	{
-		case SDL_QUIT:
-			ui->keep_going = UI_FALSE;
-			break;
-		case SDL_MOUSEBUTTONUP:
-			ui_remove_permafunc(ui,
-			((t_slider_store*)(ui->event_handling_store))->drag_perma_func);
-			ui_change_event_handler(ui,
-			((t_slider_store*)(ui->event_handling_store))->previous_event_handling_func);
-			break;
+		//ui_remove_permafunc(win->ui, ((t_slider_store*)(UI_WIN_UI(win)->event_handling_store))->drag_perma_func);
+		//ui_change_event_handler(win->ui, ((t_slider_store*)(ui->event_handling_store))->previous_event_handling_func);
 	}
 }
 
@@ -52,15 +47,15 @@ void	ui_slider_perma_func(void *store)
 void	ui_slider_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 {
 	t_perma_func_block	*new;
-	t_ui					*ui = ((t_ui_win*)(e->win))->ui;
-	t_slider_store			*store = e->store;
+	t_ui				*ui = UI_EL_UI(e);
+	t_slider_store		*store = e->store;
 
 	(void)ev;
-	store->previous_event_handling_func = ui->event_handler_func;
-	ui_change_event_handler(ui, ui_slider_drag_event_handler);
+	//store->previous_event_handling_func = ui->event_handler_func;
+	//ui_change_event_handler(ui, ui_slider_drag_event_handler);
 	new = ui_add_perma_func(ui, ui_slider_perma_func, e);
 	store->drag_perma_func = new;
-	ui->event_handling_store = e->store;
+	//ui->event_handling_store = e->store;
 }
 
 t_ui_elem	*ui_create_slider(t_ui_elem *parent, int x, int y, int w, int current_cursor_val, int max_cursor_val)

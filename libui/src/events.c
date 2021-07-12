@@ -45,10 +45,10 @@ void ui_handle_click(t_ui_win *win, SDL_MouseButtonEvent *ev)
 	ui_transmit_click_event(win->content, ev);
 }
 
-void	ui_default_event_handler(t_ui *ui, SDL_Event *ev)
+void	ui_default_event_handler(t_ui_win *win, SDL_Event *ev)
 {
 	if (ev->type == SDL_MOUSEBUTTONDOWN)
-		ui_handle_click(ui, (SDL_MouseButtonEvent*)ev);
+		ui_handle_click(win, (SDL_MouseButtonEvent*)ev);
 }
 
 void	go_trough_side_events(t_ui_win	*win, SDL_Event *ev)
@@ -73,7 +73,7 @@ void	ui_handle_events(t_ui *ui)
 	{
 		while (SDL_PollEvent(&ev))
 		{
-			win = ui_find_win(ui, SDL_GetWindowFromID(ev->windowID));
+			win = ui_find_win(ui, SDL_GetWindowFromID(((SDL_WindowEvent*)(&ev))->windowID));
 			go_trough_side_events(win, &ev);
 			win->main_events->event_handler_func(win, win->main_events->store, &ev);
 		}

@@ -1,6 +1,3 @@
-//
-// Created by osc on 13/04/2021.
-//
 #include "ui.h"
 
 t_ui	*ui_init(uint32_t ui_flags, int img_flags)
@@ -12,7 +9,6 @@ t_ui	*ui_init(uint32_t ui_flags, int img_flags)
 	ui_sdl_critical_check(TTF_Init() == 0);
 	new->wins = NULL;
 	new->focused = NULL;
-	new->event_handler_func = ui_default_event_handler;
 	new->perma_funcs = NULL;
 	return new;
 }
@@ -39,6 +35,7 @@ t_ui_win *ui_add_window(t_ui *ui, const char *title, int x, int y, int w, int h,
 	ui_resolve_win_content_actual_size(win);
 	win->ui = ui;
 	win->side_events = NULL;
+	win->main_events = NULL;
 	return win;
 }
 

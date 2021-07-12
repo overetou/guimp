@@ -1,11 +1,11 @@
 #include "ui.h"
 
-t_ui_event_block	*ui_add_main_event(t_ui_win *win, void (*event_handler_func)(void*, SDL_Event*), void *store)
+t_ui_event_block	*ui_add_main_event(t_ui_win *win, void (*event_handler_func)(void*, void*, SDL_Event*), void *store)
 {
 	return ui_add_event(&(win->main_events), event_handler_func, store);
 }
 
-t_ui_event_block	*ui_add_side_event(t_ui_win *win, void (*event_handler_func)(void*, SDL_Event*), void *store)
+t_ui_event_block	*ui_add_side_event(t_ui_win *win, void (*event_handler_func)(void*, void*, SDL_Event*), void *store)
 {
 	return ui_add_event(&(win->side_events), event_handler_func, store);
 }

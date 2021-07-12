@@ -132,7 +132,7 @@ void	capture_scroll(void *win, void *store, SDL_Event *ev)
 			break;
 		case SDL_MOUSEBUTTONDOWN:
 			if (!ui_is_point_in_rect(ev->button.x, ev->button.y, &(((t_ui_elem*)store)->actual_dimensions)))
-				ui_remove_event(((t_scroll_space_store*)((t_ui_elem*)store)->store)->ev_block);
+				ui_remove_event(win, ((t_scroll_space_store*)((t_ui_elem*)store)->store)->ev_block);
 			break;
 	}
 }
@@ -152,8 +152,8 @@ void	ui_scroll_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 
 	ev->x += store->virtual_space.x - e->actual_dimensions.x;
 	ev->y += store->virtual_space.y - e->actual_dimensions.y;
-	UI_EL_UI(e)->event_handling_store = e;
-	e->store = ui_add_exclusive_side_event(e->win, capture_scroll);
+	//UI_EL_UI(e)->event_handling_store = e;
+	e->store = ui_add_exclusive_side_event(e->win, capture_scroll, e);
 	ui_transmit_click_event(sub_layer->sub_elems, ev);
 }
 

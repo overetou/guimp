@@ -251,7 +251,10 @@ OK-Investiguer cette histoire de curseur non affiche a la fin du text input.
 	OK-creer une fonction pour ajouter des maillons a fonction exclusive.
 	OK-creer une fonction de surpression d'element de la liste
 	OK-dans les interceptions d'evenement, ajouter une passage de l'evenement par chacun de la liste imperative.
-	-Initialiser side_events a la creation de la fenetre (par exemple avec SDL_QUIT, mais ne pas oublier de mettre un NULL a la fin).
+	OK-Initialiser side_events a la creation de la fenetre (par exemple avec SDL_QUIT, mais ne pas oublier de mettre un NULL a la fin).
+	-Refaire le systeme d'evenement du slider.
+	-Mettre les defaults dans main_events et side_events.
+	-Transferer les permafunc de l'ui aux fenetres, sinon on risque d'avoir un embouteillage. (wait... est-ce qu'on a des stores?)
 	-Lors de la liberation d'une fenetre, liberer l'ensemble de sa liste imperative.
 		-note: regarder precisement quels sont les besoins en terme de store pour les side events funcs. (et adapter la liberation
 		des store en fonction dans side_events.c et partout ailleurs ou on les free)

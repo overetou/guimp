@@ -159,9 +159,6 @@ void	ui_text_linefocused_event_handler(void *win, void *store, SDL_Event *ev)
 {
 	switch (ev->type)
 	{
-		case SDL_QUIT:
-			ui->keep_going = UI_FALSE;
-			break;
 		case SDL_MOUSEBUTTONDOWN:
 			if (ui_is_point_in_rect(ev->button.x, ev->button.y, &(((t_ui_elem*)store)->actual_dimensions)))
 				ui_text_line_put_cursor_at_new_pos_from_x(store, ev->button.x);
@@ -169,7 +166,7 @@ void	ui_text_linefocused_event_handler(void *win, void *store, SDL_Event *ev)
 			{
 				ui_text_line_unfocus(store);
 				ui_close_current_main_event(win);
-				win->main_events->event_handler_func(win, store, ev);
+				((t_ui_win*)win)->main_events->event_handler_func(win, store, ev);
 			}				
 			break;
 		case SDL_KEYDOWN:
@@ -194,10 +191,7 @@ void	ui_text_linefocused_event_handler(void *win, void *store, SDL_Event *ev)
 
 void	ui_text_space_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev)
 {
-	t_ui	*ui = ((t_ui_win*)(e->win))->ui;
-
-	ui->event_handling_store = e;
-	ui_add_main_event(e->win, ui_text_linefocused_event_handler);
+	ui_add_main_event(e->win, ui_text_linefocused_event_handler, e);
 	ui_text_line_put_cursor_at_new_pos_from_x(e, ev->x);
 }
 

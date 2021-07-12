@@ -17,14 +17,14 @@
 #define UI_INIT_AUDIO			SDL_INIT_AUDIO
 #define UI_INIT_VIDEO			SDL_INIT_VIDEO
 #define UI_INIT_JOYSTICK		SDL_INIT_JOYSTICK
-#define UI_INIT_HAPTIC		  SDL_INIT_HAPTIC
+#define UI_INIT_HAPTIC		  	SDL_INIT_HAPTIC
 #define UI_INIT_GAMECONTROLLER  SDL_INIT_GAMECONTROLLER
-#define UI_INIT_EVENTS		  SDL_INIT_EVENTS
-#define UI_INIT_EVERYTHING	  SDL_INIT_EVERYTHING
-#define UI_INIT_NOPARACHUT	  SDL_INIT_NOPARACHUTE
+#define UI_INIT_EVENTS		 	SDL_INIT_EVENTS
+#define UI_INIT_EVERYTHING	 	SDL_INIT_EVERYTHING
+#define UI_INIT_NOPARACHUT	 	SDL_INIT_NOPARACHUTE
 
 #define UI_RENDERER_SOFTWARE		SDL_RENDERER_SOFTWARE
-#define UI_RENDERER_ACCELERATED	 SDL_RENDERER_ACCELERATED
+#define UI_RENDERER_ACCELERATED 	SDL_RENDERER_ACCELERATED
 #define UI_RENDERER_PRESENTVSYNC	SDL_RENDERER_PRESENTVSYNC
 #define UI_RENDERER_TARGETTEXTURE	SDL_RENDERER_TARGETTEXTURE
 
@@ -32,15 +32,15 @@
 #define UI_WINDOW_FULLSCREEN_DESKTOP	SDL_WINDOW_FULLSCREEN_DESKTOP
 #define UI_WINDOW_OPENGL				SDL_WINDOW_OPENGL
 #define UI_WINDOW_VULKAN				SDL_WINDOW_VULKAN
-#define UI_WINDOW_METAL				 SDL_WINDOW_METAL
+#define UI_WINDOW_METAL					SDL_WINDOW_METAL
 #define UI_WINDOW_HIDDEN				SDL_WINDOW_HIDDEN
-#define UI_WINDOW_SHOWN				 SDL_WINDOW_SHOWN
+#define UI_WINDOW_SHOWN					SDL_WINDOW_SHOWN
 #define UI_WINDOW_BORDERLESS			SDL_WINDOW_BORDERLESS
-#define UI_WINDOW_RESIZABLE			 SDL_WINDOW_RESIZABLE
-#define UI_WINDOW_MINIMIZED			 SDL_WINDOW_MINIMIZED
-#define UI_WINDOW_MAXIMIZED			 SDL_WINDOW_MAXIMIZED
-#define UI_WINDOW_INPUT_GRABBED		 SDL_WINDOW_INPUT_GRABBED
-#define UI_WINDOW_ALLOW_HIGHDPI		 SDL_WINDOW_ALLOW_HIGHDPI
+#define UI_WINDOW_RESIZABLE				SDL_WINDOW_RESIZABLE
+#define UI_WINDOW_MINIMIZED				SDL_WINDOW_MINIMIZED
+#define UI_WINDOW_MAXIMIZED				SDL_WINDOW_MAXIMIZED
+#define UI_WINDOW_INPUT_GRABBED			SDL_WINDOW_INPUT_GRABBED
+#define UI_WINDOW_ALLOW_HIGHDPI			SDL_WINDOW_ALLOW_HIGHDPI
 
 #define UI_ALPHA_OPAQUE		 SDL_ALPHA_OPAQUE
 #define UI_ALPHA_TRANSPARENT	SDL_ALPHA_TRANSPARENT
@@ -48,6 +48,7 @@
 #define UI_EL_WIN(e) ((t_ui_win*)(e->win))
 #define UI_EL_REND(e) UI_EL_WIN(e)->rend
 #define UI_EL_UI(e) ((t_ui*)(UI_EL_WIN(e)->ui))
+#define UI_WIN_UI(w) ((t_ui*)(w->ui))
 #define UI_EXPAND_COLOR(x) x.r, x.g, x.b, x.a
 #define UI_EXPAND_COLOR_PTR(x) x->r, x->g, x->b, x->a
 #define UI_PX_FORMAT_FROM_EL(x) ((t_ui*)(((t_ui_win*)(x->win))->ui))->default_pixel_format
@@ -328,8 +329,8 @@ void ui_add_clickable_zones(t_ui_elem *e, SDL_Rect *zones,
 	short nb_sensible_zones, void (*sensible_zones_resolution_func) (t_ui_elem*));
 
 //event blocks
-t_ui_event_block	*ui_add_main_event(t_ui_win *win, void (*event_handler_func)(void*, SDL_Event*), void *store);
-t_ui_event_block	*ui_add_side_event(t_ui_win *win, void (*event_handler_func)(void*, SDL_Event*), void *store);
+t_ui_event_block	*ui_add_main_event(t_ui_win *win, void (*event_handler_func)(void *win, void *store, SDL_Event*), void *store);
+t_ui_event_block	*ui_add_side_event(t_ui_win *win, void (*event_handler_func)(void *win, void *store, SDL_Event*), void *store);
 t_ui_event_block	*ui_add_exclusive_side_event(t_ui_win *win, void (*event_handler_func)(void*, SDL_Event*), void *store);
 void				ui_close_current_main_event(t_ui_win *win);
 void				ui_remove_event(t_ui_event_block **list, t_ui_event_block *to_remove);
@@ -338,7 +339,7 @@ void				ui_remove_event(t_ui_event_block **list, t_ui_event_block *to_remove);
 t_ui_bool	ui_is_point_in_rect(Sint32 x, Sint32 y, SDL_Rect *rect);
 void		ui_handle_events(t_ui *ui);
 void		ui_transmit_click_event(t_ui_elem *e, SDL_MouseButtonEvent *ev);
-void		ui_close_current_main_event(t_ui_win *win)
+void		ui_close_current_main_event(t_ui_win *win);
 
 //Pre-made callbacks
 void	ui_stop_event_handling(t_ui_elem *e, SDL_MouseButtonEvent *ev);/*Uses
@@ -346,7 +347,7 @@ void	ui_stop_event_handling(t_ui_elem *e, SDL_MouseButtonEvent *ev);/*Uses
 void	ui_debug_say_clicked(t_ui_elem *e, SDL_MouseButtonEvent *ev);
 void	ui_free_nothing(void *unused);
 void	ui_display_nothing(t_ui_elem *e);
-void	ui_default_event_handler(t_ui *ui, SDL_Event *ev);
+void	ui_default_event_handler(t_ui_win *win, SDL_Event *ev);
 
 //Data printing
 void	ui_display_rect_values(SDL_Rect *rect);
