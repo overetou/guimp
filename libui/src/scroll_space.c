@@ -185,12 +185,11 @@ t_ui_elem	*ui_create_scroll_space(t_ui_elem *parent, int x, int y, int visible_w
 	new = ui_add_elem(parent, x, y, visible_w, visible_h, 1, ui_display_scroll_space,
 			UI_TRUE, free, ui_resolve_as_percentages);
 	store = new->store;
-	store->sensible_zone = ui_secure_malloc(sizeof(SDL_Rect));
-	store->sensible_zone->x = 0;
-	store->sensible_zone->y = 0;
-	store->sensible_zone->w = 100;
-	store->sensible_zone->h = 100;
-	ui_add_clickable_zones(new, sensible_zone, ui_scroll_space_clicked, 1,
+	store->sensible_zone.x = 0;
+	store->sensible_zone.y = 0;
+	store->sensible_zone.w = 100;
+	store->sensible_zone.h = 100;
+	ui_add_clickable_zones(new, &(store->sensible_zone), ui_scroll_space_clicked, 1,
 			ui_resolve_clickable_zone_as_percentage);
 	ui_add_sub_layer(new, virtual_w, virtual_h);
 	return new;

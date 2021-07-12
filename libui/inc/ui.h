@@ -331,7 +331,7 @@ void ui_add_clickable_zones(t_ui_elem *e, SDL_Rect *zones,
 //event blocks
 t_ui_event_block	*ui_add_main_event(t_ui_win *win, void (*event_handler_func)(void *win, void *store, SDL_Event*), void *store);
 t_ui_event_block	*ui_add_side_event(t_ui_win *win, void (*event_handler_func)(void *win, void *store, SDL_Event*), void *store);
-t_ui_event_block	*ui_add_exclusive_side_event(t_ui_win *win, void (*event_handler_func)(void*, SDL_Event*), void *store);
+t_ui_event_block	*ui_add_exclusive_side_event(t_ui_win *win, void (*event_handler_func)(void *win, void *store, SDL_Event*), void *store);
 void				ui_close_current_main_event(t_ui_win *win);
 void				ui_remove_event(t_ui_event_block **list, t_ui_event_block *to_remove);
 

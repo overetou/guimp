@@ -1,16 +1,6 @@
 #include "ui.h"
 
-t_ui_event_block	*ui_add_main_event(t_ui_win *win, void (*event_handler_func)(void*, void*, SDL_Event*), void *store)
-{
-	return ui_add_event(&(win->main_events), event_handler_func, store);
-}
-
-t_ui_event_block	*ui_add_side_event(t_ui_win *win, void (*event_handler_func)(void*, void*, SDL_Event*), void *store)
-{
-	return ui_add_event(&(win->side_events), event_handler_func, store);
-}
-
-t_ui_event_block	*ui_add_event(t_ui_event_block **list, void (*event_handler_func)(void*, SDL_Event*), void *store)
+t_ui_event_block	*ui_add_event(t_ui_event_block **list, void (*event_handler_func)(void *win, void *store, SDL_Event*), void *store)
 {
 	t_ui_event_block	*new_bloc = ui_secure_malloc(sizeof(t_ui_event_block));
 
@@ -21,7 +11,17 @@ t_ui_event_block	*ui_add_event(t_ui_event_block **list, void (*event_handler_fun
 	return new_bloc;
 }
 
-t_ui_event_block	*ui_add_exclusive_side_event(t_ui_win *win, void (*event_handler_func)(void*, SDL_Event*), void *store)
+t_ui_event_block	*ui_add_main_event(t_ui_win *win, void (*event_handler_func)(void*, void*, SDL_Event*), void *store)
+{
+	return ui_add_event(&(win->main_events), event_handler_func, store);
+}
+
+t_ui_event_block	*ui_add_side_event(t_ui_win *win, void (*event_handler_func)(void*, void*, SDL_Event*), void *store)
+{
+	return ui_add_event(&(win->side_events), event_handler_func, store);
+}
+
+t_ui_event_block	*ui_add_exclusive_side_event(t_ui_win *win, void (*event_handler_func)(void *win, void *store, SDL_Event*), void *store)
 {
 	t_ui_event_block	*traveler = win->side_events;
 
@@ -33,7 +33,7 @@ t_ui_event_block	*ui_add_exclusive_side_event(t_ui_win *win, void (*event_handle
 			return traveler;
 		}
 	}
-	return ui_add_exclusive_event(&(win->side_events), event_handler_func, store);
+	return ui_add_side_event(&(win->side_events), event_handler_func, store);
 }
 
 void	ui_close_current_main_event(t_ui_win *win)
